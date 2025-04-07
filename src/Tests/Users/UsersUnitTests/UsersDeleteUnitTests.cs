@@ -1,6 +1,7 @@
 using AutoFixture;
 using Moq;
 using Users.Application.Services;
+using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Repositories;
 
@@ -19,11 +20,19 @@ public class UsersDeleteUnitTests {
     }
 
     [Fact]
-    public async Task Delete_ShouldRemoveUser() {
+    public async Task Delete_RemoveUser() {
         Guid id = Guid.NewGuid();
 
         await _service.Delete(id);
 
         _repositoryMock.Verify(repository => repository.Remove(id), Times.Once);
+    }
+
+    [Fact]
+    public async Task Delete_NonexistentUser_ShouldThrowsUserNotFoundException() {
+        Guid id = Guid.NewGuid();
+        _repositoryMock.Setup(repository => repository.Remove(id)).ThrowsAsync(new UserNotFoundException(id));
+
+        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Delete(id));
     }
 }
