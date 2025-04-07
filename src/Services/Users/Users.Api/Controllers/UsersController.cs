@@ -85,6 +85,9 @@ namespace Users.Api.Controllers
                 await _service.Delete(id);
                 return NoContent();
             }
+            catch (UserNotFoundException exception) {
+                return NotFound(exception.Message);
+            }
             catch (Exception exception) {
                 return BadRequest(exception.Message);
             }

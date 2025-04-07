@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {}
+    "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {}
   },
   "projects": {
-    "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+    "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
+        "projectUniqueName": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
         "projectName": "Users.Domain",
-        "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
+        "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
         "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-        "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\obj\\",
+        "outputPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"

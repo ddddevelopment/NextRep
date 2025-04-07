@@ -55,3 +55,6 @@ d:\Programming\Projects\NextRep\src\Services\Users\Users.Api\obj\Debug\net9.0\re
 d:\Programming\Projects\NextRep\src\Services\Users\Users.Api\obj\Debug\net9.0\Users.Api.pdb
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\obj\Debug\net9.0\Users.Api.genruntimeconfig.cache
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\obj\Debug\net9.0\ref\Users.Api.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\FluentValidation.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\FluentValidation.AspNetCore.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll

@@ -51,8 +51,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
-              "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
+            "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+              "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
             }
           }
         }

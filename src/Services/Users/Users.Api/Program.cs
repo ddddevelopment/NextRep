@@ -1,5 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Mappings;
+using Users.Api.Models;
 using Users.Application.Services;
 using Users.DAL;
 using Users.DAL.Mappings;
@@ -21,6 +24,8 @@ builder.Services.AddDbContext<UsersDbContext>(options => {
 });
 builder.Services.AddScoped<IUsersRepository, UsersEFRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDto>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 

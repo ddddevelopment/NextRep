@@ -43,4 +43,12 @@ public class UsersCreateUnitTests
 
         await Assert.ThrowsAsync<UserAlreadyExistsException>(() => _service.Create(user));
     }
+
+    [Fact]
+    public async Task Create_NullUser_ShouldThrowsArgumentNullException() {
+        User user = null;
+        _repositoryMock.Setup(repository => repository.Add(user)).ThrowsAsync(new ArgumentNullException());
+
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _service.Create(user));
+    }
 }
