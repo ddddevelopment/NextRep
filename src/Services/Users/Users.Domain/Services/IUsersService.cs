@@ -7,5 +7,6 @@ namespace Users.Domain.Services {
         Task<User> Get(Guid id);
         Task<IEnumerable<User>> GetAll();
         Task<User> Update(User user);
+        Task Delete(Guid id);
     }
 }

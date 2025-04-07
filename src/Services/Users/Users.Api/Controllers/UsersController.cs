@@ -78,5 +78,16 @@ namespace Users.Api.Controllers
                 return NotFound(exception.Message);
             }
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id) {
+            try {
+                await _service.Delete(id);
+                return NoContent();
+            }
+            catch (Exception exception) {
+                return BadRequest(exception.Message);
+            }
+        }
     }
 }

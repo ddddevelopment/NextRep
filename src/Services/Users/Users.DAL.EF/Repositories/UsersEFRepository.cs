@@ -58,5 +58,16 @@ namespace Users.DAL.Repositories {
             User updatedUser = _mapper.Map<User>(foundUser);
             return updatedUser;
         }
+        
+        public async Task Remove(Guid id)
+        {
+            UserEntity? foundUser = await _context.Users.FindAsync(id);
+            if (foundUser == null) {
+                throw new UserNotFoundException(id);
+            }
+            
+            _context.Users.Remove(foundUser);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -31,5 +31,10 @@ namespace Users.Application.Services {
         {
             return await _repository.Update(user);
         }
+        
+        public async Task Delete(Guid id)
+        {
+            await _repository.Remove(id);
+        }
     }
 }
