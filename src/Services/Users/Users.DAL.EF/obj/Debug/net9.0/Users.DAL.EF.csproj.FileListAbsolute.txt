@@ -1,0 +1,16 @@
+D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.DAL.EF.deps.json
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.DAL.EF.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.DAL.EF.pdb
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.Domain.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.Domain.pdb
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.csproj.AssemblyReference.cache
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.GeneratedMSBuildEditorConfig.editorconfig
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.AssemblyInfoInputs.cache
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.AssemblyInfo.cs
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.csproj.CoreCompileInputs.cache
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.sourcelink.json
+D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DA.2DDB6D81.Up2Date
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\refint\Users.DAL.EF.dll
+d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.pdb
+D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\ref\Users.DAL.EF.dll

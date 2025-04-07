@@ -1,0 +1,12 @@
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\bin\Debug\net9.0\Users.Domain.deps.json
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\bin\Debug\net9.0\Users.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\bin\Debug\net9.0\Users.Domain.pdb
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.AssemblyInfoInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.AssemblyInfo.cs
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.csproj.CoreCompileInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.sourcelink.json
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\refint\Users.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\Users.Domain.pdb
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Domain\obj\Debug\net9.0\ref\Users.Domain.dll
