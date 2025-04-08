@@ -19,10 +19,6 @@ namespace Users.DAL.Repositories {
         public async Task Add(User user)
         {
             UserEntity userEntity = _mapper.Map<UserEntity>(user);
-            bool isUserExists = await _context.Users.AnyAsync(find => find.email == user.Email);
-            if (isUserExists) {
-                throw new UserAlreadyExistsException(userEntity.email);
-            }
             _context.Users.Add(userEntity);
             await _context.SaveChangesAsync();
         }
@@ -68,6 +64,11 @@ namespace Users.DAL.Repositories {
             
             _context.Users.Remove(foundUser);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsByEmail(string email)
+        {
+            return await _context.Users.AnyAsync(user => user.email == email);
         }
     }
 }

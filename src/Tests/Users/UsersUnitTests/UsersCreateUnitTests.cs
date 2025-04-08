@@ -35,11 +35,7 @@ public class UsersCreateUnitTests
     public async Task Create_UserAlreadyExists_ShouldThrowUserAlreadyExistsException()
     {
         var user = _fixture.Create<User>();
-        _repositoryMock.SetupSequence(repository => repository.Add(user))
-                        .Returns(Task.CompletedTask)
-                        .Throws(new UserAlreadyExistsException(user.Email));
-
-        await _service.Create(user);
+        _repositoryMock.Setup(repository => repository.ExistsByEmail(user.Email)).ReturnsAsync(true);
 
         await Assert.ThrowsAsync<UserAlreadyExistsException>(() => _service.Create(user));
     }

@@ -1,3 +1,4 @@
+using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Repositories;
 using Users.Domain.Services;
@@ -14,6 +15,11 @@ namespace Users.Application.Services {
 
         public async Task Create(User user)
         {
+            bool isUserExists = await _repository.ExistsByEmail(user.Email);
+            if (isUserExists) {
+                throw new UserAlreadyExistsException(user.Email);
+            }
+            
             await _repository.Add(user);
         }
 

@@ -7,5 +7,6 @@ namespace Users.Domain.Repositories {
         Task<IEnumerable<User>> GetAll();
         Task<User> Update(User user);
         Task Remove(Guid id);
+        Task<bool> ExistsByEmail(string email);
     }
 }
