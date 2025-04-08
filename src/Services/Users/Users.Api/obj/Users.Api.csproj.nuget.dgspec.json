@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj": {}
+    "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj": {}
   },
   "projects": {
-    "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj": {
+    "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj",
+        "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj",
         "projectName": "Users.Api",
-        "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj",
+        "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj",
         "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-        "outputPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\obj\\",
+        "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -32,8 +32,8 @@
               "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj": {
                 "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj"
               },
-              "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
-                "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
+              "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+                "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
               }
             }
           }
@@ -124,8 +124,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
-                "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
+              "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+                "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
               }
             }
           }
@@ -187,8 +187,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
-                "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
+              "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+                "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj"
               }
             }
           }
@@ -238,14 +238,14 @@
         }
       }
     },
-    "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
+    "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
+        "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
         "projectName": "Users.Domain",
-        "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
+        "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\Users.Domain.csproj",
         "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-        "outputPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\obj\\",
+        "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"
