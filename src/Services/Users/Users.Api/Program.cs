@@ -19,7 +19,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(ApiMappingProfile), typeof(DALMappingProfile));
 
-builder.Services.AddDbContext<UsersDbContext>(options => {
+builder.Services.AddDbContext<UsersDbContext>(options =>
+{
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
 });
 
@@ -32,25 +33,35 @@ builder.Services.AddFluentValidationAutoValidation();
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
 builder.Services.AddSerilog(Log.Logger);
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    Log.Information("is development");
+    Log.Information("Starting Users.Api application");
+    var app = builder.Build();
 
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI(options => {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    });
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        Log.Information("Application is running in Development environment");
+        app.MapOpenApi();
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
+        });
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception exception) {
+    Log.Fatal(exception, "Application terminated unexpectedly");
+}
+finally {
+    Log.CloseAndFlush();
+}
