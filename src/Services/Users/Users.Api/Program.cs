@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Users.Api.Mappings;
 using Users.Api.Models;
 using Users.Application.Services;
@@ -12,26 +13,32 @@ using Users.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(typeof(ApiMappingProfile), typeof(DALMappingProfile));
+
 builder.Services.AddDbContext<UsersDbContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
 });
+
 builder.Services.AddScoped<IUsersRepository, UsersEFRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDto>();
 builder.Services.AddFluentValidationAutoValidation();
+
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Services.AddSerilog(Log.Logger);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Log.Information("is development");
+
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI(options => {
