@@ -34,7 +34,8 @@ public class UsersGetUnitTests {
     [Fact]
     public async Task Get_NonExistentUser_ShouldThrowUserNotFoundException() {
         Guid id = Guid.NewGuid();
-        _repositoryMock.Setup(repository => repository.Get(id)).ThrowsAsync(new UserNotFoundException(id));
+        User expectedUser = null;
+        _repositoryMock.Setup(repository => repository.Get(id)).ReturnsAsync(expectedUser);
 
         await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Get(id));
     }

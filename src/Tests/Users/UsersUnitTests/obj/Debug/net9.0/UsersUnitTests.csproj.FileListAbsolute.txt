@@ -110,3 +110,5 @@ D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\obj\Debug\net9.0\
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\obj\Debug\net9.0\UsersUnitTests.pdb
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\obj\Debug\net9.0\UsersUnitTests.genruntimeconfig.cache
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\obj\Debug\net9.0\ref\UsersUnitTests.dll
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersUnitTests\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
