@@ -43,7 +43,6 @@ public class UsersCreateUnitTests
     [Fact]
     public async Task Create_NullUser_ShouldThrowsArgumentNullException() {
         User user = null;
-        _repositoryMock.Setup(repository => repository.Add(user)).ThrowsAsync(new ArgumentNullException());
 
         await Assert.ThrowsAsync<ArgumentNullException>(() => _service.Create(user));
     }

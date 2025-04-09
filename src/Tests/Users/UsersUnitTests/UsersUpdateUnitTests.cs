@@ -39,4 +39,11 @@ public class UsersUpdateUnitTests {
 
         await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Update(user));
     }
+
+    [Fact]
+    public async Task Update_NullUser_ShouldThrowsArgumentNullException() {
+        User user = null;
+
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _service.Update(user));
+    }
 }
