@@ -26,10 +26,7 @@ namespace Users.DAL.Repositories {
         public async Task<User> Get(Guid id)
         {
             UserEntity? foundUser = await _context.Users.FindAsync(id);
-            if (foundUser == null) {
-                throw new UserNotFoundException(id);
-            }
-            User user = _mapper.Map<User>(foundUser);
+            User? user = _mapper.Map<User?>(foundUser);
             return user;
         }
 
