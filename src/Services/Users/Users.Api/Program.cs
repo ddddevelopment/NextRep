@@ -21,7 +21,8 @@ builder.Services.AddAutoMapper(typeof(ApiMappingProfile), typeof(DALMappingProfi
 
 builder.Services.AddDbContext<UsersDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"))
+        .LogTo(message => Log.Logger.Debug(message), LogLevel.Debug);
 });
 
 builder.Services.AddScoped<IUsersRepository, UsersEFRepository>();
