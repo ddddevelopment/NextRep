@@ -77,3 +77,10 @@ D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\Se
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\Serilog.Sinks.Console.dll
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\Serilog.Sinks.Debug.dll
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\Serilog.Sinks.File.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Api.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Api.ProviderBuilderExtensions.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Exporter.Prometheus.AspNetCore.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Extensions.Hosting.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Instrumentation.AspNetCore.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Instrumentation.Http.dll

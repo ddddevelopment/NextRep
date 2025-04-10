@@ -1,6 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using Serilog;
 using Users.Api.Mappings;
 using Users.Api.Models;
@@ -38,6 +40,14 @@ builder.Services.AddFluentValidationAutoValidation();
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
 builder.Services.AddSerilog(Log.Logger);
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName: "users-api"))
+    .WithMetrics(metrics => {
+        metrics.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddPrometheusExporter();
+    });
+
 try
 {
     Log.Information("Starting Users.Api application");
@@ -61,6 +71,8 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+
+    app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
     app.Run();
 }
