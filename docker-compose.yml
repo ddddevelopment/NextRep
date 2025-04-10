@@ -1,0 +1,8 @@
+services:
+  usersapi:
+    image: usersapi
+    build:
+      context: .
+      dockerfile: src/Services/Users/Users.Api/Dockerfile
+    ports:
+      - 8080:8080
