@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 using Users.Api.Mappings;
 using Users.Api.Models;
@@ -41,11 +42,18 @@ Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configurat
 builder.Services.AddSerilog(Log.Logger);
 
 builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource.AddService(serviceName: "users-api"))
+    .ConfigureResource(resource => resource.AddService(serviceName: "usersapi"))
     .WithMetrics(metrics => {
         metrics.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddPrometheusExporter();
+    })
+    .WithTracing(tracing => {
+        tracing.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddOtlpExporter(options => {
+                options.Endpoint = new Uri(builder.Configuration["Jaeger:Uri"]);
+            });
     });
 
 try
