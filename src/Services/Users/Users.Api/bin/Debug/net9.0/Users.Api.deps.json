@@ -15,6 +15,7 @@
           "Microsoft.EntityFrameworkCore": "9.0.3",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
           "OpenTelemetry": "1.11.2",
+          "OpenTelemetry.Exporter.OpenTelemetryProtocol": "1.11.2",
           "OpenTelemetry.Exporter.Prometheus.AspNetCore": "1.11.2-beta.1",
           "OpenTelemetry.Extensions.Hosting": "1.11.2",
           "OpenTelemetry.Instrumentation.AspNetCore": "1.11.1",
@@ -441,6 +442,17 @@
         },
         "runtime": {
           "lib/net9.0/OpenTelemetry.Api.ProviderBuilderExtensions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.11.2.1586"
+          }
+        }
+      },
+      "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.11.2": {
+        "dependencies": {
+          "OpenTelemetry": "1.11.2"
+        },
+        "runtime": {
+          "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.11.2.1586"
           }
@@ -977,6 +989,13 @@
       "sha512": "sha512-Y1aag4WT9f3rF8jQWwub5DsFVXpM/5NQsfYg6lmsNQrtJ6TcRqQu2PubcHXeIX2N6TA7XF3ffQAgeJklsSLeoQ==",
       "path": "opentelemetry.api.providerbuilderextensions/1.11.2",
       "hashPath": "opentelemetry.api.providerbuilderextensions.1.11.2.nupkg.sha512"
+    },
+    "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.11.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-37dQ85HHU+szAJY9ePSSXl5TNQp7iZm4Q+Dr9gQ8kOyJiHk7xsQUSjZrFA0Mzu74Jmi2WWPZ4p13BCcHXzFolg==",
+      "path": "opentelemetry.exporter.opentelemetryprotocol/1.11.2",
+      "hashPath": "opentelemetry.exporter.opentelemetryprotocol.1.11.2.nupkg.sha512"
     },
     "OpenTelemetry.Exporter.Prometheus.AspNetCore/1.11.2-beta.1": {
       "type": "package",

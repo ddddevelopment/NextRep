@@ -56,6 +56,7 @@ builder.Services.AddOpenTelemetry()
             });
     });
 
+
 try
 {
     Log.Information("Starting Users.Api application");

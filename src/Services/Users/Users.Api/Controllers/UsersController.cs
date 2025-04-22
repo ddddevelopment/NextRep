@@ -77,14 +77,15 @@ namespace Users.Api.Controllers
 
             try
             {
-                IEnumerable<User> users = await _service.GetAll();
-                IEnumerable<UserGetDto> result = _mapper.Map<IEnumerable<UserGetDto>>(users);
+                var users = await _service.GetAll();
+                var result = _mapper.Map<IEnumerable<UserGetDto>>(users);
+                
                 _logger?.LogInformation("Successfully retrieved all users");
                 return Ok(result);
             }
-            catch (Exception exception) {
-                _logger?.LogError(exception, "An error occurred while retrieving all users");
-                return BadRequest(exception.Message);
+            catch (Exception ex) 
+            {
+                return HandleGenericException(ex, "An error occurred while retrieving all users");
             }
         }
 
@@ -92,22 +93,23 @@ namespace Users.Api.Controllers
         public async Task<ActionResult<UserUpdateDto>> Update(UserUpdateDto userDto)
         {
             _logger?.LogInformation("Received request to update user: {@UserDto}", userDto);
+            
             try
             {
-                User user = _mapper.Map<User>(userDto);
-                User updatedUser = await _service.Update(user);
-                UserUpdateDto result = _mapper.Map<UserUpdateDto>(updatedUser);
+                var user = _mapper.Map<User>(userDto);
+                var updatedUser = await _service.Update(user);
+                var result = _mapper.Map<UserUpdateDto>(updatedUser);
+                
                 _logger?.LogInformation("User updated successfully: {@User}", result);
                 return Ok(result);
             }
-            catch (UserNotFoundException exception)
+            catch (UserNotFoundException ex)
             {
-                _logger?.LogWarning(exception, "User not found for update: {@UserDto}", userDto);
-                return NotFound(exception.Message);
+                return HandleUserNotFoundException(ex, userDto);
             }
-            catch (Exception exception) {
-                _logger?.LogError(exception, "An error occurred while updating user: {@UserDto}", userDto);
-                return BadRequest(exception.Message);
+            catch (Exception ex) 
+            {
+                return HandleGenericException(ex, $"An error occurred while updating user: {userDto}");
             }
         }
 
@@ -119,19 +121,40 @@ namespace Users.Api.Controllers
             try
             {
                 await _service.Delete(id);
+                
                 _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
                 return NoContent();
             }
-            catch (UserNotFoundException exception)
+            catch (UserNotFoundException ex)
             {
-                _logger?.LogWarning(exception, "User not found for deletion with ID: {UserId}", id);
-                return NotFound(exception.Message);
+                return HandleUserNotFoundException(ex, id);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                _logger?.LogError(exception, "An error occurred while deleting user with ID: {UserId}", id);
-                return BadRequest(exception.Message);
+                return HandleGenericException(ex, $"An error occurred while deleting user with ID: {id}");
             }
         }
+
+        #region Exception Handlers
+        
+        private ActionResult HandleUserNotFoundException(UserNotFoundException ex, object context)
+        {
+            _logger?.LogWarning(ex, "User not found: {@Context}", context);
+            return NotFound(ex.Message);
+        }
+
+        private ActionResult HandleUserAlreadyExistsException(UserAlreadyExistsException ex, object context)
+        {
+            _logger?.LogWarning(ex, "User already exists: {@Context}", context);
+            return Conflict(ex.Message);
+        }
+
+        private ActionResult HandleGenericException(Exception ex, string message)
+        {
+            _logger?.LogError(ex, message);
+            return BadRequest(ex.Message);
+        }
+        
+        #endregion
     }
 }

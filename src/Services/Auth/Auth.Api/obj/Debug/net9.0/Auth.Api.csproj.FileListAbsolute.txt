@@ -40,3 +40,10 @@ D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\refi
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\Auth.Api.pdb
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\Auth.Api.genruntimeconfig.cache
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\ref\Auth.Api.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Domain.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Application.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Application.pdb

@@ -10,6 +10,7 @@
     <PackageReference Include="Elastic.Serilog.Sinks" Version="8.12.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
@@ -29,6 +30,10 @@
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
     <ProjectReference Include="..\Users.DAL.EF\Users.DAL.EF.csproj" />
     <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup> 
+    <Protobuf Include="Protos\users.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

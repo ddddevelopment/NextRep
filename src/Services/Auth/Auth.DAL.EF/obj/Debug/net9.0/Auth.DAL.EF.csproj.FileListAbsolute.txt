@@ -1,0 +1,16 @@
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\bin\Debug\net9.0\Auth.DAL.EF.deps.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\bin\Debug\net9.0\Auth.DAL.EF.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\bin\Debug\net9.0\Auth.DAL.EF.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\bin\Debug\net9.0\Auth.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\bin\Debug\net9.0\Auth.Domain.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.csproj.AssemblyReference.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.AssemblyInfoInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.AssemblyInfo.cs
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.csproj.CoreCompileInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.sourcelink.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.F145B453.Up2Date
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\refint\Auth.DAL.EF.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\Auth.DAL.EF.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.DAL.EF\obj\Debug\net9.0\ref\Auth.DAL.EF.dll
