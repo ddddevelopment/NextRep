@@ -20,17 +20,17 @@ public class JwtAuthService : IAuthService
 
     public Task<AuthResult> Authenticate(UserDto user, string password)
     {
-        if (_passwordHasher.VerifyPassword(password, user.PasswordHash)) {
-            return AuthResultCreator.CreateFailed("Invalid credentials");
+        if (_passwordHasher.VerifyPassword(password, user.PasswordHash) == false) {
+            return Task.FromResult(AuthResultCreator.CreateFailed("Invalid credentials"));
         }
 
         if (user.IsActive == false) { 
-            return AuthResultCreator.CreateFailed("User is not active");
+            return Task.FromResult(AuthResultCreator.CreateFailed("User is not active"));
         }
 
         string accessToken = GenerateAccessToken(user);
 
-        return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
+        return Task.FromResult(AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60));
     }
 
     private string GenerateAccessToken(UserDto user) {

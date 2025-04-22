@@ -1,3 +1,5 @@
+using Auth.Domain.Models;
+
 namespace Auth.Domain.Services;
 
 public static class AuthResultCreator
