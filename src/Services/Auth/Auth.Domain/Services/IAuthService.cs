@@ -6,4 +6,3 @@ public interface IAuthService
 {
     Task<AuthResult> Authenticate(UserDto user, string password);
 }
-
