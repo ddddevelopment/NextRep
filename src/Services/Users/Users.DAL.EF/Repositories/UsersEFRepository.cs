@@ -66,7 +66,7 @@ namespace Users.DAL.Repositories {
         {
             _logger?.LogDebug("Fetching all users from database");
 
-            IEnumerable<UserEntity> foundUsers = _context.Users.AsEnumerable();
+            List<UserEntity> foundUsers = await _context.Users.ToListAsync();
             IEnumerable<User> users = _mapper.Map<IEnumerable<User>>(foundUsers);
 
             _logger?.LogDebug("Successfully fetched all users from database");
