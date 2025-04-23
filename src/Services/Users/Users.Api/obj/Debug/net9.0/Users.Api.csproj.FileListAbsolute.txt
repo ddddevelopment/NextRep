@@ -84,3 +84,4 @@ D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\Op
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Extensions.Hosting.dll
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Instrumentation.AspNetCore.dll
 D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Instrumentation.Http.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.Api\bin\Debug\net9.0\OpenTelemetry.Exporter.OpenTelemetryProtocol.dll

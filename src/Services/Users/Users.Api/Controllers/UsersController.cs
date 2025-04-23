@@ -46,7 +46,7 @@ namespace Users.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<UserGetDto>> GetById(Guid id)
         {
             _logger?.LogInformation("Received request to get user with ID: {UserId}", id);
@@ -70,7 +70,7 @@ namespace Users.Api.Controllers
             }
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("by-email/{email}")]
         public async Task<ActionResult<UserGetDto>> GetByEmail(string email)
         {
             _logger?.LogInformation("Received request to get user with email: {Email}", email);
