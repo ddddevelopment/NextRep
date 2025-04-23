@@ -6044,11 +6044,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersUnitTests\\UsersUnitTests.csproj",
-      "projectName": "UsersUnitTests",
-      "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersUnitTests\\UsersUnitTests.csproj",
+      "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersServiceUnitTests\\UsersServiceUnitTests.csproj",
+      "projectName": "UsersServiceUnitTests",
+      "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersServiceUnitTests\\UsersServiceUnitTests.csproj",
       "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersUnitTests\\obj\\",
+      "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Tests\\Users\\UsersServiceUnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"

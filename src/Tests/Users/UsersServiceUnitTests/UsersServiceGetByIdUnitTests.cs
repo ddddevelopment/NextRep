@@ -7,12 +7,12 @@ using Users.Domain.Repositories;
 
 namespace UsersUnitTests;
 
-public class UsersGetUnitTests {
+public class UsersServiceGetByIdUnitTests {
     private readonly UsersService _service;
     private readonly Mock<IUsersRepository> _repositoryMock;
     private readonly Fixture _fixture;
 
-    public UsersGetUnitTests()
+    public UsersServiceGetByIdUnitTests()
     {
         _repositoryMock = new Mock<IUsersRepository>();
         _service = new UsersService(_repositoryMock.Object);
@@ -37,6 +37,6 @@ public class UsersGetUnitTests {
         User expectedUser = null;
         _repositoryMock.Setup(repository => repository.GetById(id)).ReturnsAsync(expectedUser);
 
-        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.GetById(id));
+        await Assert.ThrowsAsync<UserNotFoundException<Guid>>(() => _service.GetById(id));
     }
 }

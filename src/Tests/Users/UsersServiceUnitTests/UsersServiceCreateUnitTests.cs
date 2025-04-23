@@ -8,13 +8,13 @@ using Users.Domain.Repositories;
 
 namespace UsersUnitTests;
 
-public class UsersCreateUnitTests
+public class UsersServiceCreateUnitTests
 {
     private readonly Mock<IUsersRepository> _repositoryMock;
     private readonly UsersService _service;
     private readonly IFixture _fixture;
 
-    public UsersCreateUnitTests()
+    public UsersServiceCreateUnitTests()
     {
         _repositoryMock = new Mock<IUsersRepository>();
         _service = new UsersService(_repositoryMock.Object);

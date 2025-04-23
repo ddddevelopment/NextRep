@@ -7,12 +7,12 @@ using Users.Domain.Repositories;
 
 namespace UsersUnitTests;
 
-public class UsersDeleteUnitTests {
+public class UsersServiceDeleteUnitTests {
     private readonly Mock<IUsersRepository> _repositoryMock;
     private readonly UsersService _service;
     private readonly IFixture _fixture;
 
-    public UsersDeleteUnitTests()
+    public UsersServiceDeleteUnitTests()
     {
         _repositoryMock = new Mock<IUsersRepository>();
         _service = new UsersService(_repositoryMock.Object);
@@ -31,8 +31,8 @@ public class UsersDeleteUnitTests {
     [Fact]
     public async Task Delete_NonexistentUser_ShouldThrowsUserNotFoundException() {
         Guid id = Guid.NewGuid();
-        _repositoryMock.Setup(repository => repository.Remove(id)).ThrowsAsync(new UserNotFoundException(id));
+        _repositoryMock.Setup(repository => repository.Remove(id)).ThrowsAsync(new UserNotFoundException<Guid>(id));
 
-        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Delete(id));
+        await Assert.ThrowsAsync<UserNotFoundException<Guid>>(() => _service.Delete(id));
     }
 }

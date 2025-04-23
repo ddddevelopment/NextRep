@@ -6,12 +6,12 @@ using Users.Domain.Repositories;
 
 namespace UsersUnitTests;
 
-public class UsersGetAllUnitTests {
+public class UsersServiceGetAllUnitTests {
     private readonly UsersService _service;
     private readonly Mock<IUsersRepository> _repositoryMock;
     private readonly Fixture _fixture;
 
-    public UsersGetAllUnitTests()
+    public UsersServiceGetAllUnitTests()
     {
         _repositoryMock = new Mock<IUsersRepository>();
         _service = new UsersService(_repositoryMock.Object);

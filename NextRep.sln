@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CEA09484
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{C048E760-AC70-3D60-826E-3BEEA449C4B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersUnitTests", "src\Tests\Users\UsersUnitTests\UsersUnitTests.csproj", "{A5053756-4A58-4FAF-820B-74EED101E51A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersServiceUnitTests", "src\Tests\Users\UsersServiceUnitTests\UsersServiceUnitTests.csproj", "{A5053756-4A58-4FAF-820B-74EED101E51A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{473EF3C4-73FA-6715-AA3C-7C7929374EED}"
 EndProject

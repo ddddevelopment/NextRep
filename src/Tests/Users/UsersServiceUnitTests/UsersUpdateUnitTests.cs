@@ -35,9 +35,9 @@ public class UsersUpdateUnitTests {
     [Fact]
     public async Task Update_NonExistentUser_ShouldThrowUserNotFoundException() {
         User user = _fixture.Create<User>();
-        _repositoryMock.Setup(repository => repository.Update(user)).ThrowsAsync(new UserNotFoundException(user.Id));
+        _repositoryMock.Setup(repository => repository.Update(user)).ThrowsAsync(new UserNotFoundException<Guid>(user.Id));
 
-        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Update(user));
+        await Assert.ThrowsAsync<UserNotFoundException<Guid>>(() => _service.Update(user));
     }
 
     [Fact]
