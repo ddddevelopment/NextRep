@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Je3uD4G/eUc=",
+  "dgSpecHash": "4HrQ05qn/wQ=",
   "success": true,
   "projectFilePath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.Api\\Users.Api.csproj",
   "expectedPackageFiles": [
@@ -46,6 +46,7 @@
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry\\1.11.2\\opentelemetry.1.11.2.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.api\\1.11.2\\opentelemetry.api.1.11.2.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.api.providerbuilderextensions\\1.11.2\\opentelemetry.api.providerbuilderextensions.1.11.2.nupkg.sha512",
+    "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.exporter.opentelemetryprotocol\\1.11.2\\opentelemetry.exporter.opentelemetryprotocol.1.11.2.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.exporter.prometheus.aspnetcore\\1.11.2-beta.1\\opentelemetry.exporter.prometheus.aspnetcore.1.11.2-beta.1.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.extensions.hosting\\1.11.2\\opentelemetry.extensions.hosting.1.11.2.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\opentelemetry.instrumentation.aspnetcore\\1.11.1\\opentelemetry.instrumentation.aspnetcore.1.11.1.nupkg.sha512",

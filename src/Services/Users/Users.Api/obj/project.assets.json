@@ -733,6 +733,22 @@
           }
         }
       },
+      "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.11.2": {
+        "type": "package",
+        "dependencies": {
+          "OpenTelemetry": "1.11.2"
+        },
+        "compile": {
+          "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll": {
+            "related": ".dll-keyless.pem;.dll-keyless.sig;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll": {
+            "related": ".dll-keyless.pem;.dll-keyless.sig;.xml"
+          }
+        }
+      },
       "OpenTelemetry.Exporter.Prometheus.AspNetCore/1.11.2-beta.1": {
         "type": "package",
         "dependencies": {
@@ -2393,6 +2409,41 @@
         "opentelemetry.api.providerbuilderextensions.nuspec"
       ]
     },
+    "OpenTelemetry.Exporter.OpenTelemetryProtocol/1.11.2": {
+      "sha512": "37dQ85HHU+szAJY9ePSSXl5TNQp7iZm4Q+Dr9gQ8kOyJiHk7xsQUSjZrFA0Mzu74Jmi2WWPZ4p13BCcHXzFolg==",
+      "type": "package",
+      "path": "opentelemetry.exporter.opentelemetryprotocol/1.11.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "README.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net462/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll",
+        "lib/net462/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.pem",
+        "lib/net462/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.sig",
+        "lib/net462/OpenTelemetry.Exporter.OpenTelemetryProtocol.xml",
+        "lib/net8.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll",
+        "lib/net8.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.pem",
+        "lib/net8.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.sig",
+        "lib/net8.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.xml",
+        "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll",
+        "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.pem",
+        "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.sig",
+        "lib/net9.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.xml",
+        "lib/netstandard2.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll",
+        "lib/netstandard2.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.pem",
+        "lib/netstandard2.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.sig",
+        "lib/netstandard2.0/OpenTelemetry.Exporter.OpenTelemetryProtocol.xml",
+        "lib/netstandard2.1/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll",
+        "lib/netstandard2.1/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.pem",
+        "lib/netstandard2.1/OpenTelemetry.Exporter.OpenTelemetryProtocol.dll-keyless.sig",
+        "lib/netstandard2.1/OpenTelemetry.Exporter.OpenTelemetryProtocol.xml",
+        "opentelemetry-icon-color.png",
+        "opentelemetry.exporter.opentelemetryprotocol.1.11.2.nupkg.sha512",
+        "opentelemetry.exporter.opentelemetryprotocol.nuspec"
+      ]
+    },
     "OpenTelemetry.Exporter.Prometheus.AspNetCore/1.11.2-beta.1": {
       "sha512": "jouLU4VHpzyXuzF2yi/bpt9DoseZGyUudSdTFvylgIwIx6ST1bdI/AXNoJ4/n6HwMiso677ILLm/RM8DY+EYwA==",
       "type": "package",
@@ -2880,6 +2931,7 @@
       "Microsoft.EntityFrameworkCore >= 9.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.4",
       "OpenTelemetry >= 1.11.2",
+      "OpenTelemetry.Exporter.OpenTelemetryProtocol >= 1.11.2",
       "OpenTelemetry.Exporter.Prometheus.AspNetCore >= 1.11.2-beta.1",
       "OpenTelemetry.Extensions.Hosting >= 1.11.2",
       "OpenTelemetry.Instrumentation.AspNetCore >= 1.11.1",
@@ -2971,6 +3023,10 @@
             "version": "[9.0.4, )"
           },
           "OpenTelemetry": {
+            "target": "Package",
+            "version": "[1.11.2, )"
+          },
+          "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
             "target": "Package",
             "version": "[1.11.2, )"
           },
