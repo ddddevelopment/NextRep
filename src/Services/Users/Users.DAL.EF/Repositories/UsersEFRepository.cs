@@ -30,13 +30,29 @@ namespace Users.DAL.Repositories {
             _logger?.LogDebug("User added to database successfully: {@User}", user);
         }
 
-        public async Task<User> Get(Guid id)
+        public async Task<User> GetById(Guid id)
         {
             _logger?.LogDebug("Fetching from database user with ID: {UserId}", id);
 
             UserEntity? foundUser = await _context.Users.FindAsync(id);
             if (foundUser == null) {
                 _logger?.LogWarning("User with ID {UserId} not found in database", id);
+            }
+            else {
+                _logger?.LogDebug("Successfully fetched user from database: {@User}", foundUser);
+            }
+
+            User? user = _mapper.Map<User?>(foundUser);
+            return user;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            _logger?.LogDebug("Fetching from database user with email: {Email}", email);
+
+            UserEntity? foundUser = await _context.Users.FirstOrDefaultAsync(user => user.email == email);
+            if (foundUser == null) {
+                _logger?.LogWarning("User with email: {Email} not found in database", email);
             }
             else {
                 _logger?.LogDebug("Successfully fetched user from database: {@User}", foundUser);
@@ -64,7 +80,7 @@ namespace Users.DAL.Repositories {
             UserEntity? foundUser = await _context.Users.FindAsync(user.Id);
             if (foundUser == null) {
                 _logger?.LogWarning("User with ID {UserId} not found for update in database", user.Id);
-                throw new UserNotFoundException(user.Id);
+                throw new UserNotFoundException<Guid>(user.Id);
             }
             _mapper.Map(user, foundUser);
             
@@ -83,7 +99,7 @@ namespace Users.DAL.Repositories {
             UserEntity? foundUser = await _context.Users.FindAsync(id);
             if (foundUser == null) {
                 _logger?.LogWarning("User with ID {UserId} not found for removal in database", id);
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException<Guid>(id);
             }
             
             _context.Users.Remove(foundUser);

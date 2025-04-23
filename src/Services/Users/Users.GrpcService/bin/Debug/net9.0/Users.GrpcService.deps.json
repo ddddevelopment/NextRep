@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v9.0": {
       "Users.GrpcService/1.0.0": {
         "dependencies": {
-          "Grpc.AspNetCore": "2.64.0"
+          "Grpc.AspNetCore": "2.64.0",
+          "Users.Domain": "1.0.0"
         },
         "runtime": {
           "Users.GrpcService.dll": {}
@@ -137,7 +138,15 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
-      "System.Runtime.CompilerServices.Unsafe/6.0.0": {}
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
+      "Users.Domain/1.0.0": {
+        "runtime": {
+          "Users.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
     }
   },
   "libraries": {
@@ -271,6 +280,11 @@
       "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
       "path": "system.runtime.compilerservices.unsafe/6.0.0",
       "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    },
+    "Users.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

@@ -36,3 +36,5 @@ D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\obj\Debug\n
 D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\obj\Debug\net9.0\Users.GrpcService.pdb
 D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\obj\Debug\net9.0\Users.GrpcService.genruntimeconfig.cache
 D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\obj\Debug\net9.0\ref\Users.GrpcService.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\bin\Debug\net9.0\Users.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.GrpcService\bin\Debug\net9.0\Users.Domain.pdb

@@ -29,6 +29,42 @@
             "netCore": {
                 "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
             }
+        },
+        {
+            "name": "Docker .NET Attach",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "processId": "${command:pickRemoteProcess}",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Docker Compose Debug",
+            "type": "docker-compose",
+            "request": "launch",
+            "dockerComposeFile": "${workspaceFolder}/docker-compose.debug.yml",
+            "service": "usersapi",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
+            }
+        },
+        {
+            "name": ".NET Core Attach to Docker",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": ["exec", "-i", "usersapi"],
+                "debuggerPath": "/remote_debugger/vsdbg",
+                "pipeCwd": "${workspaceFolder}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/app": "${workspaceFolder}"
+            }
         }
     ]
 }
