@@ -48,3 +48,10 @@ D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swas
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\AutoMapper.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Google.Protobuf.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Grpc.Core.Api.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Grpc.Net.Client.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Grpc.Net.Common.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Infrastructure.Users.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Infrastructure.Users.pdb
