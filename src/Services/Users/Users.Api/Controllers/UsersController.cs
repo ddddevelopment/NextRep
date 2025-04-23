@@ -47,18 +47,18 @@ namespace Users.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserGetDto>> Get(Guid id)
+        public async Task<ActionResult<UserGetDto>> GetById(Guid id)
         {
             _logger?.LogInformation("Received request to get user with ID: {UserId}", id);
 
             try
             {
-                User user = await _service.Get(id);
+                User user = await _service.GetById(id);
                 UserGetDto result = _mapper.Map<UserGetDto>(user);
                 _logger?.LogInformation("User retrieved successfully: {@User}", result);
                 return Ok(result);
             }
-            catch (UserNotFoundException exception)
+            catch (UserNotFoundException<Guid> exception)
             {
                 _logger?.LogWarning(exception, "User not found with ID: {UserId}", id);
                 return NotFound(exception.Message);
@@ -66,6 +66,30 @@ namespace Users.Api.Controllers
             catch (Exception exception)
             {
                 _logger?.LogError(exception, "An error occurred while retrieving user with ID: {UserId}", id);
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<UserGetDto>> GetByEmail(string email)
+        {
+            _logger?.LogInformation("Received request to get user with email: {Email}", email);
+
+            try
+            {
+                User user = await _service.GetByEmail(email);
+                UserGetDto result = _mapper.Map<UserGetDto>(user);
+                _logger?.LogInformation("User retrieved successfully: {@User}", result);
+                return Ok(result);
+            }
+            catch (UserNotFoundException<string> exception)
+            {
+                _logger?.LogWarning(exception, "User not found with email: {Email}", email);
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                _logger?.LogError(exception, "An error occurred while retrieving user with email: {Email}", email);
                 return BadRequest(exception.Message);
             }
         }
@@ -82,7 +106,8 @@ namespace Users.Api.Controllers
                 _logger?.LogInformation("Successfully retrieved all users");
                 return Ok(result);
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 _logger?.LogError(exception, "An error occurred while retrieving all users");
                 return BadRequest(exception.Message);
             }
@@ -100,12 +125,13 @@ namespace Users.Api.Controllers
                 _logger?.LogInformation("User updated successfully: {@User}", result);
                 return Ok(result);
             }
-            catch (UserNotFoundException exception)
+            catch (UserNotFoundException<Guid> exception)
             {
                 _logger?.LogWarning(exception, "User not found for update: {@UserDto}", userDto);
                 return NotFound(exception.Message);
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 _logger?.LogError(exception, "An error occurred while updating user: {@UserDto}", userDto);
                 return BadRequest(exception.Message);
             }
@@ -122,7 +148,7 @@ namespace Users.Api.Controllers
                 _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
                 return NoContent();
             }
-            catch (UserNotFoundException exception)
+            catch (UserNotFoundException<Guid> exception)
             {
                 _logger?.LogWarning(exception, "User not found for deletion with ID: {UserId}", id);
                 return NotFound(exception.Message);

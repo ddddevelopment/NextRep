@@ -37,15 +37,30 @@ namespace Users.Application.Services {
             _logger?.LogInformation("User created successfully: {@User}", user);
         }
 
-        public async Task<User> Get(Guid id)
+        public async Task<User> GetById(Guid id)
         {
             _logger?.LogDebug("Fetching user with ID: {UserId}", id);
 
-            User user = await _repository.Get(id);
+            User user = await _repository.GetById(id);
 
             if (user == null) {
                 _logger?.LogWarning("User with ID {UserId} not found", id);
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException<Guid>(id);
+            }
+
+            _logger?.LogInformation("User retrieved successfully: {@User}", user);
+            return user;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            _logger?.LogDebug("Fetching user with email: {Email}", email);
+            
+            User user = await _repository.GetByEmail(email);
+
+            if (user == null) {
+                _logger?.LogWarning("User with email: {Email} not found", email);
+                throw new UserNotFoundException<string>(email);
             }
 
             _logger?.LogInformation("User retrieved successfully: {@User}", user);
@@ -81,5 +96,6 @@ namespace Users.Application.Services {
             await _repository.Remove(id);
             _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
         }
+
     }
 }

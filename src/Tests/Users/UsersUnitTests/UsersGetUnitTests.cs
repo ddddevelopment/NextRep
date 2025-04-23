@@ -23,11 +23,11 @@ public class UsersGetUnitTests {
     public async Task Get_ReturnUser() {
         Guid id = Guid.NewGuid();
         User expectedUser = _fixture.Build<User>().With(user => user.Id, id).Create();
-        _repositoryMock.Setup(repository => repository.Get(id)).Returns(Task.FromResult(expectedUser));
+        _repositoryMock.Setup(repository => repository.GetById(id)).Returns(Task.FromResult(expectedUser));
 
-        var user = await _service.Get(id);
+        var user = await _service.GetById(id);
 
-        _repositoryMock.Verify(repository => repository.Get(id), Times.Once);
+        _repositoryMock.Verify(repository => repository.GetById(id), Times.Once);
         Assert.Equal(user, expectedUser);
     }
 
@@ -35,8 +35,8 @@ public class UsersGetUnitTests {
     public async Task Get_NonExistentUser_ShouldThrowUserNotFoundException() {
         Guid id = Guid.NewGuid();
         User expectedUser = null;
-        _repositoryMock.Setup(repository => repository.Get(id)).ReturnsAsync(expectedUser);
+        _repositoryMock.Setup(repository => repository.GetById(id)).ReturnsAsync(expectedUser);
 
-        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.Get(id));
+        await Assert.ThrowsAsync<UserNotFoundException>(() => _service.GetById(id));
     }
 }
