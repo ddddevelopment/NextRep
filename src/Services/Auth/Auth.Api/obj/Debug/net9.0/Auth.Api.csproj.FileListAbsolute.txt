@@ -45,3 +45,6 @@ D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
