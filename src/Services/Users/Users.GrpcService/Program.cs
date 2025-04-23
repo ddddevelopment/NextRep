@@ -1,9 +1,11 @@
+using Users.GrpcService.Mappings;
 using Users.GrpcService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddAutoMapper(typeof(GrpcMappingProfile));
 
 var app = builder.Build();
 
