@@ -1,0 +1,31 @@
+using AutoFixture;
+using Moq;
+using Users.Application.Services;
+using Users.Domain.Models;
+using Users.Domain.Repositories;
+
+namespace UsersUnitTests;
+
+public class UsersServiceGetAllUnitTests {
+    private readonly UsersService _service;
+    private readonly Mock<IUsersRepository> _repositoryMock;
+    private readonly Fixture _fixture;
+
+    public UsersServiceGetAllUnitTests()
+    {
+        _repositoryMock = new Mock<IUsersRepository>();
+        _service = new UsersService(_repositoryMock.Object);
+        _fixture = new Fixture();
+    }
+    
+    [Fact]
+    public async Task GetAll_ReturnAllUsers() {
+        IEnumerable<User> expectedUsers = _fixture.Create<IEnumerable<User>>();
+        _repositoryMock.Setup(repository => repository.GetAll()).ReturnsAsync(expectedUsers);
+
+        IEnumerable<User> users = await _service.GetAll();
+
+        _repositoryMock.Verify(repository => repository.GetAll(), Times.Once);
+        Assert.Equal(users, expectedUsers);
+    }
+}

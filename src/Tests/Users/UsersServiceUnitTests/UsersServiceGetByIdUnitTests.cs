@@ -1,0 +1,42 @@
+using AutoFixture;
+using Moq;
+using Users.Application.Services;
+using Users.Domain.Exceptions;
+using Users.Domain.Models;
+using Users.Domain.Repositories;
+
+namespace UsersUnitTests;
+
+public class UsersServiceGetByIdUnitTests {
+    private readonly UsersService _service;
+    private readonly Mock<IUsersRepository> _repositoryMock;
+    private readonly Fixture _fixture;
+
+    public UsersServiceGetByIdUnitTests()
+    {
+        _repositoryMock = new Mock<IUsersRepository>();
+        _service = new UsersService(_repositoryMock.Object);
+        _fixture = new Fixture();
+    }
+
+    [Fact]
+    public async Task Get_ReturnUser() {
+        Guid id = Guid.NewGuid();
+        User expectedUser = _fixture.Build<User>().With(user => user.Id, id).Create();
+        _repositoryMock.Setup(repository => repository.GetById(id)).Returns(Task.FromResult(expectedUser));
+
+        var user = await _service.GetById(id);
+
+        _repositoryMock.Verify(repository => repository.GetById(id), Times.Once);
+        Assert.Equal(user, expectedUser);
+    }
+
+    [Fact]
+    public async Task Get_NonExistentUser_ShouldThrowUserNotFoundException() {
+        Guid id = Guid.NewGuid();
+        User expectedUser = null;
+        _repositoryMock.Setup(repository => repository.GetById(id)).ReturnsAsync(expectedUser);
+
+        await Assert.ThrowsAsync<UserNotFoundException<Guid>>(() => _service.GetById(id));
+    }
+}

@@ -22,12 +22,70 @@
             }
         },
         {
+            "name": "C#: Users.GrpcService [https]",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Services/Users/Users.GrpcService/bin/Debug/net9.0/Users.GrpcService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "https://localhost:7266;http://localhost:5245"
+            }
+        },
+        {
             "name": "Docker .NET Launch",
             "type": "docker",
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "netCore": {
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Users.GrpcService.csproj"
+            }
+        },
+        {
+            "name": "Docker .NET Attach",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "processId": "${command:pickRemoteProcess}",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Docker Compose Debug",
+            "type": "docker-compose",
+            "request": "launch",
+            "dockerComposeFile": "${workspaceFolder}/docker-compose.debug.yml",
+            "service": "usersapi",
+            "netCore": {
                 "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
+            }
+        },
+        {
+            "name": ".NET Core Attach to Docker",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "usersapi"
+                ],
+                "debuggerPath": "/remote_debugger/vsdbg",
+                "pipeCwd": "${workspaceFolder}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/app": "${workspaceFolder}"
             }
         }
     ]

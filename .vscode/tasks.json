@@ -20,12 +20,12 @@
             "dockerBuild": {
                 "tag": "nextrep:dev",
                 "target": "base",
-                "dockerfile": "${workspaceFolder}/src/Services/Users/Users.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Users.GrpcService.csproj"
             }
         },
         {
@@ -36,7 +36,7 @@
             ],
             "dockerBuild": {
                 "tag": "nextrep:latest",
-                "dockerfile": "${workspaceFolder}/src/Services/Users/Users.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Dockerfile",
                 "context": "${workspaceFolder}",
                 "platform": {
                     "os": "linux",
@@ -45,7 +45,7 @@
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Users.GrpcService.csproj"
             }
         },
         {
@@ -56,7 +56,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj",
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Users.GrpcService.csproj",
                 "enableDebugging": true
             }
         },
@@ -68,7 +68,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Users/Users.Api/Users.Api.csproj"
+                "appProject": "${workspaceFolder}/src/Services/Users/Users.GrpcService/Users.GrpcService.csproj"
             }
         }
     ]
