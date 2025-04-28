@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.deps.json
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.pdb
+=======
+>>>>>>> users
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.GeneratedMSBuildEditorConfig.editorconfig
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.AssemblyInfoInputs.cache
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.AssemblyInfo.cs
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.csproj.CoreCompileInputs.cache
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.sourcelink.json
+<<<<<<< HEAD
+=======
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.deps.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\bin\Debug\net9.0\Auth.Domain.pdb
+>>>>>>> users
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\refint\Auth.Domain.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Domain\obj\Debug\net9.0\Auth.Domain.pdb

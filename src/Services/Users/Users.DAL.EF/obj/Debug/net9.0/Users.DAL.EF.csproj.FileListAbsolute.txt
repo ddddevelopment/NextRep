@@ -14,3 +14,5 @@ d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0
 d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\refint\Users.DAL.EF.dll
 d:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.pdb
 D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\ref\Users.DAL.EF.dll
+D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\bin\Debug\net9.0\Users.DAL.EF.runtimeconfig.json
+D:\Programming\Projects\NextRep\src\Services\Users\Users.DAL.EF\obj\Debug\net9.0\Users.DAL.EF.genruntimeconfig.cache
