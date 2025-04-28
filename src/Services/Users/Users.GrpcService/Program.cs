@@ -1,3 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Users.Application.Services;
+using Users.DAL;
+using Users.DAL.Mappings;
+using Users.DAL.Repositories;
+using Users.Domain.Repositories;
+using Users.Domain.Services;
 using Users.GrpcService.Mappings;
 using Users.GrpcService.Services;
 
@@ -5,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
-builder.Services.AddAutoMapper(typeof(GrpcMappingProfile));
+builder.Services.AddAutoMapper(typeof(GrpcMappingProfile), typeof(DALMappingProfile));
+builder.Services.AddDbContext<UsersDbContext>(options => {
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
+});
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUsersRepository, UsersEFRepository>();
 
 var app = builder.Build();
 

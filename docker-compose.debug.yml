@@ -1,3 +1,4 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
 services:
   usersapi:
     image: usersapi
@@ -14,6 +15,20 @@ services:
       - ~/.vsdbg:/remote_debugger:rw
     depends_on:
       - postgres
+
+  usersgrpcservice:
+    image: usersgrpcservice
+    build:
+      context: .
+      dockerfile: src/Services/Users/Users.GrpcService/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 8081:8081
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
 
   postgres:
     image: postgres

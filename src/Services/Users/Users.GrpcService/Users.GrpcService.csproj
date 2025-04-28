@@ -11,12 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
+    <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
+    <ProjectReference Include="..\Users.DAL.EF\Users.DAL.EF.csproj" />
   </ItemGroup>
 
 </Project>
