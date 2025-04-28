@@ -20,8 +20,6 @@ public class AuthController : ControllerBase {
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request) {
-        var passwordHasher = new BCryptPasswordHasher();
-        
         UserDto user = await _userServiceClient.GetUserByEmail(request.Email);
 
         AuthResult authResult = await _service.Authenticate(user, request.Password);
