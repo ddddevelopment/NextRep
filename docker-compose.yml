@@ -1,10 +1,10 @@
 # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
 
 services:
-  usersgrpcservice:
-    image: usersgrpcservice
+  authapi:
+    image: authapi
     build:
       context: .
-      dockerfile: src/Services/Users/Users.GrpcService/Dockerfile
+      dockerfile: src/Services/Auth/Auth.Api/Dockerfile
     ports:
-      - 5276:5276
+      - 7080:7080
