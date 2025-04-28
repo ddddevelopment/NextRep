@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
+    <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
+    <ProjectReference Include="..\Users.DAL.EF\Users.DAL.EF.csproj" />
   </ItemGroup>
 
 </Project>

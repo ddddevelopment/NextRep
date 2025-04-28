@@ -11,25 +11,18 @@ namespace Auth.Api.Controllers;
 public class AuthController : ControllerBase {
 
     private readonly IAuthService _service;
+    private readonly IUserServiceClient _userServiceClient;
 
-    public AuthController(IAuthService service) {
+    public AuthController(IAuthService service, IUserServiceClient userServiceClient) {
         _service = service;
+        _userServiceClient = userServiceClient;
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request) {
         var passwordHasher = new BCryptPasswordHasher();
         
-        UserDto user = new UserDto {
-            Email = request.Email,
-            PasswordHash = passwordHasher.HashPassword(request.Password),
-            Roles = new List<Role> {
-                Role.User
-            },
-            IsActive = true,
-            Id = Guid.NewGuid(),
-            Name = request.Email
-        };
+        UserDto user = await _userServiceClient.GetUserByEmail(request.Email);
 
         AuthResult authResult = await _service.Authenticate(user, request.Password);
 

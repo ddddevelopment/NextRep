@@ -1,0 +1,16 @@
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\bin\Debug\net9.0\Auth.Infrastructure.Users.deps.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\bin\Debug\net9.0\Auth.Infrastructure.Users.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\bin\Debug\net9.0\Auth.Infrastructure.Users.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\bin\Debug\net9.0\Auth.Domain.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\bin\Debug\net9.0\Auth.Domain.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.csproj.AssemblyReference.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.AssemblyInfoInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.AssemblyInfo.cs
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.csproj.CoreCompileInputs.cache
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.sourcelink.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Inf.4F043B94.Up2Date
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\refint\Auth.Infrastructure.Users.dll
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\Auth.Infrastructure.Users.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Infrastructure.Users\obj\Debug\net9.0\ref\Auth.Infrastructure.Users.dll
