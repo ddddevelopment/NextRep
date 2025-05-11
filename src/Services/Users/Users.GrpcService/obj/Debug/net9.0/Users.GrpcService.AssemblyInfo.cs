@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Users.GrpcService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66ca9fa10a31a9d3ab2aec7c5717654a2811dc2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+317db79534b95e92832cc4028b22e0b6a37abdd2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Users.GrpcService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Users.GrpcService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
