@@ -4,4 +4,5 @@ namespace Auth.Domain.Services;
 
 public interface IUsersServiceClient {
     Task<UserDto> GetUserByEmail(string email);
+    Task CreateUser(UserDto user);
 }

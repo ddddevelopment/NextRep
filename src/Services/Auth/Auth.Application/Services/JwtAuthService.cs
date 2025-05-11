@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Auth.Domain.Models;
 using Auth.Domain.Services;
+using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Auth.Application.Services;
@@ -12,11 +13,14 @@ public class JwtAuthService : IAuthService
     private readonly JwtSettings _settings;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUsersServiceClient _usersServiceClient;
-    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher, IUsersServiceClient usersServiceClient)
+    private readonly IMapper _mapper;
+
+    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher, IUsersServiceClient usersServiceClient, IMapper mapper)
     {
         _settings = settings;
         _passwordHasher = passwordHasher;
         _usersServiceClient = usersServiceClient;
+        _mapper = mapper;
     }
 
     public async Task<AuthResult> Login(UserLogin login)
@@ -35,18 +39,23 @@ public class JwtAuthService : IAuthService
         return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
-    private bool Authenticate(UserDto user, string password) => _passwordHasher.VerifyPassword(password, user.PasswordHash)
+    private bool Authenticate(UserDto user, string password) => _passwordHasher.VerifyPassword(password, user.PasswordHash);
 
-    public async Task<AuthResult> Register(UserRegister user)
+    public async Task<AuthResult> Register(UserRegister register)
     {
-        bool userExists = await _usersServiceClient.GetUserByEmail(user.Email) != null;
+        bool userExists = await _usersServiceClient.GetUserByEmail(register.Email) != null;
         if (userExists) {
             return new AuthResult() { IsSuccess = false, ErrorMessage = "User already exists" };
         }
 
-        string passwordHash = _passwordHasher.HashPassword(user.Password);
+        string passwordHash = _passwordHasher.HashPassword(register.Password);
 
-        
+        UserDto user = _mapper.Map<UserDto>(register);
+
+        await _usersServiceClient.CreateUser(user);
+
+        string accessToken = GenerateAccessToken(user);
+        return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
     private string GenerateAccessToken(UserDto user) {
@@ -57,10 +66,6 @@ public class JwtAuthService : IAuthService
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email)
         };
-
-        foreach (var role in user.Roles) {
-            claims.Add(new Claim(ClaimTypes.Role, ((int)role).ToString()));
-        }
 
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor {
             Subject = new ClaimsIdentity(claims),
