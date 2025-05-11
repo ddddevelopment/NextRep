@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace Auth.Infrastructure.Users.Services
 {
-    public class UsersGrpcServiceClient : IUserServiceClient
+    public class UsersGrpcServiceClient : IUsersServiceClient
     {
         private readonly UsersGrpc.UsersGrpcClient _client;
         private readonly IMapper _mapper;

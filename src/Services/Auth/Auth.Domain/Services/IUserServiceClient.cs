@@ -2,6 +2,6 @@ using Auth.Domain.Models;
 
 namespace Auth.Domain.Services;
 
-public interface IUserServiceClient {
+public interface IUsersServiceClient {
     Task<UserDto> GetUserByEmail(string email);
 }

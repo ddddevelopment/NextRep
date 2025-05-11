@@ -11,26 +11,42 @@ public class JwtAuthService : IAuthService
 {
     private readonly JwtSettings _settings;
     private readonly IPasswordHasher _passwordHasher;
-
-    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher)
+    private readonly IUsersServiceClient _usersServiceClient;
+    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher, IUsersServiceClient usersServiceClient)
     {
         _settings = settings;
         _passwordHasher = passwordHasher;
+        _usersServiceClient = usersServiceClient;
     }
 
-    public Task<AuthResult> Authenticate(UserDto user, string password)
+    public async Task<AuthResult> Login(UserLogin login)
     {
-        if (_passwordHasher.VerifyPassword(password, user.PasswordHash) == false) {
-            return Task.FromResult(AuthResultCreator.CreateFailed("Invalid credentials"));
+        UserDto user = await _usersServiceClient.GetUserByEmail(login.Email);
+        if (user == null) {
+            return AuthResultCreator.CreateFailed($"User with email: {login.Email} not exists");
         }
 
-        if (user.IsActive == false) { 
-            return Task.FromResult(AuthResultCreator.CreateFailed("User is not active"));
+        bool isAuthenticated = Authenticate(user, login.Password);
+        if (isAuthenticated == false) {
+            return AuthResultCreator.CreateFailed("Invalid credentials");
         }
-
+        
         string accessToken = GenerateAccessToken(user);
+        return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
+    }
 
-        return Task.FromResult(AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60));
+    private bool Authenticate(UserDto user, string password) => _passwordHasher.VerifyPassword(password, user.PasswordHash)
+
+    public async Task<AuthResult> Register(UserRegister user)
+    {
+        bool userExists = await _usersServiceClient.GetUserByEmail(user.Email) != null;
+        if (userExists) {
+            return new AuthResult() { IsSuccess = false, ErrorMessage = "User already exists" };
+        }
+
+        string passwordHash = _passwordHasher.HashPassword(user.Password);
+
+        
     }
 
     private string GenerateAccessToken(UserDto user) {

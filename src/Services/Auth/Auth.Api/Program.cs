@@ -26,7 +26,7 @@ builder.Services.AddSingleton(grpcChannel);
 
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
-builder.Services.AddScoped<IUserServiceClient, UsersGrpcServiceClient>();
+builder.Services.AddScoped<IUsersServiceClient, UsersGrpcServiceClient>();
 
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
