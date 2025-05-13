@@ -5,18 +5,27 @@ option csharp_namespace = "Auth.Infrastructure.Users";
 package users;
 
 service UsersGrpc {
-    rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse);
+    rpc GetUserByEmail (GetUserRequest) returns (GetUserResponse);
+    rpc CreateUser (UserMessage) returns (CreateUserResponse);
 }
 
-message GetUserByEmailRequest {
+message GetUserRequest {
     string email = 1;
 }
 
-message GetUserByEmailResponse {
-    string id = 1;
+message GetUserResponse {
+    bool found = 1;
+    UserMessage user = 2;
+}
+
+message UserMessage {
     string name = 2;
     string email = 3;
     string passwordHash = 4;
-    repeated string roles = 5;
-    bool isActive = 6;
+    string telephone = 5;
+}
+
+message CreateUserResponse { 
+    bool success = 1;
+    string error_message = 2;
 }

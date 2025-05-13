@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Auth.Domain.Models;
 using Auth.Domain.Services;
+using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Auth.Application.Services;
@@ -11,26 +12,51 @@ public class JwtAuthService : IAuthService
 {
     private readonly JwtSettings _settings;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IUsersServiceClient _usersServiceClient;
+    private readonly IMapper _mapper;
 
-    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher)
+    public JwtAuthService(JwtSettings settings, IPasswordHasher passwordHasher, IUsersServiceClient usersServiceClient, IMapper mapper)
     {
         _settings = settings;
         _passwordHasher = passwordHasher;
+        _usersServiceClient = usersServiceClient;
+        _mapper = mapper;
     }
 
-    public Task<AuthResult> Authenticate(UserDto user, string password)
+    public async Task<AuthResult> Login(UserLogin login)
     {
-        if (_passwordHasher.VerifyPassword(password, user.PasswordHash) == false) {
-            return Task.FromResult(AuthResultCreator.CreateFailed("Invalid credentials"));
+        UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(login.Email);
+        if (userGetResult.IsSuccess == false) {
+            return AuthResult.Failure($"User with email: {login.Email} not exists");
         }
 
-        if (user.IsActive == false) { 
-            return Task.FromResult(AuthResultCreator.CreateFailed("User is not active"));
+        UserDto user = userGetResult.User;
+        bool isAuthenticated = Authenticate(user, login.Password);
+        if (isAuthenticated == false) {
+            return AuthResult.Failure("Invalid credentials");
         }
+        
+        string accessToken = GenerateAccessToken(user);
+        return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
+    }
+
+    private bool Authenticate(UserDto user, string password) => _passwordHasher.VerifyPassword(password, user.PasswordHash);
+
+    public async Task<AuthResult> Register(UserRegister register)
+    {
+        UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(register.Email);
+        if (userGetResult.IsSuccess == false) {
+            return AuthResult.Failure("User already exists");
+        }
+
+        string passwordHash = _passwordHasher.HashPassword(register.Password);
+
+        UserDto user = _mapper.Map<UserDto>(register, opt => opt.AfterMap((src, dest) => dest.PasswordHash = passwordHash));
+
+        await _usersServiceClient.CreateUser(user);
 
         string accessToken = GenerateAccessToken(user);
-
-        return Task.FromResult(AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60));
+        return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
     private string GenerateAccessToken(UserDto user) {
@@ -41,10 +67,6 @@ public class JwtAuthService : IAuthService
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email)
         };
-
-        foreach (var role in user.Roles) {
-            claims.Add(new Claim(ClaimTypes.Role, ((int)role).ToString()));
-        }
 
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor {
             Subject = new ClaimsIdentity(claims),

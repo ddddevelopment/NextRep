@@ -4,7 +4,7 @@ using Users.Domain.Models;
 namespace Users.GrpcService.Mappings {
     public class GrpcMappingProfile : Profile {
         public GrpcMappingProfile() {
-            CreateMap<User, GetUserByEmailResponse>();
+            CreateMap<User, UserMessage>().ReverseMap();
         }
     }
 }

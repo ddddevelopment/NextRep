@@ -3,10 +3,11 @@ using Auth.Domain.Services;
 using Grpc.Net.Client;
 using Auth.Infrastructure.Users;
 using AutoMapper;
+using Grpc.Core;
 
 namespace Auth.Infrastructure.Users.Services
 {
-    public class UsersGrpcServiceClient : IUserServiceClient
+    public class UsersGrpcServiceClient : IUsersServiceClient
     {
         private readonly UsersGrpc.UsersGrpcClient _client;
         private readonly IMapper _mapper;
@@ -17,12 +18,29 @@ namespace Auth.Infrastructure.Users.Services
             _mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserByEmail(string email)
+        public async Task<UserCreateResult> CreateUser(UserDto user)
         {
-            GetUserByEmailRequest request = new GetUserByEmailRequest() { Email = email };
-            GetUserByEmailResponse response = await _client.GetUserByEmailAsync(request);
-            UserDto userDto = _mapper.Map<UserDto>(response);
-            return userDto;
+            UserMessage request = _mapper.Map<UserMessage>(user);
+            CreateUserResponse response = await _client.CreateUserAsync(request);
+
+            if (response.Success == false) {
+                return UserCreateResult.Failure(response.ErrorMessage);
+            }
+
+            return UserCreateResult.Success();
+        }
+
+        public async Task<UserGetResult> GetUserByEmail(string email)
+        {
+            GetUserRequest request = new GetUserRequest() { Email = email };
+            GetUserResponse response = await _client.GetUserByEmailAsync(request);
+
+            if (response.Found == false) {
+                return UserGetResult.Failure("User not found");
+            }
+
+            UserDto user = _mapper.Map<UserDto>(response.User);
+            return UserGetResult.Success(user);
         }
     }
 }

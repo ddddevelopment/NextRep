@@ -46,17 +46,29 @@ namespace Users.GrpcService {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Users.GrpcService.GetUserByEmailRequest> __Marshaller_users_GetUserByEmailRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.GetUserByEmailRequest.Parser));
+    static readonly grpc::Marshaller<global::Users.GrpcService.GetUserRequest> __Marshaller_users_GetUserRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.GetUserRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Users.GrpcService.GetUserByEmailResponse> __Marshaller_users_GetUserByEmailResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.GetUserByEmailResponse.Parser));
+    static readonly grpc::Marshaller<global::Users.GrpcService.GetUserResponse> __Marshaller_users_GetUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.GetUserResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Users.GrpcService.UserMessage> __Marshaller_users_UserMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.UserMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Users.GrpcService.CreateUserResponse> __Marshaller_users_CreateUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.CreateUserResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Users.GrpcService.GetUserByEmailRequest, global::Users.GrpcService.GetUserByEmailResponse> __Method_GetUserByEmail = new grpc::Method<global::Users.GrpcService.GetUserByEmailRequest, global::Users.GrpcService.GetUserByEmailResponse>(
+    static readonly grpc::Method<global::Users.GrpcService.GetUserRequest, global::Users.GrpcService.GetUserResponse> __Method_GetUserByEmail = new grpc::Method<global::Users.GrpcService.GetUserRequest, global::Users.GrpcService.GetUserResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetUserByEmail",
-        __Marshaller_users_GetUserByEmailRequest,
-        __Marshaller_users_GetUserByEmailResponse);
+        __Marshaller_users_GetUserRequest,
+        __Marshaller_users_GetUserResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse> __Method_CreateUser = new grpc::Method<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "CreateUser",
+        __Marshaller_users_UserMessage,
+        __Marshaller_users_CreateUserResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -69,7 +81,13 @@ namespace Users.GrpcService {
     public abstract partial class UsersGrpcBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Users.GrpcService.GetUserByEmailResponse> GetUserByEmail(global::Users.GrpcService.GetUserByEmailRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Users.GrpcService.GetUserResponse> GetUserByEmail(global::Users.GrpcService.GetUserRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Users.GrpcService.CreateUserResponse> CreateUser(global::Users.GrpcService.UserMessage request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -82,7 +100,8 @@ namespace Users.GrpcService {
     public static grpc::ServerServiceDefinition BindService(UsersGrpcBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_GetUserByEmail, serviceImpl.GetUserByEmail).Build();
+          .AddMethod(__Method_GetUserByEmail, serviceImpl.GetUserByEmail)
+          .AddMethod(__Method_CreateUser, serviceImpl.CreateUser).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -92,7 +111,8 @@ namespace Users.GrpcService {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, UsersGrpcBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_GetUserByEmail, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.GetUserByEmailRequest, global::Users.GrpcService.GetUserByEmailResponse>(serviceImpl.GetUserByEmail));
+      serviceBinder.AddMethod(__Method_GetUserByEmail, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.GetUserRequest, global::Users.GrpcService.GetUserResponse>(serviceImpl.GetUserByEmail));
+      serviceBinder.AddMethod(__Method_CreateUser, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse>(serviceImpl.CreateUser));
     }
 
   }

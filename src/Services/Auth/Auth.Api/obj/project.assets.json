@@ -406,6 +406,7 @@
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "Auth.Domain": "1.0.0",
+          "AutoMapper": "14.0.0",
           "BCrypt.Net-Next": "4.0.3",
           "System.IdentityModel.Tokens.Jwt": "8.8.0"
         },
