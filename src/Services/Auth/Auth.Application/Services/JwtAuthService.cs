@@ -25,37 +25,38 @@ public class JwtAuthService : IAuthService
 
     public async Task<AuthResult> Login(UserLogin login)
     {
-        UserDto user = await _usersServiceClient.GetUserByEmail(login.Email);
-        if (user == null) {
-            return AuthResultCreator.CreateFailed($"User with email: {login.Email} not exists");
+        UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(login.Email);
+        if (userGetResult.IsSuccess == false) {
+            return AuthResult.Failure($"User with email: {login.Email} not exists");
         }
 
+        UserDto user = userGetResult.User;
         bool isAuthenticated = Authenticate(user, login.Password);
         if (isAuthenticated == false) {
-            return AuthResultCreator.CreateFailed("Invalid credentials");
+            return AuthResult.Failure("Invalid credentials");
         }
         
         string accessToken = GenerateAccessToken(user);
-        return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
+        return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
     private bool Authenticate(UserDto user, string password) => _passwordHasher.VerifyPassword(password, user.PasswordHash);
 
     public async Task<AuthResult> Register(UserRegister register)
     {
-        bool userExists = await _usersServiceClient.GetUserByEmail(register.Email) != null;
-        if (userExists) {
-            return new AuthResult() { IsSuccess = false, ErrorMessage = "User already exists" };
+        UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(register.Email);
+        if (userGetResult.IsSuccess == false) {
+            return AuthResult.Failure("User already exists");
         }
 
         string passwordHash = _passwordHasher.HashPassword(register.Password);
 
-        UserDto user = _mapper.Map<UserDto>(register);
+        UserDto user = _mapper.Map<UserDto>(register, opt => opt.AfterMap((src, dest) => dest.PasswordHash = passwordHash));
 
         await _usersServiceClient.CreateUser(user);
 
         string accessToken = GenerateAccessToken(user);
-        return AuthResultCreator.CreateSuccess(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
+        return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
     private string GenerateAccessToken(UserDto user) {

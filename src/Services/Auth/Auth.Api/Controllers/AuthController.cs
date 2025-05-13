@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Auth.Api.Models;
 using Auth.Domain.Services;
 using Auth.Domain.Models;
-using Auth.Application.Services;
 using AutoMapper;
 
 namespace Auth.Api.Controllers;
@@ -12,12 +11,11 @@ namespace Auth.Api.Controllers;
 public class AuthController : ControllerBase {
 
     private readonly IAuthService _service;
-    private readonly IUsersServiceClient _userServiceClient;
     private readonly IMapper _mapper;
 
-    public AuthController(IAuthService service, IUsersServiceClient userServiceClient, IMapper mapper) {
+    public AuthController(IAuthService service, IMapper mapper) {
         _service = service;
-        _userServiceClient = userServiceClient;
+        _mapper = mapper;
     }
 
     [HttpPost("login")]
@@ -40,11 +38,18 @@ public class AuthController : ControllerBase {
 
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request) {
-        var userExists = await _userServiceClient.GetUserByEmail(request.Email);
-        if (userExists != null) {
-            return Conflict("User already exists");
+        UserRegister user = _mapper.Map<UserRegister>(request);
+        AuthResult authResult = await _service.Register(user);
+
+        if (authResult.IsSuccess == false) {
+            return Unauthorized(new AuthResponse {
+                ErrorMessage = "Invalid credentials"
+            });
         }
 
-        
+        return Ok(new AuthResponse() {
+            AccessToken = authResult.AccessToken,
+            ExpiresIn = authResult.ExpiresIn
+        });
     }
 }

@@ -8,7 +8,6 @@ namespace Users.DAL.Mappings {
         {
             CreateMap<User, UserEntity>()
                 .ForMember(dest => dest.password_hash, opt => opt.MapFrom(src => src.PasswordHash))
-                .ForMember(dest => dest.is_active, opt => opt.MapFrom(src => src.IsActive))
                 .ReverseMap();
         }
     }

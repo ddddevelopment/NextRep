@@ -1,4 +1,6 @@
 using System.Text;
+using Auth.Api.Mappings;
+using Auth.Application.Mappings;
 using Auth.Application.Services;
 using Auth.Domain.Models;
 using Auth.Domain.Services;
@@ -15,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(typeof(GrpcMappingProfile));
+builder.Services.AddAutoMapper(typeof(GrpcMappingProfile), typeof(ApiMappingProfile), typeof(ApplicationMappingProfile));
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 JwtSettings jwtSettings = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<JwtSettings>>().Value;

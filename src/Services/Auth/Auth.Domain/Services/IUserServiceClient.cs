@@ -3,6 +3,6 @@ using Auth.Domain.Models;
 namespace Auth.Domain.Services;
 
 public interface IUsersServiceClient {
-    Task<UserDto> GetUserByEmail(string email);
-    Task CreateUser(UserDto user);
+    Task<UserGetResult> GetUserByEmail(string email);
+    Task<UserCreateResult> CreateUser(UserDto user);
 }

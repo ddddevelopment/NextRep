@@ -20,11 +20,5 @@ namespace Users.DAL.Entities {
 
         [Required(ErrorMessage = "password_hash is required")]
         public string password_hash { get; set; }
-
-        [Required(ErrorMessage = "roles is required")]
-        public List<Role> roles { get; set; } = new List<Role>();
-
-        [Required(ErrorMessage = "is_active is required")]
-        public bool is_active { get; set; }
     }
 }
