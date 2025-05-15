@@ -17,6 +17,8 @@
 build/
 dist/
 out/
+bin/
+obj/
 
 .DS_Store
 .env
@@ -31,4 +33,21 @@ yarn-error.log*
 
 *.swp
 *~
-.*.swp 
+.*.swp
+
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+**/obj/**/AssemblyInfo.cs
+**/obj/**/*.AssemblyInfoInputs.cache

@@ -6,8 +6,8 @@ namespace Users.Api.Mappings {
     public class ApiMappingProfile : Profile {
         public ApiMappingProfile()
         {
-            CreateMap<UserCreateDto, User>();
-            CreateMap<User, UserGetDto>();
+            CreateMap<UserCreateRequest, User>();
+            CreateMap<User, UserGetResponse>();
             CreateMap<UserUpdateDto, User>().ReverseMap();
         }
     }
