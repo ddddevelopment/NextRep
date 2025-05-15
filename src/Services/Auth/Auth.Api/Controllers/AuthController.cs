@@ -26,7 +26,7 @@ public class AuthController : ControllerBase {
         
         if (authResult.IsSuccess == false) {
             return Unauthorized(new AuthResponse {
-                ErrorMessage = "Invalid credentials"
+                ErrorMessage = authResult.ErrorMessage
             });
         }
 
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase {
 
         if (authResult.IsSuccess == false) {
             return Unauthorized(new AuthResponse {
-                ErrorMessage = "Invalid credentials"
+                ErrorMessage = authResult.ErrorMessage
             });
         }
 

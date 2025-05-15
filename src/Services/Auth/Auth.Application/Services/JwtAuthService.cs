@@ -26,7 +26,7 @@ public class JwtAuthService : IAuthService
     public async Task<AuthResult> Login(UserLogin login)
     {
         UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(login.Email);
-        if (userGetResult.IsSuccess == false) {
+        if (userGetResult.Found == false) {
             return AuthResult.Failure($"User with email: {login.Email} not exists");
         }
 
@@ -45,7 +45,7 @@ public class JwtAuthService : IAuthService
     public async Task<AuthResult> Register(UserRegister register)
     {
         UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(register.Email);
-        if (userGetResult.IsSuccess == false) {
+        if (userGetResult.Found) {
             return AuthResult.Failure("User already exists");
         }
 

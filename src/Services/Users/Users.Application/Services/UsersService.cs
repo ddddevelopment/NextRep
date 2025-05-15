@@ -1,101 +1,121 @@
-using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Repositories;
 using Users.Domain.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Users.Application.Services {
+namespace Users.Application.Services
+{
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _repository;
         private readonly ILogger<UsersService>? _logger;
 
         public UsersService(IUsersRepository repository, ILogger<UsersService>? logger = null)
-        {   
-            _repository = repository;    
+        {
+            _repository = repository;
             _logger = logger;
         }
 
-        public async Task Create(User user)
+        public async Task<Result> Create(User user)
         {
             _logger?.LogDebug("Attempting to create user: {@User}", user);
 
-            if (user == null) {
-                _logger?.LogWarning("User is null");
-                throw new ArgumentNullException("User must be not null");
+            if (user == null)
+            {
+                string errorMessage = "User is null";
+                _logger?.LogWarning(errorMessage);
+                return Result.Invalid(errorMessage);
             }
 
             _logger?.LogDebug("Checking if user with email {Email} exists", user.Email);
             bool isUserExists = await _repository.ExistsByEmail(user.Email);
-            if (isUserExists) {
+            if (isUserExists)
+            {
                 _logger?.LogWarning("User with email {Email} already exists", user.Email);
-                throw new UserAlreadyExistsException(user.Email);
+                return Result.Conflict($"User with email: {user.Email} already exists");
             }
-            
-            await _repository.Add(user);
 
-            _logger?.LogInformation("User created successfully: {@User}", user);
+            Result result = await _repository.Add(user);
+
+            if (result.IsSuccess)
+            {
+                _logger?.LogInformation("User created successfully: {@User}", user);
+            }
+
+            return result;
         }
 
-        public async Task<User> GetById(Guid id)
+        public async Task<Result<User>> GetById(Guid id)
         {
             _logger?.LogDebug("Fetching user with ID: {UserId}", id);
 
-            User user = await _repository.GetById(id);
+            Result<User> result = await _repository.GetById(id);
 
-            if (user == null) {
-                _logger?.LogWarning("User with ID {UserId} not found", id);
-                throw new UserNotFoundException<Guid>(id);
+            if (result.IsSuccess)
+            {
+                _logger?.LogInformation("User retrieved successfully: {@User}", result.Value);
             }
 
-            _logger?.LogInformation("User retrieved successfully: {@User}", user);
-            return user;
+            return result;
         }
 
-        public async Task<User> GetByEmail(string email)
+        public async Task<Result<User>> GetByEmail(string email)
         {
             _logger?.LogDebug("Fetching user with email: {Email}", email);
-            
-            User user = await _repository.GetByEmail(email);
 
-            if (user == null) {
-                _logger?.LogWarning("User with email: {Email} not found", email);
-                throw new UserNotFoundException<string>(email);
+            Result<User> result = await _repository.GetByEmail(email);
+
+            if (result.IsSuccess)
+            {
+                _logger?.LogInformation("User retrieved successfully: {@User}", result.Value);
             }
-
-            _logger?.LogInformation("User retrieved successfully: {@User}", user);
-            return user;
+            
+            return result;
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<Result<IEnumerable<User>>> GetAll()
         {
             _logger?.LogDebug("Fetching all users");
 
-            IEnumerable<User> users = await _repository.GetAll();
-            _logger?.LogInformation("Successfully retrieved all users");
-            return users;
+            Result<IEnumerable<User>> result = await _repository.GetAll();
+
+            if (result.IsSuccess) {
+                _logger?.LogInformation("Successfully retrieved all users");
+            }
+            
+            return result;
         }
 
-        public async Task<User> Update(User user)
+        public async Task<Result<User>> Update(User user)
         {
             _logger?.LogDebug("Attempting to update user: {@User}", user);
 
-            if (user == null) {
+            if (user == null)
+            {
                 _logger?.LogWarning("User is null");
-                throw new ArgumentNullException("User must be not null");
+                return Result<User>.Invalid($"User must not be null");
             }
 
-            User updatedUser = await _repository.Update(user);
-            _logger?.LogInformation("User updated successfully: {@User}", updatedUser);
-            return updatedUser;
-        }
-        
-        public async Task Delete(Guid id)
-        {
-            _logger?.LogDebug("Attempting to delete user with ID: {UserId}", id);
-            await _repository.Remove(id);
-            _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
+            Result<User> result = await _repository.Update(user);
+
+            if (result.IsSuccess) {
+                _logger?.LogInformation("User updated successfully: {@User}", result.Value);
+            }
+            
+            return result;
         }
 
+        public async Task<Result> Delete(Guid id)
+        {
+            _logger?.LogDebug("Attempting to delete user with ID: {UserId}", id);
+
+            Result result = await _repository.Remove(id);
+
+            if (result.IsSuccess) {
+                _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
+            }
+            
+            return result;
+        }
     }
 }

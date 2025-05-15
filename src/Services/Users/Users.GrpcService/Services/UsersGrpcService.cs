@@ -1,7 +1,6 @@
 using AutoMapper;
 using Grpc.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Services;
 using Users.GrpcService;
@@ -21,21 +20,29 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
 
     public override async Task<GetUserResponse> GetUserByEmail(GetUserRequest request, ServerCallContext context)
     {
-        try
+        Result<User> getUserResult = await _usersService.GetByEmail(request.Email);
+
+        if (getUserResult.IsSuccess)
         {
-            User user = await _usersService.GetByEmail(request.Email);
-            UserMessage userMessage = _mapper.Map<UserMessage>(user);
+            UserMessage userMessage = _mapper.Map<UserMessage>(getUserResult.Value);
             return new GetUserResponse() { Found = true, User = userMessage };
         }
-        catch (UserNotFoundException<string>) {
-            return new GetUserResponse() { Found = true };
+        else {
+            return new GetUserResponse() { Found = false };
         }
     }
 
     public override async Task<CreateUserResponse> CreateUser(UserMessage request, ServerCallContext context)
     {
         User user = _mapper.Map<User>(request);
-        await _usersService.Create(user);
-        return new CreateUserResponse();
+        Result createResult = await _usersService.Create(user);
+
+        if (createResult.IsSuccess)
+        {
+            return new CreateUserResponse() { Success = true };
+        }
+        else {
+            return new CreateUserResponse() { ErrorMessage = createResult.Error.Message };
+        }
     }
 }

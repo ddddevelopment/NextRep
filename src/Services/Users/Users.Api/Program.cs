@@ -35,7 +35,7 @@ builder.Services.AddDbContext<UsersDbContext>(options =>
 builder.Services.AddScoped<IUsersRepository, UsersEFRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 
-builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequest>();
 builder.Services.AddFluentValidationAutoValidation();
 
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();

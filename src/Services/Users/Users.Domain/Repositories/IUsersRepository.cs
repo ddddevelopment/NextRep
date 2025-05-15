@@ -2,12 +2,12 @@ using Users.Domain.Models;
 
 namespace Users.Domain.Repositories {
     public interface IUsersRepository {
-        Task Add(User user);
-        Task<User> GetById(Guid id);
-        Task<User> GetByEmail(string email);
-        Task<IEnumerable<User>> GetAll();
-        Task<User> Update(User user);
-        Task Remove(Guid id);
+        Task<Result> Add(User user);
+        Task<Result<User>> GetById(Guid id);
+        Task<Result<User>> GetByEmail(string email);
+        Task<Result<IEnumerable<User>>> GetAll();
+        Task<Result<User>> Update(User user);
+        Task<Result> Remove(Guid id);
         Task<bool> ExistsByEmail(string email);
     }
 }

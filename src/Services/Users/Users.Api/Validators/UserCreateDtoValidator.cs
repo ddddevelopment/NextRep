@@ -3,7 +3,7 @@ using Users.Api.Models;
 
 namespace Users.Api.Validators;
 
-public class UserCreateDtoValidator : AbstractValidator<UserCreateDto> {
+public class UserCreateDtoValidator : AbstractValidator<UserCreateRequest> {
     public UserCreateDtoValidator()
     {
         RuleFor(x => x.Name)

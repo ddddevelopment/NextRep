@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Models;
-using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Services;
 
@@ -23,117 +22,159 @@ namespace Users.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(UserCreateDto userDto)
+        public async Task<ActionResult> Create(UserCreateRequest userDto)
         {
             _logger?.LogInformation("Received request to create a new user: {@UserDto}", userDto);
             User user = _mapper.Map<User>(userDto);
 
-            try
+            Result createResult = await _service.Create(user);
+
+            if (createResult.IsSuccess)
             {
-                await _service.Create(user);
                 _logger?.LogInformation("User created successfully: {@User}", user);
                 return Created();
             }
-            catch (UserAlreadyExistsException exception)
+            else
             {
-                _logger?.LogWarning(exception, "User already exists: {@UserDto}", userDto);
-                return Conflict(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                _logger?.LogError(exception, "An error occurred while creating a user: {@UserDto}", userDto);
-                return BadRequest(exception.Message);
+                switch (createResult.Error.Type)
+                {
+                    case ErrorType.Conflict:
+                        {
+                            _logger?.LogWarning(createResult.Error.Message, "User already exists: {@UserDto}", userDto);
+                            return Conflict(createResult.Error.Message);
+                        }
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError(createResult.Error.Message, "An error occurred while creating a user: {@UserDto}", userDto);
+                            return BadRequest(createResult.Error.Message);
+                        }
+                }
             }
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<UserGetDto>> GetById(Guid id)
+        public async Task<ActionResult<UserGetResponse>> GetById(Guid id)
         {
             _logger?.LogInformation("Received request to get user with ID: {UserId}", id);
 
-            try
+            Result<User> getResult = await _service.GetById(id);
+
+            if (getResult.IsSuccess)
             {
-                User user = await _service.GetById(id);
-                UserGetDto result = _mapper.Map<UserGetDto>(user);
-                _logger?.LogInformation("User retrieved successfully: {@User}", result);
-                return Ok(result);
+                var response = _mapper.Map<UserGetResponse>(getResult.Value);
+                _logger?.LogInformation("User retrieved successfully: {@User}", response);
+                return Ok(response);
             }
-            catch (UserNotFoundException<Guid> exception)
+            else
             {
-                _logger?.LogWarning(exception, "User not found with ID: {UserId}", id);
-                return NotFound(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                _logger?.LogError(exception, "An error occurred while retrieving user with ID: {UserId}", id);
-                return BadRequest(exception.Message);
+                switch (getResult.Error.Type)
+                {
+                    case ErrorType.NotFound:
+                        {
+                            _logger?.LogWarning("User not found with ID: {UserId}", id);
+                            return NotFound();
+                        }
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError("An error occurred while retrieving user with ID: {UserId}", id);
+                            return BadRequest($"An error occurred while retrieving user with ID: {id}");
+                        }
+                }
             }
         }
 
         [HttpGet("by-email/{email}")]
-        public async Task<ActionResult<UserGetDto>> GetByEmail(string email)
+        public async Task<ActionResult<UserGetResponse>> GetByEmail(string email)
         {
             _logger?.LogInformation("Received request to get user with email: {Email}", email);
 
-            try
+
+            Result<User> getResult = await _service.GetByEmail(email);
+
+            if (getResult.IsSuccess)
             {
-                User user = await _service.GetByEmail(email);
-                UserGetDto result = _mapper.Map<UserGetDto>(user);
-                _logger?.LogInformation("User retrieved successfully: {@User}", result);
-                return Ok(result);
+                UserGetResponse response = _mapper.Map<UserGetResponse>(getResult.Value);
+                _logger?.LogInformation("User retrieved successfully: {@User}", response);
+                return Ok(response);
             }
-            catch (UserNotFoundException<string> exception)
+            else
             {
-                _logger?.LogWarning(exception, "User not found with email: {Email}", email);
-                return NotFound(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                _logger?.LogError(exception, "An error occurred while retrieving user with email: {Email}", email);
-                return BadRequest(exception.Message);
+                switch (getResult.Error.Type)
+                {
+                    case ErrorType.NotFound:
+                        {
+                            _logger?.LogWarning("User not found with email: {Email}", email);
+                            return NotFound();
+                        }
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError("An error occurred while retrieving user with email: {Email}", email);
+                            return BadRequest($"An error occurred while retrieving user with email: {email}");
+                        }
+                }
             }
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserGetDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserGetResponse>>> GetAll()
         {
             _logger?.LogInformation("Received request to get all users");
 
-            try
+            Result<IEnumerable<User>> getAllResult = await _service.GetAll();
+
+            if (getAllResult.IsSuccess)
             {
-                IEnumerable<User> users = await _service.GetAll();
-                IEnumerable<UserGetDto> result = _mapper.Map<IEnumerable<UserGetDto>>(users);
+                IEnumerable<UserGetResponse> response = _mapper.Map<IEnumerable<UserGetResponse>>(getAllResult.Value);
                 _logger?.LogInformation("Successfully retrieved all users");
-                return Ok(result);
+                return Ok(response);
             }
-            catch (Exception exception)
+            else
             {
-                _logger?.LogError(exception, "An error occurred while retrieving all users");
-                return BadRequest(exception.Message);
+                switch (getAllResult.Error.Type)
+                {
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError("An error occurred while retrieving all users");
+                            return BadRequest("An error occurred while retrieving all users");
+                        }
+                }
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserUpdateDto>> Update(UserUpdateDto userDto)
+        public async Task<ActionResult> Update(UserUpdateDto userDto)
         {
             _logger?.LogInformation("Received request to update user: {@UserDto}", userDto);
-            try
+
+            User user = _mapper.Map<User>(userDto);
+            Result<User> updateResult = await _service.Update(user);
+
+            if (updateResult.IsSuccess)
             {
-                User user = _mapper.Map<User>(userDto);
-                User updatedUser = await _service.Update(user);
-                UserUpdateDto result = _mapper.Map<UserUpdateDto>(updatedUser);
-                _logger?.LogInformation("User updated successfully: {@User}", result);
-                return Ok(result);
+                UserUpdateDto response = _mapper.Map<UserUpdateDto>(updateResult.Value);
+                _logger?.LogInformation("User updated successfully: {@User}", response);
+                return Ok(response);
             }
-            catch (UserNotFoundException<Guid> exception)
+            else
             {
-                _logger?.LogWarning(exception, "User not found for update: {@UserDto}", userDto);
-                return NotFound(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                _logger?.LogError(exception, "An error occurred while updating user: {@UserDto}", userDto);
-                return BadRequest(exception.Message);
+                switch (updateResult.Error.Type)
+                {
+                    case ErrorType.NotFound:
+                        {
+                            _logger?.LogWarning("User not found for update: {@UserDto}", userDto);
+                            return NotFound();
+                        }
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError("An error occurred while updating user: {@UserDto}", userDto);
+                            return BadRequest($"An error occurred while updating user");
+                        }
+                }
             }
         }
 
@@ -142,21 +183,28 @@ namespace Users.Api.Controllers
         {
             _logger?.LogInformation("Received request to delete user with ID: {UserId}", id);
 
-            try
+            Result deleteResult = await _service.Delete(id);
+            if (deleteResult.IsSuccess)
             {
-                await _service.Delete(id);
                 _logger?.LogInformation("User deleted successfully with ID: {UserId}", id);
                 return NoContent();
             }
-            catch (UserNotFoundException<Guid> exception)
+            else
             {
-                _logger?.LogWarning(exception, "User not found for deletion with ID: {UserId}", id);
-                return NotFound(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                _logger?.LogError(exception, "An error occurred while deleting user with ID: {UserId}", id);
-                return BadRequest(exception.Message);
+                switch (deleteResult.Error.Type)
+                {
+                    case ErrorType.NotFound:
+                        {
+                            _logger?.LogWarning("User not found for deletion with ID: {UserId}", id);
+                            return NotFound();
+                        }
+                    case ErrorType.Unknown:
+                    default:
+                        {
+                            _logger?.LogError("An error occurred while deleting user with ID: {UserId}", id);
+                            return BadRequest($"An error occurred while deleting user with ID: {id}");
+                        }
+                }
             }
         }
     }
