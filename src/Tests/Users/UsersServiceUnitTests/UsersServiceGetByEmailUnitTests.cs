@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
 using Users.Application.Services;
-using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Repositories;
 using Xunit;
@@ -24,28 +23,58 @@ public class UsersServiceGetByEmailUnitTests
     }
 
     [Fact]
-    public async Task GetByEmail_UserExists_ReturnUser()
+    public async Task GetByEmail_UserExists_ReturnSuccessResult()
     {
+        // Arrange
         User expectedUser = _fixture.Create<User>();
         string email = expectedUser.Email;
-        _repositoryMock.Setup(repository => repository.GetByEmail(email)).ReturnsAsync(expectedUser);
+        _repositoryMock.Setup(repository => repository.GetByEmail(email))
+            .ReturnsAsync(Result<User>.Success(expectedUser));
 
-        User result = await _service.GetByEmail(email);
+        // Act
+        var result = await _service.GetByEmail(email);
 
-        Assert.Equal(expectedUser, result);
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(expectedUser, result.Value);
         _repositoryMock.Verify(repository => repository.GetByEmail(email), Times.Once);
     }
 
     [Fact]
-    public async Task GetByEmail_UserDoesNotExist_ShouldThrowUserNotFoundException()
+    public async Task GetByEmail_UserDoesNotExist_ReturnNotFoundResult()
     {
         // Arrange
         string email = _fixture.Create<string>();
-        User expectedUser = null;
-        _repositoryMock.Setup(repository => repository.GetByEmail(email)).ReturnsAsync(expectedUser);
+        string expectedErrorMessage = $"User with email: {email} not found";
+        _repositoryMock.Setup(repository => repository.GetByEmail(email))
+            .ReturnsAsync(Result<User>.NotFound(expectedErrorMessage));
 
-        // Act & Assert
-        await Assert.ThrowsAsync<UserNotFoundException<string>>(() => _service.GetByEmail(email));
+        // Act
+        var result = await _service.GetByEmail(email);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorType.NotFound, result.Error.Type);
+        Assert.Equal(expectedErrorMessage, result.Error.Message);
+        _repositoryMock.Verify(repository => repository.GetByEmail(email), Times.Once);
+    }
+    
+    [Fact]
+    public async Task GetByEmail_RepositoryFailure_ReturnFailureResult()
+    {
+        // Arrange
+        string email = _fixture.Create<string>();
+        string expectedErrorMessage = "Database error";
+        _repositoryMock.Setup(repository => repository.GetByEmail(email))
+            .ReturnsAsync(Result<User>.Failure(expectedErrorMessage));
+
+        // Act
+        var result = await _service.GetByEmail(email);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorType.Unknown, result.Error.Type);
+        Assert.Equal(expectedErrorMessage, result.Error.Message);
         _repositoryMock.Verify(repository => repository.GetByEmail(email), Times.Once);
     }
 } 

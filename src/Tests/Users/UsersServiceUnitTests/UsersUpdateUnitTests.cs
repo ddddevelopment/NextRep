@@ -1,13 +1,13 @@
 using AutoFixture;
 using Moq;
 using Users.Application.Services;
-using Users.Domain.Exceptions;
 using Users.Domain.Models;
 using Users.Domain.Repositories;
 
 namespace UsersUnitTests;
 
-public class UsersUpdateUnitTests {
+public class UsersUpdateUnitTests 
+{
     private readonly Mock<IUsersRepository> _repositoryMock;
     private readonly UsersService _service;
     private readonly IFixture _fixture;
@@ -20,30 +20,74 @@ public class UsersUpdateUnitTests {
     }
 
     [Fact]
-    public async Task Update_ShouldUpdateAndReturnUser() {
-        User oldUser = _fixture.Create<User>();
-        User expectedNewUser = _fixture.Build<User>().With(user => user.Id, oldUser.Id).Create();
-        _repositoryMock.Setup(repository => repository.Update(oldUser)).ReturnsAsync(expectedNewUser);
-
-        User newUser = await _service.Update(oldUser);
-
-        _repositoryMock.Verify(repository => repository.Update(oldUser), Times.Once);
-        Assert.Equal(oldUser.Id, newUser.Id);
-        Assert.Equal(newUser, expectedNewUser);
-    }
-
-    [Fact]
-    public async Task Update_NonExistentUser_ShouldThrowUserNotFoundException() {
+    public async Task Update_ValidUser_ReturnSuccessResult() 
+    {
+        // Arrange
         User user = _fixture.Create<User>();
-        _repositoryMock.Setup(repository => repository.Update(user)).ThrowsAsync(new UserNotFoundException<Guid>(user.Id));
+        User updatedUser = _fixture.Build<User>().With(u => u.Id, user.Id).Create();
+        _repositoryMock.Setup(repository => repository.Update(user))
+            .ReturnsAsync(Result<User>.Success(updatedUser));
 
-        await Assert.ThrowsAsync<UserNotFoundException<Guid>>(() => _service.Update(user));
+        // Act
+        var result = await _service.Update(user);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(updatedUser, result.Value);
+        _repositoryMock.Verify(repository => repository.Update(user), Times.Once);
     }
 
     [Fact]
-    public async Task Update_NullUser_ShouldThrowsArgumentNullException() {
+    public async Task Update_NullUser_ReturnInvalidResult() 
+    {
+        // Arrange
         User user = null;
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _service.Update(user));
+        // Act
+        var result = await _service.Update(user);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorType.Validation, result.Error.Type);
+        Assert.Contains("must not be null", result.Error.Message);
+        _repositoryMock.Verify(repository => repository.Update(It.IsAny<User>()), Times.Never);
+    }
+    
+    [Fact]
+    public async Task Update_UserNotFound_ReturnNotFoundResult() 
+    {
+        // Arrange
+        User user = _fixture.Create<User>();
+        string expectedErrorMessage = $"User with ID: {user.Id} not found";
+        _repositoryMock.Setup(repository => repository.Update(user))
+            .ReturnsAsync(Result<User>.NotFound(expectedErrorMessage));
+
+        // Act
+        var result = await _service.Update(user);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorType.NotFound, result.Error.Type);
+        Assert.Equal(expectedErrorMessage, result.Error.Message);
+        _repositoryMock.Verify(repository => repository.Update(user), Times.Once);
+    }
+    
+    [Fact]
+    public async Task Update_RepositoryFailure_ReturnFailureResult() 
+    {
+        // Arrange
+        User user = _fixture.Create<User>();
+        string expectedErrorMessage = "Database error";
+        _repositoryMock.Setup(repository => repository.Update(user))
+            .ReturnsAsync(Result<User>.Failure(expectedErrorMessage));
+
+        // Act
+        var result = await _service.Update(user);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorType.Unknown, result.Error.Type);
+        Assert.Equal(expectedErrorMessage, result.Error.Message);
+        _repositoryMock.Verify(repository => repository.Update(user), Times.Once);
     }
 }
