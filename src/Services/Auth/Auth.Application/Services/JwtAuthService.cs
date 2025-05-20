@@ -26,16 +26,23 @@ public class JwtAuthService : IAuthService
     public async Task<AuthResult> Login(UserLogin login)
     {
         UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(login.Email);
-        if (userGetResult.Found == false) {
-            return AuthResult.Failure($"User with email: {login.Email} not exists");
+        if (userGetResult.IsSuccess == false)
+        {
+            return AuthResult.Failure($"Error occurred while getting user: {userGetResult.ErrorMessage}");
+        }
+
+        if (userGetResult.IsFound == false)
+        {
+            return AuthResult.Failure($"User with email: {login.Email} not found");
         }
 
         UserDto user = userGetResult.User;
         bool isAuthenticated = Authenticate(user, login.Password);
-        if (isAuthenticated == false) {
+        if (isAuthenticated == false)
+        {
             return AuthResult.Failure("Invalid credentials");
         }
-        
+
         string accessToken = GenerateAccessToken(user);
         return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
@@ -45,7 +52,14 @@ public class JwtAuthService : IAuthService
     public async Task<AuthResult> Register(UserRegister register)
     {
         UserGetResult userGetResult = await _usersServiceClient.GetUserByEmail(register.Email);
-        if (userGetResult.Found) {
+
+        if (userGetResult.IsSuccess == false)
+        {
+            return AuthResult.Failure($"Error occurred while getting user: {userGetResult.ErrorMessage}");
+        }
+
+        if (userGetResult.IsFound)
+        {
             return AuthResult.Failure("User already exists");
         }
 
@@ -53,13 +67,19 @@ public class JwtAuthService : IAuthService
 
         UserDto user = _mapper.Map<UserDto>(register, opt => opt.AfterMap((src, dest) => dest.PasswordHash = passwordHash));
 
-        await _usersServiceClient.CreateUser(user);
+        UserCreateResult userCreateResult = await _usersServiceClient.CreateUser(user);
+
+        if (userCreateResult.IsSuccess == false)
+        {
+            return AuthResult.Failure($"Error occured while creating user: {userCreateResult.ErrorMessage}");
+        }
 
         string accessToken = GenerateAccessToken(user);
         return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 
-    private string GenerateAccessToken(UserDto user) {
+    private string GenerateAccessToken(UserDto user)
+    {
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         byte[] key = Encoding.ASCII.GetBytes(_settings.SecretKey);
         List<Claim> claims = new List<Claim> {
@@ -68,7 +88,8 @@ public class JwtAuthService : IAuthService
             new Claim(ClaimTypes.Email, user.Email)
         };
 
-        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor {
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+        {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(_settings.AccessTokenExpirationMinutes),
             Issuer = _settings.Issuer,

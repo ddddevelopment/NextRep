@@ -23,7 +23,8 @@ namespace Auth.Infrastructure.Users.Services
             UserMessage request = _mapper.Map<UserMessage>(user);
             CreateUserResponse response = await _client.CreateUserAsync(request);
 
-            if (response.Success == false) {
+            if (response.Success == false)
+            {
                 return UserCreateResult.Failure(response.ErrorMessage);
             }
 
@@ -35,12 +36,18 @@ namespace Auth.Infrastructure.Users.Services
             GetUserRequest request = new GetUserRequest() { Email = email };
             GetUserResponse response = await _client.GetUserByEmailAsync(request);
 
-            if (response.Found == false) {
-                return UserGetResult.Failure("User not found");
+            if (response.Success == true)
+            {
+                if (response.Found)
+                {
+                    UserDto user = _mapper.Map<UserDto>(response.User);
+                    return UserGetResult.Found(user);
+                }
+
+                return UserGetResult.NotFound();
             }
 
-            UserDto user = _mapper.Map<UserDto>(response.User);
-            return UserGetResult.Success(user);
+            return UserGetResult.Failure(response.ErrorMessage);
         }
     }
 }

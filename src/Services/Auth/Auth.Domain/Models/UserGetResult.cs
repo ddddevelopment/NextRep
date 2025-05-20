@@ -1,10 +1,16 @@
 namespace Auth.Domain.Models;
 
-public class UserGetResult {
-    public bool Found { get; set; }
+public class UserGetResult : UserResult {
+    public bool IsFound { get; set; }
     public UserDto? User { get; set; }
-    public string? ErrorMessage { get; set; }
 
-    public static UserGetResult Success(UserDto user) => new UserGetResult() { Found = true, User = user };
-    public static UserGetResult Failure(string errorMessage) => new UserGetResult() { Found = false, ErrorMessage = errorMessage };
+    public UserGetResult(bool isFound, UserDto? user = default, bool isSuccess = true, string? errorMessage = null) : base(isSuccess, errorMessage)
+    {
+        IsFound = isFound;
+        User = user;
+    }
+
+    public static UserGetResult Found(UserDto user) => new UserGetResult(true, user: user);
+    public static UserGetResult NotFound() => new UserGetResult(false);
+    public static UserGetResult Failure(string errorMessage) => new UserGetResult(false, isSuccess: false, errorMessage: errorMessage);
 }

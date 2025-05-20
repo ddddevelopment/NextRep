@@ -31,7 +31,6 @@
           }
         }
       },
->>>>>>> users
       "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
         "type": "package",
         "compile": {
@@ -241,7 +240,6 @@
         "readme.md"
       ]
     },
->>>>>>> users
     "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
       "sha512": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg==",
       "type": "package",
@@ -555,7 +553,6 @@
       "Auth.Domain >= 1.0.0",
       "AutoMapper >= 14.0.0",
       "BCrypt.Net-Next >= 4.0.3",
->>>>>>> users
       "System.IdentityModel.Tokens.Jwt >= 8.8.0"
     ]
   },
@@ -614,7 +611,6 @@
             "target": "Package",
             "version": "[4.0.3, )"
           },
->>>>>>> users
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[8.8.0, )"
@@ -639,5 +635,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Ошибка чтения файла кэша D:\\Programming\\Projects\\NextRep\\src\\Services\\Auth\\Auth.Application\\obj\\project.nuget.cache: Unexpected character encountered while parsing value: >. Path 'expectedPackageFiles[1]', line 9, position 0."
+    }
+  ]
 }

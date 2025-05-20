@@ -25,21 +25,21 @@ namespace Auth.Infrastructure.Users {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChJQcm90b3MvdXNlcnMucHJvdG8SBXVzZXJzIh8KDkdldFVzZXJSZXF1ZXN0",
-            "Eg0KBWVtYWlsGAEgASgJIkIKD0dldFVzZXJSZXNwb25zZRINCgVmb3VuZBgB",
-            "IAEoCBIgCgR1c2VyGAIgASgLMhIudXNlcnMuVXNlck1lc3NhZ2UiUwoLVXNl",
-            "ck1lc3NhZ2USDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRIUCgxwYXNz",
-            "d29yZEhhc2gYBCABKAkSEQoJdGVsZXBob25lGAUgASgJIjwKEkNyZWF0ZVVz",
-            "ZXJSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIEhUKDWVycm9yX21lc3NhZ2UY",
-            "AiABKAkyiQEKCVVzZXJzR3JwYxI/Cg5HZXRVc2VyQnlFbWFpbBIVLnVzZXJz",
-            "LkdldFVzZXJSZXF1ZXN0GhYudXNlcnMuR2V0VXNlclJlc3BvbnNlEjsKCkNy",
-            "ZWF0ZVVzZXISEi51c2Vycy5Vc2VyTWVzc2FnZRoZLnVzZXJzLkNyZWF0ZVVz",
-            "ZXJSZXNwb25zZUIcqgIZQXV0aC5JbmZyYXN0cnVjdHVyZS5Vc2Vyc2IGcHJv",
-            "dG8z"));
+            "Eg0KBWVtYWlsGAEgASgJImoKD0dldFVzZXJSZXNwb25zZRIPCgdzdWNjZXNz",
+            "GAEgASgIEg0KBWZvdW5kGAIgASgIEiAKBHVzZXIYAyABKAsyEi51c2Vycy5V",
+            "c2VyTWVzc2FnZRIVCg1lcnJvcl9tZXNzYWdlGAQgASgJIlMKC1VzZXJNZXNz",
+            "YWdlEgwKBG5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkSFAoMcGFzc3dvcmRI",
+            "YXNoGAQgASgJEhEKCXRlbGVwaG9uZRgFIAEoCSI8ChJDcmVhdGVVc2VyUmVz",
+            "cG9uc2USDwoHc3VjY2VzcxgBIAEoCBIVCg1lcnJvcl9tZXNzYWdlGAIgASgJ",
+            "MokBCglVc2Vyc0dycGMSPwoOR2V0VXNlckJ5RW1haWwSFS51c2Vycy5HZXRV",
+            "c2VyUmVxdWVzdBoWLnVzZXJzLkdldFVzZXJSZXNwb25zZRI7CgpDcmVhdGVV",
+            "c2VyEhIudXNlcnMuVXNlck1lc3NhZ2UaGS51c2Vycy5DcmVhdGVVc2VyUmVz",
+            "cG9uc2VCHKoCGUF1dGguSW5mcmFzdHJ1Y3R1cmUuVXNlcnNiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.GetUserRequest), global::Auth.Infrastructure.Users.GetUserRequest.Parser, new[]{ "Email" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.GetUserResponse), global::Auth.Infrastructure.Users.GetUserResponse.Parser, new[]{ "Found", "User" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.GetUserResponse), global::Auth.Infrastructure.Users.GetUserResponse.Parser, new[]{ "Success", "Found", "User", "ErrorMessage" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.UserMessage), global::Auth.Infrastructure.Users.UserMessage.Parser, new[]{ "Name", "Email", "PasswordHash", "Telephone" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.CreateUserResponse), global::Auth.Infrastructure.Users.CreateUserResponse.Parser, new[]{ "Success", "ErrorMessage" }, null, null, null, null)
           }));
@@ -281,8 +281,10 @@ namespace Auth.Infrastructure.Users {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public GetUserResponse(GetUserResponse other) : this() {
+      success_ = other.success_;
       found_ = other.found_;
       user_ = other.user_ != null ? other.user_.Clone() : null;
+      errorMessage_ = other.errorMessage_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -292,8 +294,20 @@ namespace Auth.Infrastructure.Users {
       return new GetUserResponse(this);
     }
 
+    /// <summary>Field number for the "success" field.</summary>
+    public const int SuccessFieldNumber = 1;
+    private bool success_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Success {
+      get { return success_; }
+      set {
+        success_ = value;
+      }
+    }
+
     /// <summary>Field number for the "found" field.</summary>
-    public const int FoundFieldNumber = 1;
+    public const int FoundFieldNumber = 2;
     private bool found_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -305,7 +319,7 @@ namespace Auth.Infrastructure.Users {
     }
 
     /// <summary>Field number for the "user" field.</summary>
-    public const int UserFieldNumber = 2;
+    public const int UserFieldNumber = 3;
     private global::Auth.Infrastructure.Users.UserMessage user_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -313,6 +327,18 @@ namespace Auth.Infrastructure.Users {
       get { return user_; }
       set {
         user_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "error_message" field.</summary>
+    public const int ErrorMessageFieldNumber = 4;
+    private string errorMessage_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ErrorMessage {
+      get { return errorMessage_; }
+      set {
+        errorMessage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -331,8 +357,10 @@ namespace Auth.Infrastructure.Users {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Success != other.Success) return false;
       if (Found != other.Found) return false;
       if (!object.Equals(User, other.User)) return false;
+      if (ErrorMessage != other.ErrorMessage) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -340,8 +368,10 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (Success != false) hash ^= Success.GetHashCode();
       if (Found != false) hash ^= Found.GetHashCode();
       if (user_ != null) hash ^= User.GetHashCode();
+      if (ErrorMessage.Length != 0) hash ^= ErrorMessage.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -360,13 +390,21 @@ namespace Auth.Infrastructure.Users {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Found != false) {
+      if (Success != false) {
         output.WriteRawTag(8);
+        output.WriteBool(Success);
+      }
+      if (Found != false) {
+        output.WriteRawTag(16);
         output.WriteBool(Found);
       }
       if (user_ != null) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteMessage(User);
+      }
+      if (ErrorMessage.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(ErrorMessage);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -378,13 +416,21 @@ namespace Auth.Infrastructure.Users {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Found != false) {
+      if (Success != false) {
         output.WriteRawTag(8);
+        output.WriteBool(Success);
+      }
+      if (Found != false) {
+        output.WriteRawTag(16);
         output.WriteBool(Found);
       }
       if (user_ != null) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteMessage(User);
+      }
+      if (ErrorMessage.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(ErrorMessage);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -396,11 +442,17 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (Success != false) {
+        size += 1 + 1;
+      }
       if (Found != false) {
         size += 1 + 1;
       }
       if (user_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
+      }
+      if (ErrorMessage.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ErrorMessage);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -414,6 +466,9 @@ namespace Auth.Infrastructure.Users {
       if (other == null) {
         return;
       }
+      if (other.Success != false) {
+        Success = other.Success;
+      }
       if (other.Found != false) {
         Found = other.Found;
       }
@@ -422,6 +477,9 @@ namespace Auth.Infrastructure.Users {
           User = new global::Auth.Infrastructure.Users.UserMessage();
         }
         User.MergeFrom(other.User);
+      }
+      if (other.ErrorMessage.Length != 0) {
+        ErrorMessage = other.ErrorMessage;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -443,14 +501,22 @@ namespace Auth.Infrastructure.Users {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
+            Success = input.ReadBool();
+            break;
+          }
+          case 16: {
             Found = input.ReadBool();
             break;
           }
-          case 18: {
+          case 26: {
             if (user_ == null) {
               User = new global::Auth.Infrastructure.Users.UserMessage();
             }
             input.ReadMessage(User);
+            break;
+          }
+          case 34: {
+            ErrorMessage = input.ReadString();
             break;
           }
         }
@@ -473,14 +539,22 @@ namespace Auth.Infrastructure.Users {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
+            Success = input.ReadBool();
+            break;
+          }
+          case 16: {
             Found = input.ReadBool();
             break;
           }
-          case 18: {
+          case 26: {
             if (user_ == null) {
               User = new global::Auth.Infrastructure.Users.UserMessage();
             }
             input.ReadMessage(User);
+            break;
+          }
+          case 34: {
+            ErrorMessage = input.ReadString();
             break;
           }
         }

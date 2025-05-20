@@ -14,8 +14,10 @@ message GetUserRequest {
 }
 
 message GetUserResponse {
-    bool found = 1;
-    UserMessage user = 2;
+    bool success = 1;
+    bool found = 2;
+    UserMessage user = 3;
+    string error_message = 4;
 }
 
 message UserMessage {

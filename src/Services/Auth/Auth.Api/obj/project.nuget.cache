@@ -29,7 +29,13 @@
     "C:\\Users\\Dmitrii\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\8.1.1\\swashbuckle.aspnetcore.swaggergen.8.1.1.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\8.1.1\\swashbuckle.aspnetcore.swaggerui.8.1.1.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.8.0\\system.identitymodel.tokens.jwt.8.8.0.nupkg.sha512"
->>>>>>> users
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Ошибка чтения файла кэша D:\\Programming\\Projects\\NextRep\\src\\Services\\Auth\\Auth.Api\\obj\\project.nuget.cache: After parsing a value an unexpected character was encountered: >. Path 'expectedPackageFiles[24]', line 32, position 0."
+    }
+  ]
 }

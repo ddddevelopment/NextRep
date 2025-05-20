@@ -118,3 +118,6 @@ D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug
 D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\Auth.Domain.pdb
 D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\Auth.Application.pdb
 D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\AutoMapper.dll
+D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\Programming\Projects\NextRep\src\Tests\Auth\JwtAuthServiceUnitTests\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
