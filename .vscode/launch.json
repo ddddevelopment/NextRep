@@ -45,7 +45,7 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "netCore": {
-                "appProject": "${workspaceFolder}/src/Services/Auth/Auth.Api/Auth.Api.csproj"
+                "appProject": "${workspaceFolder}/src/Services/Workouts/Workouts.Api/Workouts.Api.csproj"
             }
         },
         {

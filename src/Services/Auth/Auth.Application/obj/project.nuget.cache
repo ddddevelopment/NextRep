@@ -16,12 +16,5 @@
     "C:\\Users\\Dmitrii\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.8.0\\microsoft.identitymodel.tokens.8.8.0.nupkg.sha512",
     "C:\\Users\\Dmitrii\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.8.0\\system.identitymodel.tokens.jwt.8.8.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Ошибка чтения файла кэша D:\\Programming\\Projects\\NextRep\\src\\Services\\Auth\\Auth.Application\\obj\\project.nuget.cache: Unexpected character encountered while parsing value: >. Path 'expectedPackageFiles[1]', line 9, position 0."
-    }
-  ]
+  "logs": []
 }

@@ -2869,11 +2869,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj",
+      "projectUniqueName": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj",
       "projectName": "Users.DAL.EF",
-      "projectPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj",
+      "projectPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\Users.DAL.EF.csproj",
       "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\obj\\",
+      "outputPath": "d:\\Programming\\Projects\\NextRep\\src\\Services\\Users\\Users.DAL.EF\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"

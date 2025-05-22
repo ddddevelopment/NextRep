@@ -45,6 +45,22 @@ services:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
 
+  workoutsapi:
+    image: workoutsapi
+    build:
+      context: .
+      dockerfile: src/Services/Workouts/Workouts.Api/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 8050:6000
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres
     environment:
