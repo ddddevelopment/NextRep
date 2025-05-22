@@ -2,19 +2,23 @@ using System.ComponentModel.DataAnnotations;
 using Workouts.Domain.Models;
 
 namespace Workouts.DAL.Entities {
-    public class WorkoutEntity {
+    public class WorkoutEntity
+    {
         [Key]
         public Guid id { get; set; }
+
         [Required]
         public Guid user_id { get; set; }
+
         [Required]
-        public DateTime date { get; set; }
+        public DateTime StartTime { get; set; }
+
         [Required]
-        [StringLength(50)]
-        public string type { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public string? Notes { get; set; } = null;
+        
         [Required]
-        public int duration_minutes { get; set; }
-        [Required]
-        public int calories_burned { get; set; }
+        public virtual ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
     }
 }
