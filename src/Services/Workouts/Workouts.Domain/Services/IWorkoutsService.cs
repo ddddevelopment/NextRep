@@ -4,7 +4,8 @@ namespace Workouts.Domain.Services {
     public interface IWorkoutsService {
         Task<Result> Create(Workout workout);
         Task<Result<Workout>> GetById(Guid id);
-        Task<Result> Update(Workout workout);
+        Task<Result<Workout>> Update(Workout workout);
         Task<Result> Delete(Guid id);
+        Task<Result<IEnumerable<Workout>>> GetAll();
     }
 }

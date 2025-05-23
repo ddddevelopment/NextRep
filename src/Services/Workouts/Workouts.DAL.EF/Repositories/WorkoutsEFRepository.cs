@@ -45,29 +45,69 @@ namespace Workouts.DAL.Repositories
             if (found == null)
             {
                 _logger?.LogWarning("Workout with ID: {WorkoutId} not found in database", id);
-                return Result.Failure<Workout>("Workout not found");
+                return Result<Workout>.NotFound($"Workout with ID: {id} not found");
             }
-            return Result.Success(_mapper.Map<Workout>(found));
+            _logger?.LogDebug("Successfully fetched workout from database: {@Workout}", found);
+            return Result<Workout>.Success(_mapper.Map<Workout>(found));
         }
 
-        public async Task<Result> Update(Workout workout)
+        public async Task<Result<IEnumerable<Workout>>> GetAll()
         {
-            var entity = await _context.Workouts.FindAsync(workout.Id);
+            _logger?.LogDebug("Fetching all workouts from database");
+
+            IEnumerable<WorkoutEntity> found = _context.Workouts.AsEnumerable();
+            
+            IEnumerable<Workout> workouts = _mapper.Map<IEnumerable<Workout>>(found);
+            _logger?.LogDebug("Successfully fetched all workouts from database");
+            return Result<IEnumerable<Workout>>.Success(workouts);
+        }
+
+        public async Task<Result<Workout>> Update(Workout workout)
+        {
+            _logger?.LogDebug("Updating workout in database: {@Workout}", workout);
+            WorkoutEntity? entity = await _context.Workouts.FindAsync(workout.Id);
             if (entity == null)
-                return Result.Failure("Workout not found");
+            {
+                _logger?.LogWarning("Workout with ID: {WorkoutId} not found for update in database", workout.Id);
+                return Result<Workout>.NotFound($"Workout with ID: {workout.Id} not found");
+            }
             _mapper.Map(workout, entity);
-            await _context.SaveChangesAsync();
-            return Result.Success();
+            try
+            {
+                _context.Workouts.Update(entity);
+                await _context.SaveChangesAsync();
+                Workout updated = _mapper.Map<Workout>(entity);
+                _logger?.LogDebug("Workout updated successfully in database: {@Workout}", updated);
+                return Result<Workout>.Success(updated);
+            }
+            catch (DbUpdateException exception)
+            {
+                _logger?.LogError(exception, "Database error occurred while updating workout: {@Workout}", workout);
+                return Result<Workout>.Failure($"Failed to update workout: {exception.Message}");
+            }
         }
 
         public async Task<Result> Delete(Guid id)
         {
+            _logger?.LogDebug("Removing workout with ID: {WorkoutId} from database", id);
             var entity = await _context.Workouts.FindAsync(id);
             if (entity == null)
-                return Result.Failure("Workout not found");
-            _context.Workouts.Remove(entity);
-            await _context.SaveChangesAsync();
-            return Result.Success();
+            {
+                _logger?.LogWarning("Workout with ID: {WorkoutId} not found for removal in database", id);
+                return Result.NotFound($"Workout with ID: {id} not found");
+            }
+            try
+            {
+                _context.Workouts.Remove(entity);
+                await _context.SaveChangesAsync();
+                _logger?.LogDebug("Workout removed successfully from database with ID: {WorkoutId}", id);
+                return Result.Success();
+            }
+            catch (DbUpdateException exception)
+            {
+                _logger?.LogError(exception, "Database error occurred while removing workout with ID: {WorkoutId}", id);
+                return Result.Failure($"Failed to remove workout: {exception.Message}");
+            }
         }
     }
 }

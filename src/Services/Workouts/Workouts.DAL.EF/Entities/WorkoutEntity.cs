@@ -19,6 +19,6 @@ namespace Workouts.DAL.Entities {
         public string? Notes { get; set; } = null;
         
         [Required]
-        public virtual ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public virtual ICollection<ExerciseEntity> Exercises { get; set; } = new List<ExerciseEntity>();
     }
 }

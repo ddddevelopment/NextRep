@@ -6,10 +6,12 @@ using Workouts.Application.Services;
 using Workouts.Domain.Services;
 using Workouts.Api.Mappings;
 using Workouts.DAL.Mappings;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Workouts.Api.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,6 +22,9 @@ builder.Services.AddDbContext<WorkoutsDbContext>(options =>
 builder.Services.AddScoped<IWorkoutsRepository, WorkoutsEFRepository>();
 builder.Services.AddScoped<IWorkoutsService, WorkoutsService>();
 builder.Services.AddAutoMapper(typeof(ApiMappingProfile), typeof(DALMappingProfile));
+
+builder.Services.AddValidatorsFromAssemblyContaining<WorkoutCreateDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 

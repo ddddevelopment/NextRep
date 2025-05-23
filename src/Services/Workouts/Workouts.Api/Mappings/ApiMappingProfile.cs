@@ -9,6 +9,8 @@ namespace Workouts.Api.Mappings {
             CreateMap<WorkoutCreateRequest, Workout>();
             CreateMap<Workout, WorkoutGetResponse>();
             CreateMap<WorkoutUpdateDto, Workout>().ReverseMap();
+            CreateMap<ExerciseDto, Exercise>().ReverseMap();
+            CreateMap<SetDto, Set>().ReverseMap();
         }
     }
 }

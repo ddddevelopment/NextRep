@@ -10,14 +10,14 @@ public class WorkoutUpdateDtoValidator : AbstractValidator<WorkoutUpdateDto> {
             .NotEmpty().WithMessage("Id is required");
         RuleFor(x => x.UserId)
             .NotEmpty().WithMessage("UserId is required");
-        RuleFor(x => x.Date)
-            .NotEmpty().WithMessage("Date is required");
-        RuleFor(x => x.Type)
-            .NotEmpty().WithMessage("Type is required")
-            .MaximumLength(50).WithMessage("Type must not exceed 50 characters");
-        RuleFor(x => x.DurationMinutes)
-            .GreaterThan(0).WithMessage("Duration must be greater than 0");
-        RuleFor(x => x.CaloriesBurned)
-            .GreaterThanOrEqualTo(0).WithMessage("Calories burned must be non-negative");
+        RuleFor(x => x.StartTime)
+            .NotEmpty().WithMessage("StartTime is required");
+        RuleFor(x => x.EndTime)
+            .NotEmpty().WithMessage("EndTime is required");
+        RuleFor(x => x)
+            .Must(x => x.EndTime > x.StartTime)
+            .WithMessage("EndTime must be after StartTime");
+        RuleForEach(x => x.Exercises)
+            .SetValidator(new ExerciseDtoValidator());
     }
 }

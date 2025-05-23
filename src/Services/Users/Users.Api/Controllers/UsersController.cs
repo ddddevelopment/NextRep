@@ -36,18 +36,23 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (createResult.Error.Type)
+                switch (createResult.Error?.Type)
                 {
                     case ErrorType.Conflict:
                         {
-                            _logger?.LogWarning(createResult.Error.Message, "User already exists: {@UserDto}", userDto);
-                            return Conflict(createResult.Error.Message);
+                            _logger?.LogWarning(createResult.Error?.Message, "User already exists: {@UserDto}", userDto);
+                            return Conflict(createResult.Error?.Message);
+                        }
+                    case ErrorType.Validation:
+                        {
+                            _logger?.LogWarning(createResult.Error?.Message, "Invalid user data: {@UserDto}", userDto);
+                            return BadRequest(createResult.Error?.Message);
                         }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError(createResult.Error.Message, "An error occurred while creating a user: {@UserDto}", userDto);
-                            return BadRequest(createResult.Error.Message);
+                            _logger?.LogError(createResult.Error?.Message, "An error occurred while creating a user: {@UserDto}", userDto);
+                            return BadRequest(createResult.Error?.Message);
                         }
                 }
             }
@@ -68,18 +73,23 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (getResult.Error.Type)
+                switch (getResult.Error?.Type)
                 {
                     case ErrorType.NotFound:
                         {
                             _logger?.LogWarning("User not found with ID: {UserId}", id);
                             return NotFound();
                         }
+                    case ErrorType.Validation:
+                        {
+                            _logger?.LogWarning(getResult.Error?.Message, "Invalid user data for get by id: {UserId}", id);
+                            return BadRequest(getResult.Error?.Message);
+                        }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError("An error occurred while retrieving user with ID: {UserId}", id);
-                            return BadRequest($"An error occurred while retrieving user with ID: {id}");
+                            _logger?.LogError(getResult.Error?.Message, "An error occurred while retrieving user with ID: {UserId}", id);
+                            return BadRequest(getResult.Error?.Message);
                         }
                 }
             }
@@ -101,18 +111,23 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (getResult.Error.Type)
+                switch (getResult.Error?.Type)
                 {
                     case ErrorType.NotFound:
                         {
                             _logger?.LogWarning("User not found with email: {Email}", email);
                             return NotFound();
                         }
+                    case ErrorType.Validation:
+                        {
+                            _logger?.LogWarning(getResult.Error?.Message, "Invalid user data for get by email: {Email}", email);
+                            return BadRequest(getResult.Error?.Message);
+                        }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError("An error occurred while retrieving user with email: {Email}", email);
-                            return BadRequest($"An error occurred while retrieving user with email: {email}");
+                            _logger?.LogError(getResult.Error?.Message, "An error occurred while retrieving user with email: {Email}", email);
+                            return BadRequest(getResult.Error?.Message);
                         }
                 }
             }
@@ -133,13 +148,18 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (getAllResult.Error.Type)
+                switch (getAllResult.Error?.Type)
                 {
+                    case ErrorType.Validation:
+                        {
+                            _logger?.LogWarning(getAllResult.Error?.Message, "Invalid user data for get all");
+                            return BadRequest(getAllResult.Error?.Message);
+                        }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError("An error occurred while retrieving all users");
-                            return BadRequest("An error occurred while retrieving all users");
+                            _logger?.LogError(getAllResult.Error?.Message, "An error occurred while retrieving all users");
+                            return BadRequest(getAllResult.Error?.Message);
                         }
                 }
             }
@@ -161,8 +181,11 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (updateResult.Error.Type)
+                switch (updateResult.Error?.Type)
                 {
+                    case ErrorType.Validation:
+                        _logger?.LogWarning(updateResult.Error?.Message, "Invalid user data for update: {@UserDto}", userDto);
+                        return BadRequest(updateResult.Error?.Message);
                     case ErrorType.NotFound:
                         {
                             _logger?.LogWarning("User not found for update: {@UserDto}", userDto);
@@ -171,8 +194,8 @@ namespace Users.Api.Controllers
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError("An error occurred while updating user: {@UserDto}", userDto);
-                            return BadRequest($"An error occurred while updating user");
+                            _logger?.LogError(updateResult.Error?.Message, "An error occurred while updating user: {@UserDto}", userDto);
+                            return BadRequest(updateResult.Error?.Message);
                         }
                 }
             }
@@ -191,18 +214,23 @@ namespace Users.Api.Controllers
             }
             else
             {
-                switch (deleteResult.Error.Type)
+                switch (deleteResult.Error?.Type)
                 {
                     case ErrorType.NotFound:
                         {
                             _logger?.LogWarning("User not found for deletion with ID: {UserId}", id);
                             return NotFound();
                         }
+                    case ErrorType.Validation:
+                        {
+                            _logger?.LogWarning(deleteResult.Error?.Message, "Invalid user data for delete: {UserId}", id);
+                            return BadRequest(deleteResult.Error?.Message);
+                        }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError("An error occurred while deleting user with ID: {UserId}", id);
-                            return BadRequest($"An error occurred while deleting user with ID: {id}");
+                            _logger?.LogError(deleteResult.Error?.Message, "An error occurred while deleting user with ID: {UserId}", id);
+                            return BadRequest(deleteResult.Error?.Message);
                         }
                 }
             }

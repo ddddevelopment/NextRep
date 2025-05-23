@@ -2,9 +2,9 @@ namespace Workouts.Api.Models {
     public class WorkoutGetResponse {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public DateTime Date { get; set; }
-        public string Type { get; set; }
-        public int DurationMinutes { get; set; }
-        public int CaloriesBurned { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string? Notes { get; set; }
+        public ICollection<ExerciseDto> Exercises { get; set; } = new List<ExerciseDto>();
     }
 }

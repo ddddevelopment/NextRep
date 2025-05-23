@@ -14,7 +14,7 @@ namespace Workouts.DAL.Entities
         public string? description { get; set; }
 
         [ForeignKey("exercise_info_id")]
-        public virtual ExerciseInfo exercise_info { get; set; } = null!;
+        public virtual ExerciseInfoEntity exercise_info { get; set; } = null!;
 
         [ForeignKey("workout_id")]
         public virtual WorkoutEntity workout { get; set; } = null!;
