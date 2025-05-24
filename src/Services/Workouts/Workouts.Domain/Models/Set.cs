@@ -6,5 +6,5 @@ public class Set
     public int Reps { get; set; }
     public int Weight { get; set; }
     public string? Notes { get; set; } = null;
-    public Exercise Exercise { get; set; } = null!;
+    public Guid ExerciseId { get; set; }
 }
