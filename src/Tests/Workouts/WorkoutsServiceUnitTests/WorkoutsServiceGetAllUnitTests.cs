@@ -55,11 +55,11 @@ public class WorkoutsServiceGetAllUnitTests
     public async Task GetAll_Failure_ReturnFailureResult()
     {
         // Arrange
-        var error = Result<IEnumerable<Workout>>.Invalid("Some error");
+        var error = Result<IEnumerable<Workout>>.Failure("Some error");
         _repositoryMock.Setup(repo => repo.GetAll()).ReturnsAsync(error);
 
         // Act
-        var result = await _service.GetAll();
+        Result<IEnumerable<Workout>> result = await _service.GetAll();
 
         // Assert
         Assert.False(result.IsSuccess);

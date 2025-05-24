@@ -29,7 +29,7 @@ public class WorkoutsServiceGetByIdUnitTests
         _repositoryMock.Setup(repo => repo.GetById(id)).ReturnsAsync(Result<Workout>.Success(expectedWorkout));
 
         // Act
-        var result = await _service.GetById(id);
+        Result<Workout> result = await _service.GetById(id);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -42,11 +42,11 @@ public class WorkoutsServiceGetByIdUnitTests
     {
         // Arrange
         Guid id = Guid.NewGuid();
-        var error = Result<Workout>.NotFound($"Workout with ID: {id} not found");
+        Result<Workout> error = Result<Workout>.NotFound($"Workout with ID: {id} not found");
         _repositoryMock.Setup(repo => repo.GetById(id)).ReturnsAsync(error);
 
         // Act
-        var result = await _service.GetById(id);
+        Result<Workout> result = await _service.GetById(id);
 
         // Assert
         Assert.False(result.IsSuccess);

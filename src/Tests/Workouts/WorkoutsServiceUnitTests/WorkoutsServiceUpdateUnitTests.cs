@@ -56,7 +56,7 @@ public class WorkoutsServiceUpdateUnitTests
     {
         // Arrange
         Workout workout = _fixture.Create<Workout>();
-        var error = Result<Workout>.Invalid("Some error");
+        var error = Result<Workout>.Failure("Some error");
         _repositoryMock.Setup(repo => repo.Update(workout)).ReturnsAsync(error);
 
         // Act
