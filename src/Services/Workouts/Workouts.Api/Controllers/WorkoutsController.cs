@@ -1,6 +1,8 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Workouts.Api.Models;
+using Workouts.Application.Commands.Workouts.CreateWorkout;
 using Workouts.Domain.Models;
 using Workouts.Domain.Services;
 
@@ -10,28 +12,30 @@ namespace Workouts.Api.Controllers
     [Route("[controller]")]
     public class WorkoutsController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly IWorkoutsService _service;
         private readonly IMapper _mapper;
         private readonly ILogger<WorkoutsController>? _logger;
 
-        public WorkoutsController(IWorkoutsService service, IMapper mapper, ILogger<WorkoutsController>? logger = null)
+        public WorkoutsController(IMediator mediator, IWorkoutsService service, IMapper mapper, ILogger<WorkoutsController>? logger = null)
         {
+            _mediator = mediator;
             _service = service;
             _mapper = mapper;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(WorkoutCreateRequest workoutDto)
+        public async Task<ActionResult> Create(WorkoutCreateRequest workoutRequest)
         {
-            _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", workoutDto);
-            Workout workout = _mapper.Map<Workout>(workoutDto);
+            _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", workoutRequest);
+            CreateWorkoutCommand createWorkoutCommand = _mapper.Map<CreateWorkoutCommand>(workoutRequest);
 
-            Result createResult = await _service.Create(workout);
+            Result createResult = await _mediator.Send(createWorkoutCommand);
 
             if (createResult.IsSuccess)
             {
-                _logger?.LogInformation("Workout created successfully: {@Workout}", workout);
+                _logger?.LogInformation("Workout created successfully: {@Workout}", createWorkoutCommand);
                 return Created();
             }
             else
@@ -40,18 +44,18 @@ namespace Workouts.Api.Controllers
                 {
                     case ErrorType.Validation:
                         {
-                            _logger?.LogWarning(createResult.Error?.Message, "Invalid workout data: {@WorkoutDto}", workoutDto);
+                            _logger?.LogWarning(createResult.Error?.Message, "Invalid workout data: {@WorkoutDto}", workoutRequest);
                             return BadRequest(createResult.Error?.Message);
                         }
                     case ErrorType.Conflict:
                         {
-                            _logger?.LogWarning(createResult.Error?.Message, "Workout already exists: {@WorkoutDto}", workoutDto);
+                            _logger?.LogWarning(createResult.Error?.Message, "Workout already exists: {@WorkoutDto}", workoutRequest);
                             return Conflict(createResult.Error?.Message);
                         }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError(createResult.Error?.Message, "An error occurred while creating a workout: {@WorkoutDto}", workoutDto);
+                            _logger?.LogError(createResult.Error?.Message, "An error occurred while creating a workout: {@WorkoutDto}", workoutRequest);
                             return BadRequest(createResult.Error?.Message);
                         }
                 }
