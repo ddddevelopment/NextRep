@@ -1,11 +1,11 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Workouts.DAL.Entities;
+using Workouts.DAL.EF.Entities;
 using Workouts.Domain.Models;
 using Workouts.Domain.Repositories;
 
-namespace Workouts.DAL.Repositories
+namespace Workouts.DAL.EF.Repositories
 {
     public class WorkoutsEFRepository : IWorkoutsRepository
     {

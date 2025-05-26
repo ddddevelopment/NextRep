@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Workouts.DAL.Entities;
+using Workouts.DAL.EF.Entities;
 
 namespace Workouts.DAL
 {

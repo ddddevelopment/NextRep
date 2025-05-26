@@ -1,8 +1,6 @@
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Workouts.Api.Models;
-using Workouts.Application.Commands.Workouts.CreateWorkout;
 using Workouts.Domain.Models;
 using Workouts.Domain.Services;
 
@@ -12,16 +10,13 @@ namespace Workouts.Api.Controllers
     [Route("[controller]")]
     public class WorkoutsController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IWorkoutsService _service;
         private readonly IMapper _mapper;
         private readonly ILogger<WorkoutsController>? _logger;
 
-        public WorkoutsController(IMediator mediator, IWorkoutsService service, IMapper mapper, ILogger<WorkoutsController>? logger = null)
+        public WorkoutsController(IWorkoutsService service, ILogger<WorkoutsController>? logger = null)
         {
-            _mediator = mediator;
             _service = service;
-            _mapper = mapper;
             _logger = logger;
         }
 
@@ -29,13 +24,14 @@ namespace Workouts.Api.Controllers
         public async Task<ActionResult> Create(WorkoutCreateRequest workoutRequest)
         {
             _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", workoutRequest);
-            CreateWorkoutCommand createWorkoutCommand = _mapper.Map<CreateWorkoutCommand>(workoutRequest);
+            
+            var workout = _mapper.Map<Workout>(workoutRequest);
 
-            Result createResult = await _mediator.Send(createWorkoutCommand);
+            Result createResult = await _service.Create(workout);
 
             if (createResult.IsSuccess)
             {
-                _logger?.LogInformation("Workout created successfully: {@Workout}", createWorkoutCommand);
+                _logger?.LogInformation("Workout created successfully: {@Workout}", workoutRequest);
                 return Created();
             }
             else

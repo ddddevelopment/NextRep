@@ -1,8 +1,8 @@
 using AutoMapper;
-using Workouts.DAL.Entities;
+using Workouts.DAL.EF.Entities;
 using Workouts.Domain.Models;
 
-namespace Workouts.DAL.Mappings {
+namespace Workouts.DAL.EF.Mappings {
     public class DALMappingProfile : Profile {
         public DALMappingProfile()
         {

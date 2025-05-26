@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Workouts.Domain.Models;
 
-namespace Workouts.DAL.Entities
+namespace Workouts.DAL.EF.Entities
 {
     public class ExerciseInfoEntity
     {
