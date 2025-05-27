@@ -8,11 +8,14 @@ namespace Workouts.Api.Mappings {
         public ApiMappingProfile()
         {
             CreateMap<WorkoutCreateRequest, Workout>();
-            CreateMap<Workout, WorkoutGetResponse>();
-            CreateMap<WorkoutUpdateDto, Workout>().ReverseMap();
+            CreateMap<WorkoutDto, Workout>().ReverseMap();
             CreateMap<ExerciseDto, Exercise>().ReverseMap();
             CreateMap<SetDto, Set>().ReverseMap();
-            CreateMap<ExerciseInfoRequest, ExerciseInfo>();
+            CreateMap<ExerciseInfoCreateRequest, ExerciseInfo>();
+            CreateMap<ExerciseInfoDto, ExerciseInfo>()
+                .ForMember(dest => dest.MuscleGroup, opt => opt.MapFrom(src => Enum.Parse<MuscleGroup>(src.MuscleGroup, true)))
+                .ReverseMap()
+                .ForMember(dest => dest.MuscleGroup, opt => opt.MapFrom(src => src.MuscleGroup.ToString()));
         }
     }
 }

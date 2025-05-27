@@ -14,24 +14,25 @@ namespace Workouts.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<WorkoutsController>? _logger;
 
-        public WorkoutsController(IWorkoutsService service, ILogger<WorkoutsController>? logger = null)
+        public WorkoutsController(IWorkoutsService service, IMapper mapper, ILogger<WorkoutsController>? logger = null)
         {
             _service = service;
+            _mapper = mapper;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(WorkoutCreateRequest workoutRequest)
+        public async Task<ActionResult> Create(WorkoutCreateRequest request)
         {
-            _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", workoutRequest);
+            _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", request);
             
-            var workout = _mapper.Map<Workout>(workoutRequest);
+            var workout = _mapper.Map<Workout>(request);
 
             Result createResult = await _service.Create(workout);
 
             if (createResult.IsSuccess)
             {
-                _logger?.LogInformation("Workout created successfully: {@Workout}", workoutRequest);
+                _logger?.LogInformation("Workout created successfully: {@Workout}", request);
                 return Created();
             }
             else
@@ -40,18 +41,18 @@ namespace Workouts.Api.Controllers
                 {
                     case ErrorType.Validation:
                         {
-                            _logger?.LogWarning(createResult.Error?.Message, "Invalid workout data: {@WorkoutDto}", workoutRequest);
+                            _logger?.LogWarning(createResult.Error?.Message, "Invalid workout data: {@WorkoutDto}", request);
                             return BadRequest(createResult.Error?.Message);
                         }
                     case ErrorType.Conflict:
                         {
-                            _logger?.LogWarning(createResult.Error?.Message, "Workout already exists: {@WorkoutDto}", workoutRequest);
+                            _logger?.LogWarning(createResult.Error?.Message, "Workout already exists: {@WorkoutDto}", request);
                             return Conflict(createResult.Error?.Message);
                         }
                     case ErrorType.Unknown:
                     default:
                         {
-                            _logger?.LogError(createResult.Error?.Message, "An error occurred while creating a workout: {@WorkoutDto}", workoutRequest);
+                            _logger?.LogError(createResult.Error?.Message, "An error occurred while creating a workout: {@WorkoutDto}", request);
                             return BadRequest(createResult.Error?.Message);
                         }
                 }
@@ -59,7 +60,7 @@ namespace Workouts.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<WorkoutGetResponse>> GetById(Guid id)
+        public async Task<ActionResult<WorkoutDto>> GetById(Guid id)
         {
             _logger?.LogInformation("Received request to get workout with ID: {WorkoutId}", id);
 
@@ -67,7 +68,7 @@ namespace Workouts.Api.Controllers
 
             if (getResult.IsSuccess)
             {
-                var response = _mapper.Map<WorkoutGetResponse>(getResult.Value);
+                var response = _mapper.Map<WorkoutDto>(getResult.Value);
                 _logger?.LogInformation("Workout retrieved successfully: {@Workout}", response);
                 return Ok(response);
             }
@@ -92,7 +93,7 @@ namespace Workouts.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkoutGetResponse>>> GetAll()
+        public async Task<ActionResult<IEnumerable<WorkoutDto>>> GetAll()
         {
             _logger?.LogInformation("Received request to get all workouts");
 
@@ -100,7 +101,7 @@ namespace Workouts.Api.Controllers
 
             if (getAllResult.IsSuccess)
             {
-                IEnumerable<WorkoutGetResponse> response = _mapper.Map<IEnumerable<WorkoutGetResponse>>(getAllResult.Value);
+                IEnumerable<WorkoutDto> response = _mapper.Map<IEnumerable<WorkoutDto>>(getAllResult.Value);
                 _logger?.LogInformation("Successfully retrieved all workouts");
                 return Ok(response);
             }
@@ -120,7 +121,7 @@ namespace Workouts.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update(WorkoutUpdateDto workoutDto)
+        public async Task<ActionResult> Update(WorkoutDto workoutDto)
         {
             _logger?.LogInformation("Received request to update workout: {@WorkoutDto}", workoutDto);
 

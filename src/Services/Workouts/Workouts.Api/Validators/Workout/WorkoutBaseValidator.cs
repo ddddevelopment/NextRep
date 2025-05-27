@@ -3,11 +3,10 @@ using Workouts.Api.Models;
 
 namespace Workouts.Api.Validators;
 
-public class WorkoutUpdateDtoValidator : AbstractValidator<WorkoutUpdateDto> {
-    public WorkoutUpdateDtoValidator()
+public class WorkoutBaseValidator<T> : AbstractValidator<T> where T : WorkoutBase
+{
+    public WorkoutBaseValidator()
     {
-        RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Id is required");
         RuleFor(x => x.UserId)
             .NotEmpty().WithMessage("UserId is required");
         RuleFor(x => x.StartTime)

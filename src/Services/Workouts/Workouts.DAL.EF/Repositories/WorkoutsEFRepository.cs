@@ -55,7 +55,7 @@ namespace Workouts.DAL.EF.Repositories
         {
             _logger?.LogDebug("Fetching all workouts from database");
 
-            IEnumerable<WorkoutEntity> found = _context.Workouts.AsEnumerable();
+            IEnumerable<WorkoutEntity> found = await _context.Workouts.ToListAsync();
             
             IEnumerable<Workout> workouts = _mapper.Map<IEnumerable<Workout>>(found);
             _logger?.LogDebug("Successfully fetched all workouts from database");

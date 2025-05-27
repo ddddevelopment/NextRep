@@ -28,7 +28,7 @@ builder.Services.AddAutoMapper(
     typeof(DALMappingProfile)
 );
 
-builder.Services.AddValidatorsFromAssemblyContaining<WorkoutCreateDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<WorkoutCreateRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
