@@ -11,18 +11,15 @@ namespace Workouts.Api.Controllers;
 public class ExercisesController : ControllerBase
 {
     private readonly IExercisesService _exercisesService;
-    private readonly IWorkoutsService _workoutsService;
     private readonly IMapper _mapper;
     private readonly ILogger<ExercisesController>? _logger;
 
     public ExercisesController(
         IExercisesService exercisesService,
-        IWorkoutsService workoutsService,
         IMapper mapper,
         ILogger<ExercisesController>? logger = null)
     {
         _exercisesService = exercisesService;
-        _workoutsService = workoutsService;
         _mapper = mapper;
         _logger = logger;
     }
@@ -32,15 +29,7 @@ public class ExercisesController : ControllerBase
     {
         _logger?.LogInformation("Received request to add exercise to workout ID {WorkoutId}: {@ExerciseCreateRequest}", workoutId, request);
 
-        Result<Workout> workoutExistsResult = await _workoutsService.GetById(workoutId);
-        if (workoutExistsResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Workout with ID {WorkoutId} not found when trying to add exercise.", workoutId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Workout with ID {workoutId} not found."), id_param: workoutId);
-        }
-
         Exercise exercise = _mapper.Map<Exercise>(request, opt => opt.AfterMap((src, dest) => dest.WorkoutId = workoutId));
-
         Result createExerciseResult = await _exercisesService.Create(exercise);
 
         if (createExerciseResult.IsSuccess)
@@ -52,19 +41,28 @@ public class ExercisesController : ControllerBase
         return HandleErrorResult(createExerciseResult.Error, request, workoutId);
     }
 
+    [HttpGet("{exerciseId:guid}")]
+    public async Task<ActionResult<ExerciseDto>> GetExerciseById(Guid workoutId, Guid exerciseId)
+    {
+        _logger?.LogInformation("Received request to get exercise ID {ExerciseId} for workout ID: {WorkoutId}", exerciseId, workoutId);
+
+        Result<Exercise> getResult = await _exercisesService.GetByIdInWorkout(workoutId, exerciseId);
+
+        if (getResult.IsSuccess)
+        {
+            ExerciseDto response = _mapper.Map<ExerciseDto>(getResult.Value);
+            _logger?.LogInformation("Exercise ID {ExerciseId} for workout ID {WorkoutId} retrieved successfully: {@ExerciseDto}", exerciseId, workoutId, response);
+            return Ok(response);
+        }
+        return HandleErrorResult(getResult.Error, id_param: new { workoutId, exerciseId });
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ExerciseDto>>> GetExercisesForWorkout(Guid workoutId)
     {
         _logger?.LogInformation("Received request to get exercises for workout ID: {WorkoutId}", workoutId);
 
-        Result<Workout> workoutExistsResult = await _workoutsService.GetById(workoutId);
-        if (workoutExistsResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Workout with ID {WorkoutId} not found when trying to get exercises.", workoutId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Workout with ID {workoutId} not found."), id_param: workoutId);
-        }
-
-        Result<IEnumerable<Exercise>> getResult = await _exercisesService.GetByWorkoutId(workoutId);
+        Result<IEnumerable<Exercise>> getResult = await _exercisesService.GetAllByWorkoutId(workoutId);
 
         if (getResult.IsSuccess)
         {
@@ -76,73 +74,25 @@ public class ExercisesController : ControllerBase
         return HandleErrorResult(getResult.Error, new { WorkoutId = workoutId });
     }
 
-    [HttpGet("{exerciseId:guid}")]
-    public async Task<ActionResult<ExerciseDto>> GetExerciseById(Guid workoutId, Guid exerciseId)
-    {
-        _logger?.LogInformation("Received request to get exercise ID {ExerciseId} for workout ID: {WorkoutId}", exerciseId, workoutId);
-
-        Result<Workout> workoutExistsResult = await _workoutsService.GetById(workoutId);
-        if (workoutExistsResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Workout ID {WorkoutId} not found when getting exercise ID {ExerciseId}.", workoutId, exerciseId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Workout with ID {workoutId} not found."), id_param: workoutId);
-        }
-
-        Result<Exercise> getResult = await _exercisesService.GetById(exerciseId);
-
-        if (getResult.IsSuccess)
-        {
-            if (getResult.Value!.WorkoutId != workoutId)
-            {
-                _logger?.LogWarning("Exercise ID {ExerciseId} found, but it does not belong to workout ID {WorkoutId}.", exerciseId, workoutId);
-                return HandleErrorResult(new Error(ErrorType.NotFound, $"Exercise with ID {exerciseId} not found in workout {workoutId}."),
-                                         requestPayload: new { workoutId, exerciseId });
-            }
-            ExerciseDto response = _mapper.Map<ExerciseDto>(getResult.Value);
-            _logger?.LogInformation("Exercise ID {ExerciseId} for workout ID {WorkoutId} retrieved successfully: {@ExerciseDto}", exerciseId, workoutId, response);
-            return Ok(response);
-        }
-        return HandleErrorResult(getResult.Error, id_param: new { workoutId, exerciseId });
-    }
-
     [HttpPut("{exerciseId:guid}")]
-    public async Task<ActionResult> UpdateExerciseInWorkout(Guid workoutId, Guid exerciseId, ExerciseUpdateRequest request)
+    public async Task<ActionResult<ExerciseDto>> UpdateExerciseInWorkout(Guid workoutId, Guid exerciseId, ExerciseUpdateRequest request)
     {
         _logger?.LogInformation("Received request to update exercise ID {ExerciseId} in workout ID {WorkoutId}: {@ExerciseUpdateRequest}", exerciseId, workoutId, request);
 
-        Result<Workout> workoutExistsResult = await _workoutsService.GetById(workoutId);
-        if (workoutExistsResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Workout ID {WorkoutId} not found when updating exercise ID {ExerciseId}.", workoutId, exerciseId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Workout with ID {workoutId} not found."), id_param: workoutId);
-        }
-
-        Result<Exercise> currentExerciseResult = await _exercisesService.GetById(exerciseId);
-        if (currentExerciseResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Exercise ID {ExerciseId} not found for update in workout ID {WorkoutId}. Result: {ErrorMessage}", exerciseId, workoutId, currentExerciseResult.Error?.Message);
-            return HandleErrorResult(currentExerciseResult.Error, requestPayload: request, id_param: new { workoutId, exerciseId });
-        }
-
-        if (currentExerciseResult.Value!.WorkoutId != workoutId)
-        {
-            _logger?.LogWarning("Attempt to update exercise ID {ExerciseId} which does not belong to workout ID {WorkoutId}.", exerciseId, workoutId);
-            return HandleErrorResult(new Error(ErrorType.Validation, $"Exercise {exerciseId} does not belong to workout {workoutId}."),
-                                     requestPayload: request, id_param: new { workoutId, exerciseId });
-        }
-
-        Exercise exerciseToUpdate = _mapper.Map<Exercise>(request);
-        exerciseToUpdate.Id = exerciseId;
-        exerciseToUpdate.WorkoutId = workoutId;
-        exerciseToUpdate.ExerciseInfoId = currentExerciseResult.Value.ExerciseInfoId;
+        Exercise exerciseToUpdate = _mapper.Map<Exercise>(request, opt => opt.AfterMap((src, dest) => {
+            dest.Id = exerciseId;
+            dest.WorkoutId = workoutId;
+        }));
 
         Result<Exercise> updateResult = await _exercisesService.Update(exerciseToUpdate);
 
         if (updateResult.IsSuccess)
         {
             _logger?.LogInformation("Exercise ID {ExerciseId} in workout ID {WorkoutId} updated successfully.", exerciseId, workoutId);
-            return Ok();
+            ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(updateResult.Value);
+            return Ok(exerciseDto);
         }
+
         return HandleErrorResult(updateResult.Error, request, id_param: new { workoutId, exerciseId });
     }
 
@@ -151,28 +101,7 @@ public class ExercisesController : ControllerBase
     {
         _logger?.LogInformation("Received request to delete exercise ID {ExerciseId} from workout ID {WorkoutId}.", exerciseId, workoutId);
 
-        Result<Workout> workoutExistsResult = await _workoutsService.GetById(workoutId);
-        if (workoutExistsResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Workout ID {WorkoutId} not found when deleting exercise ID {ExerciseId}.", workoutId, exerciseId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Workout with ID {workoutId} not found."), id_param: workoutId);
-        }
-
-        Result<Exercise> currentExerciseResult = await _exercisesService.GetById(exerciseId);
-        if (currentExerciseResult.IsSuccess == false)
-        {
-            _logger?.LogWarning("Exercise ID {ExerciseId} not found for deletion in workout ID {WorkoutId}. Result: {ErrorMessage}", exerciseId, workoutId, currentExerciseResult.Error?.Message);
-            return HandleErrorResult(currentExerciseResult.Error, id_param: new { workoutId, exerciseId });
-        }
-
-        if (currentExerciseResult.Value!.WorkoutId != workoutId)
-        {
-            _logger?.LogWarning("Attempt to delete exercise ID {ExerciseId} which does not belong to workout ID {WorkoutId}.", exerciseId, workoutId);
-            return HandleErrorResult(new Error(ErrorType.NotFound, $"Exercise {exerciseId} does not belong to workout {workoutId}."),
-                                     id_param: new { workoutId, exerciseId });
-        }
-
-        Result deleteResult = await _exercisesService.Delete(exerciseId);
+        Result deleteResult = await _exercisesService.Delete(workoutId, exerciseId);
 
         if (deleteResult.IsSuccess)
         {
