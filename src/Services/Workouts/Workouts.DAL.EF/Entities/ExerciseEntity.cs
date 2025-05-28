@@ -8,13 +8,14 @@ namespace Workouts.DAL.EF.Entities
         [Key]
         public Guid id { get; set; }
 
-        [Required]
-        public string? description { get; set; }
+        public Guid exercise_info_id { get; set; }
 
-        [ForeignKey("exercise_info_id")]
+        [ForeignKey(nameof(exercise_info_id))]
         public virtual ExerciseInfoEntity exercise_info { get; set; } = null!;
 
-        [ForeignKey("workout_id")]
+        public Guid workout_id { get; set; }
+
+        [ForeignKey(nameof(workout_id))]
         public virtual WorkoutEntity workout { get; set; } = null!;
 
         public virtual ICollection<SetEntity> sets { get; set; } = new List<SetEntity>();

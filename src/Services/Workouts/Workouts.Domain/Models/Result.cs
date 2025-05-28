@@ -16,6 +16,7 @@ namespace Workouts.Domain.Models {
         public static Result Conflict(string message) => new Result(false, new Error(ErrorType.Conflict, message: message)); 
         public static Result Invalid(string message) => new Result(false, new Error(ErrorType.Validation, message: message));       
     }
+    
     public class Result<T>
     {
         public bool IsSuccess { get; set; }
