@@ -6,6 +6,7 @@ public class ExerciseDto
 {
     public Guid Id { get; set; }
     public Guid WorkoutId { get; set; }
-    public Guid ExerciseInfoId { get; set; } 
+    public Guid ExerciseInfoId { get; set; }
     public ICollection<SetDto> Sets { get; set; } = new List<SetDto>();
+    public string? Notes { get; set; } = string.Empty;
 }

@@ -19,5 +19,7 @@ namespace Workouts.DAL.EF.Entities
         public virtual WorkoutEntity workout { get; set; } = null!;
 
         public virtual ICollection<SetEntity> sets { get; set; } = new List<SetEntity>();
+
+        public string? notes { get; set; } = string.Empty;
     }
 }

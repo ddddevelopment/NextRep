@@ -134,6 +134,7 @@ public class ExercisesController : ControllerBase
         Exercise exerciseToUpdate = _mapper.Map<Exercise>(request);
         exerciseToUpdate.Id = exerciseId;
         exerciseToUpdate.WorkoutId = workoutId;
+        exerciseToUpdate.ExerciseInfoId = currentExerciseResult.Value.ExerciseInfoId;
 
         Result<Exercise> updateResult = await _exercisesService.Update(exerciseToUpdate);
 
