@@ -25,6 +25,8 @@ namespace Workouts.DAL.EF.Mappings {
             CreateMap<Exercise, ExerciseEntity>()
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.sets, opt => opt.MapFrom(src => src.Sets))
+                .ForMember(dest => dest.exercise_info_id, opt => opt.MapFrom(src => src.ExerciseInfoId))
+                .ForMember(dest => dest.workout_id, opt => opt.MapFrom(src => src.WorkoutId))
                 .ReverseMap();
 
             CreateMap<ExerciseInfo, ExerciseInfoEntity>()

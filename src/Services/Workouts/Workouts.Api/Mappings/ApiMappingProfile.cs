@@ -10,7 +10,7 @@ public class ApiMappingProfile : Profile
     {
         CreateMap<WorkoutCreateRequest, Workout>();
         CreateMap<WorkoutDto, Workout>().ReverseMap();
-        CreateMap<ExerciseDto, Exercise>().ReverseMap();
+        CreateMap<Exercise, ExerciseDto>().ReverseMap();
         CreateMap<SetDto, Set>().ReverseMap();
         CreateMap<ExerciseInfoCreateRequest, ExerciseInfo>();
         CreateMap<ExerciseInfoDto, ExerciseInfo>()
@@ -18,5 +18,6 @@ public class ApiMappingProfile : Profile
             .ReverseMap()
             .ForMember(dest => dest.MuscleGroup, opt => opt.MapFrom(src => src.MuscleGroup.ToString()));
         CreateMap<ExerciseCreateRequestForWorkout, Exercise>();
+        CreateMap<ExerciseUpdateRequest, Exercise>();
     }
 }

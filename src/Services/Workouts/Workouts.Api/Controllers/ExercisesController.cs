@@ -183,7 +183,7 @@ public class ExercisesController : ControllerBase
 
     private ActionResult HandleErrorResult(Error? error, object? requestPayload = null, object? id_param = null)
     {
-        string logMessage = $"Exercise Operation Error - Type: {error?.Type}, Message: {error?.Message}"; // Изменено для ясности
+        string logMessage = $"Exercise Operation Error - Type: {error?.Type}, Message: {error?.Message}";
         if (id_param != null) 
         {
             logMessage += $", ID: {id_param}";
@@ -192,17 +192,25 @@ public class ExercisesController : ControllerBase
         switch (error?.Type)
         {
             case ErrorType.Validation:
-                _logger?.LogWarning(logMessage, "Invalid exercise data: {@RequestPayload}", requestPayload);
+                _logger?.LogWarning(
+                    "Exercise Operation Error - Type: {ErrorType}, Message: {ErrorMessage}, Invalid exercise data: {@RequestPayload}, ID: {IdParam}",
+                    error?.Type, error?.Message, requestPayload, id_param);
                 return BadRequest(error?.Message);
             case ErrorType.NotFound:
-                _logger?.LogWarning(logMessage, "Exercise resource not found: {@RequestPayload}", requestPayload);
+                _logger?.LogWarning(
+                    "Exercise Operation Error - Type: {ErrorType}, Message: {ErrorMessage}, Exercise resource not found: {@RequestPayload}, ID: {IdParam}",
+                    error?.Type, error?.Message, requestPayload, id_param);
                 return NotFound(error?.Message);
             case ErrorType.Conflict:
-                _logger?.LogWarning(logMessage, "Exercise conflict occurred: {@RequestPayload}", requestPayload);
+                _logger?.LogWarning(
+                    "Exercise Operation Error - Type: {ErrorType}, Message: {ErrorMessage}, Exercise conflict occurred: {@RequestPayload}, ID: {IdParam}",
+                    error?.Type, error?.Message, requestPayload, id_param);
                 return Conflict(error?.Message);
             case ErrorType.Unknown:
             default:
-                _logger?.LogError(logMessage, "An unknown error occurred during exercise operation: {@RequestPayload}", requestPayload);
+                _logger?.LogError(
+                    "Exercise Operation Error - Type: {ErrorType}, Message: {ErrorMessage}, An unknown error occurred during exercise operation: {@RequestPayload}, ID: {IdParam}",
+                    error?.Type, error?.Message, requestPayload, id_param);
                 return BadRequest(error?.Message); 
         }
     }

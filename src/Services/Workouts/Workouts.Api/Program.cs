@@ -23,6 +23,8 @@ builder.Services.AddScoped<IWorkoutsRepository, WorkoutsEFRepository>();
 builder.Services.AddScoped<IWorkoutsService, WorkoutsService>();
 builder.Services.AddScoped<IExerciseInfosRepository, ExerciseInfosEFRepository>();
 builder.Services.AddScoped<IExerciseInfosService, ExerciseInfosService>();
+builder.Services.AddScoped<IExercisesRepository, ExercisesEFRepository>();
+builder.Services.AddScoped<IExercisesService, ExercisesService>();
 builder.Services.AddAutoMapper(
     typeof(ApiMappingProfile),
     typeof(DALMappingProfile)
