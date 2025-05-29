@@ -12,7 +12,7 @@ namespace Workouts.Application.Services
         private readonly IExerciseInfosService _exerciseInfosService;
         private readonly ILogger<ExercisesService>? _logger;
 
-        public ExercisesService(IExercisesRepository repository, IWorkoutsService workoutsService, ExerciseInfosService exerciseInfosService, ILogger<ExercisesService>? logger = null)
+        public ExercisesService(IExercisesRepository repository, IWorkoutsService workoutsService, IExerciseInfosService exerciseInfosService, ILogger<ExercisesService>? logger = null)
         {
             _repository = repository;
             _workoutsService = workoutsService;
