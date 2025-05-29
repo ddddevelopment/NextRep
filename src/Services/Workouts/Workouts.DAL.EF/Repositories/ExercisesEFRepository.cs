@@ -38,20 +38,20 @@ namespace Workouts.DAL.EF.Repositories
             }
         }
 
-        public async Task<Result<Exercise>> GetById(Guid id)
+        public async Task<Result<Exercise>> GetByIdInWorkout(Guid workoutId, Guid id)
         {
             _logger?.LogDebug("Fetching from database exercise with ID: {ExerciseId}", id);
-            ExerciseEntity? found = await _context.Exercises.FindAsync(id);
+            ExerciseEntity? found = await _context.Exercises.FirstOrDefaultAsync(e => e.id == id && e.workout_id == workoutId);
             if (found == null)
             {
-                _logger?.LogWarning("Exercise with ID: {ExerciseId} not found in database", id);
-                return Result<Exercise>.NotFound($"Exercise with ID: {id} not found");
+                _logger?.LogWarning("Exercise with ID: {ExerciseId} in workout with ID: {WorkoutId} not found in database", id, workoutId);
+                return Result<Exercise>.NotFound($"Exercise with ID: {id} and workoutID: {workoutId} not found");
             }
             _logger?.LogDebug("Successfully fetched exercise from database: {@Exercise}", found);
             return Result<Exercise>.Success(_mapper.Map<Exercise>(found));
         }
 
-        public async Task<Result<IEnumerable<Exercise>>> GetByWorkoutId(Guid workoutId)
+        public async Task<Result<IEnumerable<Exercise>>> GetAllByWorkoutId(Guid workoutId)
         {
             _logger?.LogDebug("Fetching exercises for workout ID: {WorkoutId} from database", workoutId);
             try
@@ -74,11 +74,11 @@ namespace Workouts.DAL.EF.Repositories
         public async Task<Result<Exercise>> Update(Exercise exercise)
         {
             _logger?.LogDebug("Updating exercise in database: {@Exercise}", exercise);
-            ExerciseEntity? entity = await _context.Exercises.FindAsync(exercise.Id);
+            ExerciseEntity? entity = await _context.Exercises.FirstOrDefaultAsync(e => e.id == exercise.Id && e.workout_id == exercise.WorkoutId);
             if (entity == null)
             {
-                _logger?.LogWarning("Exercise with ID: {ExerciseId} not found for update in database", exercise.Id);
-                return Result<Exercise>.NotFound($"Exercise with ID: {exercise.Id} not found");
+                _logger?.LogWarning("Exercise with ID: {ExerciseId} and workoutID: {WorkoutId} not found for update in database", exercise.Id, exercise.WorkoutId);
+                return Result<Exercise>.NotFound($"Exercise with ID: {exercise.Id} and workoutID: {exercise.WorkoutId} not found");
             }
             _mapper.Map(exercise, entity);
             try
@@ -96,14 +96,14 @@ namespace Workouts.DAL.EF.Repositories
             }
         }
 
-        public async Task<Result> Delete(Guid id)
+        public async Task<Result> DeleteFromWorkout(Guid workoutId, Guid id)
         {
             _logger?.LogDebug("Removing exercise with ID: {ExerciseId} from database", id);
-            var entity = await _context.Exercises.FindAsync(id);
+            var entity = await _context.Exercises.FirstOrDefaultAsync(e => e.id == id && e.workout_id == workoutId);
             if (entity == null)
             {
-                _logger?.LogWarning("Exercise with ID: {ExerciseId} not found for removal in database", id);
-                return Result.NotFound($"Exercise with ID: {id} not found");
+                _logger?.LogWarning("Exercise with ID: {ExerciseId} and workoutID: {WorkoutId} not found for removal in database", id, workoutId);
+                return Result.NotFound($"Exercise with ID: {id} and workoutID: {workoutId} not found");
             }
             try
             {

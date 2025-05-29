@@ -44,6 +44,12 @@ namespace Workouts.Application.Services
                 return Result.NotFound($"ExerciseInfo with ID {exercise.ExerciseInfoId} not found");
             }
 
+            Result<Exercise> exerciseExistsResult = await _repository.GetByIdInWorkout(exercise.WorkoutId, exercise.Id);
+            if (exerciseExistsResult.IsSuccess) {
+                _logger?.LogWarning("Exercise with ID {ExerciseId} already exists", exercise.Id);
+                return Result.Conflict($"Exercise with ID {exercise.Id} already exists");
+            }
+
             Result result = await _repository.Add(exercise);
 
             if (result.IsSuccess)
@@ -65,16 +71,10 @@ namespace Workouts.Application.Services
                 return Result<Exercise>.NotFound($"Workout with ID {workoutId} not found");
             }
 
-            Result<Exercise> result = await _repository.GetById(id);
+            Result<Exercise> result = await _repository.GetByIdInWorkout(workoutId, id);
 
             if (result.IsSuccess)
             {
-                if (result.Value!.WorkoutId != workoutId)
-                {
-                    _logger?.LogWarning("Exercise ID {ExerciseId} found, but it does not belong to workout ID {WorkoutId}", id, workoutId);
-                    return Result<Exercise>.NotFound($"Exercise with ID {id} not found in workout {workoutId}");
-                }
-
                 _logger?.LogInformation("Exercise retrieved successfully: {@Exercise}", result.Value);
             }
 
@@ -92,7 +92,7 @@ namespace Workouts.Application.Services
                 return Result<IEnumerable<Exercise>>.NotFound($"Workout with ID {workoutId} not found");
             }
 
-            Result<IEnumerable<Exercise>> result = await _repository.GetByWorkoutId(workoutId);
+            Result<IEnumerable<Exercise>> result = await _repository.GetAllByWorkoutId(workoutId);
 
             if (result.IsSuccess)
             {
@@ -119,18 +119,6 @@ namespace Workouts.Application.Services
                 return Result<Exercise>.NotFound($"Workout with ID {exercise.WorkoutId} not found");
             }
 
-            Result<Exercise> currentExerciseResult = await _repository.GetById(exercise.Id);
-            if (currentExerciseResult.IsSuccess == false)
-            {
-                _logger?.LogWarning("Exercise ID {ExerciseId} not found for update in workout ID {WorkoutId}. Result: {ErrorMessage}", exercise.Id, exercise.WorkoutId, currentExerciseResult.Error?.Message);
-                return currentExerciseResult;
-            }
-            else if (currentExerciseResult.Value!.WorkoutId != exercise.WorkoutId)
-            {
-                _logger?.LogWarning("Attempt to update exercise ID {ExerciseId} which does not belong to workout ID {WorkoutId}", exercise.Id, exercise.WorkoutId);
-                return Result<Exercise>.NotFound($"Exercise {exercise.Id} does not belong to workout {exercise.WorkoutId}");
-            }
-
             Result<Exercise> result = await _repository.Update(exercise);
 
             if (result.IsSuccess)
@@ -141,7 +129,7 @@ namespace Workouts.Application.Services
             return result;
         }
 
-        public async Task<Result> Delete(Guid workoutId, Guid id)
+        public async Task<Result> DeleteFromWorkout(Guid workoutId, Guid id)
         {
             _logger?.LogDebug("Attempting to delete exercise with ID: {ExerciseId}", id);
 
@@ -152,19 +140,7 @@ namespace Workouts.Application.Services
                 return Result.NotFound($"Workout with ID {workoutId} not found");
             }
 
-            Result<Exercise> currentExerciseResult = await _repository.GetById(id);
-            if (currentExerciseResult.IsSuccess == false)
-            {
-                _logger?.LogWarning("Exercise ID {ExerciseId} not found for deletion in workout ID {WorkoutId}. Result: {ErrorMessage}", id, workoutId, currentExerciseResult.Error?.Message);
-                return Result.NotFound($"Exercise with ID {id} not found");
-            }
-            else if (currentExerciseResult.Value!.WorkoutId != workoutId)
-            {
-                _logger?.LogWarning("Attempt to delete exercise ID {ExerciseId} which does not belong to workout ID {WorkoutId}.", id, workoutId);
-                return Result.NotFound($"Exercise {id} does not belong to workout {workoutId}");
-            }
-
-            Result result = await _repository.Delete(id);
+            Result result = await _repository.DeleteFromWorkout(workoutId, id);
 
             if (result.IsSuccess)
             {

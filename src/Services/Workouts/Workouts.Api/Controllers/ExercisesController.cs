@@ -101,7 +101,7 @@ public class ExercisesController : ControllerBase
     {
         _logger?.LogInformation("Received request to delete exercise ID {ExerciseId} from workout ID {WorkoutId}.", exerciseId, workoutId);
 
-        Result deleteResult = await _exercisesService.Delete(workoutId, exerciseId);
+        Result deleteResult = await _exercisesService.DeleteFromWorkout(workoutId, exerciseId);
 
         if (deleteResult.IsSuccess)
         {
