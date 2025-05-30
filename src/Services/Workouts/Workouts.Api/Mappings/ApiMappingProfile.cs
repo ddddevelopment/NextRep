@@ -12,6 +12,8 @@ public class ApiMappingProfile : Profile
         CreateMap<WorkoutDto, Workout>().ReverseMap();
         CreateMap<Exercise, ExerciseDto>().ReverseMap();
         CreateMap<SetDto, Set>().ReverseMap();
+        CreateMap<SetCreateRequestForExercise, Set>();
+        CreateMap<SetUpdateRequest, Set>();
         CreateMap<ExerciseInfoCreateRequest, ExerciseInfo>();
         CreateMap<ExerciseInfoDto, ExerciseInfo>()
             .ForMember(dest => dest.MuscleGroup, opt => opt.MapFrom(src => Enum.Parse<MuscleGroup>(src.MuscleGroup, true)))

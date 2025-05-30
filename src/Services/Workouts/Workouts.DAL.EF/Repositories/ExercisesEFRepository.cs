@@ -118,5 +118,18 @@ namespace Workouts.DAL.EF.Repositories
                 return Result.Failure($"Failed to remove exercise: {exception.Message}");
             }
         }
+
+        public async Task<Result<Exercise>> GetById(Guid id)
+        {
+            _logger?.LogDebug("Fetching from database exercise with ID: {ExerciseId}", id);
+            ExerciseEntity? found = await _context.Exercises.FindAsync(id);
+            if (found == null)
+            {
+                _logger?.LogWarning("Exercise with ID: {ExerciseId} not found in database", id);
+                return Result<Exercise>.NotFound($"Exercise with ID: {id} not found");
+            }
+            _logger?.LogDebug("Successfully fetched exercise from database: {@Exercise}", found);
+            return Result<Exercise>.Success(_mapper.Map<Exercise>(found));
+        }
     }
 }

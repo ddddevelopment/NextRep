@@ -16,7 +16,9 @@ namespace Workouts.DAL.EF.Entities
 
         public string? notes { get; set; }
 
-        [ForeignKey("exercise_id")]
+        public Guid exercise_id { get; set; }
+
+        [ForeignKey(nameof(exercise_id))]
         public virtual ExerciseEntity exercise { get; set; } = null!;
     }
 }

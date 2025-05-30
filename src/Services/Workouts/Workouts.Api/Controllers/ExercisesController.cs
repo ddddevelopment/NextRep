@@ -111,6 +111,20 @@ public class ExercisesController : ControllerBase
         return HandleErrorResult(deleteResult.Error, id_param: new { workoutId, exerciseId });
     }
 
+    [HttpGet("/api/exercises/{exerciseId:guid}")]
+    public async Task<ActionResult<ExerciseDto>> GetExerciseById(Guid exerciseId)
+    {
+        _logger?.LogInformation("Received request to get exercise by ID: {ExerciseId}", exerciseId);
+        var getResult = await _exercisesService.GetById(exerciseId);
+        if (getResult.IsSuccess)
+        {
+            var response = _mapper.Map<ExerciseDto>(getResult.Value);
+            _logger?.LogInformation("Exercise with ID {ExerciseId} retrieved successfully: {@ExerciseDto}", exerciseId, response);
+            return Ok(response);
+        }
+        return HandleErrorResult(getResult.Error, id_param: exerciseId);
+    }
+
     private ActionResult HandleErrorResult(Error? error, object? requestPayload = null, object? id_param = null)
     {
         string logMessage = $"Exercise Operation Error - Type: {error?.Type}, Message: {error?.Message}";
