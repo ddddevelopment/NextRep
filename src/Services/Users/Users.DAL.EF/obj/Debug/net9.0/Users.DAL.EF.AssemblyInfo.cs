@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Users.DAL.EF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e0f5448a35d8ebb8f09179c9b77bc66a43866e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c5b098ae32551fe15e5891569e4ff4c4c1f4acc")]
 [assembly: System.Reflection.AssemblyProductAttribute("Users.DAL.EF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Users.DAL.EF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
