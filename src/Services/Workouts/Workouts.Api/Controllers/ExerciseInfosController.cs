@@ -70,21 +70,21 @@ public class ExerciseInfosController : ControllerBase
         return HandleErrorResult(getAllResult.Error);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Update(ExerciseInfoDto exerciseInfoDto)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Update(Guid id, ExerciseInfoUpdateRequest request)
     {
-        _logger?.LogInformation("Received request to update exerciseInfo: {@ExerciseInfoDto}", exerciseInfoDto);
+        _logger?.LogInformation("Received request to update exerciseInfo: {@ExerciseInfoUpdateRequest}", request);
 
-        ExerciseInfo exerciseInfo = _mapper.Map<ExerciseInfo>(exerciseInfoDto);
+        ExerciseInfo exerciseInfo = _mapper.Map<ExerciseInfo>(request, opt => opt.AfterMap((src, dest) => dest.Id = id));
         Result<ExerciseInfo> result = await _service.Update(exerciseInfo);
 
         if (result.IsSuccess)
         {
-            _logger?.LogInformation("ExerciseInfo updated successfully: {@ExerciseInfoDto}", exerciseInfoDto);
+            _logger?.LogInformation("ExerciseInfo updated successfully: {@ExerciseInfoDto}", request);
             return Ok();
         }
         
-        return HandleErrorResult(result.Error, exerciseInfoDto);
+        return HandleErrorResult(result.Error, request);
     }
 
     [HttpDelete("{id:guid}")]

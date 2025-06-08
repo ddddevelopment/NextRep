@@ -24,7 +24,7 @@ public class WorkoutsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Create(WorkoutCreateRequest request)
     {
-        _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", request);
+        _logger?.LogInformation("Received request to create a new workout: {@WorkoutCreateRequest}", request);
 
         Workout workout = _mapper.Map<Workout>(request);
         Result createResult = await _service.Create(workout);
@@ -70,20 +70,20 @@ public class WorkoutsController : ControllerBase
         return HandleWorkoutErrorResult(getAllResult.Error);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Update(WorkoutDto workoutDto)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Update(Guid id, WorkoutUpdateRequest request)
     {
-        _logger?.LogInformation("Received request to update workout: {@WorkoutDto}", workoutDto);
-        Workout workout = _mapper.Map<Workout>(workoutDto);
+        _logger?.LogInformation("Received request to update workout: {@WorkoutUpdateRequest}", request);
+        Workout workout = _mapper.Map<Workout>(request, opt => opt.AfterMap((src, dest) => dest.Id = id));
         Result<Workout> result = await _service.Update(workout);
 
         if (result.IsSuccess)
         {
-            _logger?.LogInformation("Workout updated successfully: {@Workout}", workoutDto);
+            _logger?.LogInformation("Workout updated successfully: {@Workout}", request);
             return Ok();
         }
         
-        return HandleWorkoutErrorResult(result.Error, workoutDto);
+        return HandleWorkoutErrorResult(result.Error, request);
     }
 
     [HttpDelete("{id:guid}")]
