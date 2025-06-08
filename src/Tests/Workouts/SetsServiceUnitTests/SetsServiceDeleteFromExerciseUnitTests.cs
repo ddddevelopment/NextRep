@@ -29,13 +29,14 @@ public class SetsServiceDeleteFromExerciseUnitTests
     public async Task DeleteFromExercise_ExerciseExists_ReturnsSuccess()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
         _repositoryMock.Setup(x => x.DeleteFromExercise(exerciseId, setId)).ReturnsAsync(Result.Success());
 
         // Act
-        var result = await _service.DeleteFromExercise(exerciseId, setId);
+        var result = await _service.DeleteFromExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -46,12 +47,13 @@ public class SetsServiceDeleteFromExerciseUnitTests
     public async Task DeleteFromExercise_ExerciseNotFound_ReturnsNotFound()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
 
         // Act
-        var result = await _service.DeleteFromExercise(exerciseId, setId);
+        var result = await _service.DeleteFromExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -63,14 +65,15 @@ public class SetsServiceDeleteFromExerciseUnitTests
     public async Task DeleteFromExercise_RepositoryFails_ReturnsFailure()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
         var error = Result.Failure("Some error");
         _repositoryMock.Setup(x => x.DeleteFromExercise(exerciseId, setId)).ReturnsAsync(error);
 
         // Act
-        var result = await _service.DeleteFromExercise(exerciseId, setId);
+        var result = await _service.DeleteFromExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.False(result.IsSuccess);

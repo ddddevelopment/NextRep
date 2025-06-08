@@ -30,12 +30,13 @@ public class SetsServiceCreateUnitTests
     {
         // Arrange
         var set = _fixture.Create<Set>();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId))
+        var workoutId = Guid.NewGuid();
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId))
             .ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, set.ExerciseId).Create()));
         _repositoryMock.Setup(x => x.Add(set)).ReturnsAsync(Result.Success());
 
         // Act
-        var result = await _service.Create(set);
+        var result = await _service.Create(workoutId, set);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -45,8 +46,11 @@ public class SetsServiceCreateUnitTests
     [Fact]
     public async Task Create_NullSet_ReturnsInvalid()
     {
+        // Arrange
+        var workoutId = Guid.NewGuid();
+        
         // Act
-        var result = await _service.Create(null!);
+        var result = await _service.Create(workoutId, null!);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -59,10 +63,11 @@ public class SetsServiceCreateUnitTests
     {
         // Arrange
         var set = _fixture.Create<Set>();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
+        var workoutId = Guid.NewGuid();
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
 
         // Act
-        var result = await _service.Create(set);
+        var result = await _service.Create(workoutId, set);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -70,18 +75,18 @@ public class SetsServiceCreateUnitTests
         _repositoryMock.Verify(repo => repo.Add(set), Times.Never);
     }
 
-
     [Fact]
     public async Task Create_AddFails_ReturnsFailure()
     {
         // Arrange
         var set = _fixture.Create<Set>();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Create<Exercise>()));
+        var workoutId = Guid.NewGuid();
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Create<Exercise>()));
         var error = Result.Failure("Some error");
         _repositoryMock.Setup(x => x.Add(set)).ReturnsAsync(error);
 
         // Act
-        var result = await _service.Create(set);
+        var result = await _service.Create(workoutId, set);
 
         // Assert
         Assert.False(result.IsSuccess);

@@ -18,42 +18,42 @@ namespace Workouts.Application.Services
             _logger = logger;
         }
 
-        public async Task<Result> Create(Set set)
+        public async Task<Result> Create(Guid workoutId, Set set)
         {
-            _logger?.LogDebug("Attempting to create set: {@Set}", set);
+            _logger?.LogDebug("Attempting to create set in workout {WorkoutId}: {@Set}", workoutId, set);
 
             if (set == null)
             {
-                _logger?.LogWarning("Set is null");
+                _logger?.LogWarning("Set is null (workout {WorkoutId})", workoutId);
                 return Result.Invalid("Set must not be null");
             }
 
-            var exerciseExistsResult = await _exercisesService.GetById(set.ExerciseId);
+            var exerciseExistsResult = await _exercisesService.GetByIdInWorkout(workoutId, set.ExerciseId);
             if (!exerciseExistsResult.IsSuccess)
             {
-                _logger?.LogWarning("Exercise with ID {ExerciseId} not found when trying to add set", set.ExerciseId);
-                return Result.NotFound($"Exercise with ID {set.ExerciseId} not found");
+                _logger?.LogWarning("Exercise with ID {ExerciseId} not found in workout {WorkoutId} when trying to add set", set.ExerciseId, workoutId);
+                return Result.NotFound($"Exercise with ID {set.ExerciseId} not found in workout {workoutId}");
             }
 
             var result = await _repository.Add(set);
 
             if (result.IsSuccess)
             {
-                _logger?.LogInformation("Set created successfully: {@Set}", set);
+                _logger?.LogInformation("Set created successfully in workout {WorkoutId}: {@Set}", workoutId, set);
             }
 
             return result;
         }
 
-        public async Task<Result<Set>> GetByIdInExercise(Guid exerciseId, Guid id)
+        public async Task<Result<Set>> GetByIdInExercise(Guid workoutId, Guid exerciseId, Guid id)
         {
             _logger?.LogDebug("Fetching set with ID: {SetId}", id);
 
-            var exerciseExistsResult = await _exercisesService.GetById(exerciseId);
-            if (!exerciseExistsResult.IsSuccess)
+            var exerciseResult = await _exercisesService.GetByIdInWorkout(workoutId, exerciseId);
+            if (!exerciseResult.IsSuccess)
             {
-                _logger?.LogWarning("Exercise with ID {ExerciseId} not found when trying to get set", exerciseId);
-                return Result<Set>.NotFound($"Exercise with ID {exerciseId} not found");
+                _logger?.LogWarning("Exercise with ID {ExerciseId} not found in workout {WorkoutId} when trying to get set", exerciseId, workoutId);
+                return Result<Set>.NotFound($"Exercise {exerciseId} not found in workout {workoutId}");
             }
 
             var result = await _repository.GetByIdInExercise(exerciseId, id);
@@ -66,15 +66,15 @@ namespace Workouts.Application.Services
             return result;
         }
 
-        public async Task<Result<IEnumerable<Set>>> GetAllByExerciseId(Guid exerciseId)
+        public async Task<Result<IEnumerable<Set>>> GetAllByExerciseId(Guid workoutId, Guid exerciseId)
         {
             _logger?.LogDebug("Fetching sets for exercise ID: {ExerciseId}", exerciseId);
 
-            var exerciseExistsResult = await _exercisesService.GetById(exerciseId);
-            if (!exerciseExistsResult.IsSuccess)
+            var exerciseResult = await _exercisesService.GetByIdInWorkout(workoutId, exerciseId);
+            if (!exerciseResult.IsSuccess)
             {
-                _logger?.LogWarning("Exercise with ID {ExerciseId} not found when trying to get sets", exerciseId);
-                return Result<IEnumerable<Set>>.NotFound($"Exercise with ID {exerciseId} not found");
+                _logger?.LogWarning("Exercise with ID {ExerciseId} not found in workout {WorkoutId} when trying to get sets", exerciseId, workoutId);
+                return Result<IEnumerable<Set>>.NotFound($"Exercise {exerciseId} not found in workout {workoutId}");
             }
 
             var result = await _repository.GetAllByExerciseId(exerciseId);
@@ -87,7 +87,7 @@ namespace Workouts.Application.Services
             return result;
         }
 
-        public async Task<Result<Set>> Update(Set set)
+        public async Task<Result<Set>> Update(Guid workoutId, Set set)
         {
             _logger?.LogDebug("Attempting to update set: {@Set}", set);
 
@@ -97,7 +97,7 @@ namespace Workouts.Application.Services
                 return Result<Set>.Invalid("Set must not be null");
             }
 
-            var exerciseExistsResult = await _exercisesService.GetById(set.ExerciseId);
+            var exerciseExistsResult = await _exercisesService.GetByIdInWorkout(workoutId, set.ExerciseId);
             if (!exerciseExistsResult.IsSuccess)
             {
                 _logger?.LogWarning("Exercise ID {ExerciseId} not found when updating set ID {SetId}", set.ExerciseId, set.Id);
@@ -114,15 +114,15 @@ namespace Workouts.Application.Services
             return result;
         }
 
-        public async Task<Result> DeleteFromExercise(Guid exerciseId, Guid id)
+        public async Task<Result> DeleteFromExercise(Guid workoutId, Guid exerciseId, Guid id)
         {
             _logger?.LogDebug("Attempting to delete set with ID: {SetId}", id);
 
-            var exerciseExistsResult = await _exercisesService.GetById(exerciseId);
-            if (!exerciseExistsResult.IsSuccess)
+            var exerciseResult = await _exercisesService.GetByIdInWorkout(workoutId, exerciseId);
+            if (!exerciseResult.IsSuccess)
             {
-                _logger?.LogWarning("Exercise ID {ExerciseId} not found when deleting set ID {SetId}", exerciseId, id);
-                return Result.NotFound($"Exercise with ID {exerciseId} not found");
+                _logger?.LogWarning("Exercise ID {ExerciseId} not found in workout {WorkoutId} when deleting set ID {SetId}", exerciseId, workoutId, id);
+                return Result.NotFound($"Exercise {exerciseId} not found in workout {workoutId}");
             }
 
             var result = await _repository.DeleteFromExercise(exerciseId, id);

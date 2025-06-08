@@ -29,14 +29,15 @@ public class SetsServiceGetByIdInExerciseUnitTests
     public async Task GetByIdInExercise_ExerciseExistsAndSetExists_ReturnsSuccess()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
         var set = _fixture.Build<Set>().With(s => s.ExerciseId, exerciseId).With(s => s.Id, setId).Create();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
         _repositoryMock.Setup(x => x.GetByIdInExercise(exerciseId, setId)).ReturnsAsync(Result<Set>.Success(set));
 
         // Act
-        var result = await _service.GetByIdInExercise(exerciseId, setId);
+        var result = await _service.GetByIdInExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -48,12 +49,13 @@ public class SetsServiceGetByIdInExerciseUnitTests
     public async Task GetByIdInExercise_ExerciseNotFound_ReturnsNotFound()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
 
         // Act
-        var result = await _service.GetByIdInExercise(exerciseId, setId);
+        var result = await _service.GetByIdInExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -65,13 +67,14 @@ public class SetsServiceGetByIdInExerciseUnitTests
     public async Task GetByIdInExercise_ExerciseExistsButSetNotFound_ReturnsNotFound()
     {
         // Arrange
+        var workoutId = Guid.NewGuid();
         var exerciseId = Guid.NewGuid();
         var setId = Guid.NewGuid();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(exerciseId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, exerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, exerciseId).Create()));
         _repositoryMock.Setup(x => x.GetByIdInExercise(exerciseId, setId)).ReturnsAsync(Result<Set>.NotFound("not found"));
 
         // Act
-        var result = await _service.GetByIdInExercise(exerciseId, setId);
+        var result = await _service.GetByIdInExercise(workoutId, exerciseId, setId);
 
         // Assert
         Assert.False(result.IsSuccess);
