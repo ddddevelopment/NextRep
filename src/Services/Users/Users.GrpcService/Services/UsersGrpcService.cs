@@ -27,7 +27,7 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
             UserMessage userMessage = _mapper.Map<UserMessage>(getUserResult.Value);
             return new GetUserResponse() { Success = true, Found = true, User = userMessage, ErrorMessage = string.Empty };
         }
-        else if (getUserResult.Error.Type == ErrorType.NotFound)
+        else if (getUserResult.Error!.Type == ErrorType.NotFound)
         {
             return new GetUserResponse() { Success = true, Found = false, User = new UserMessage(), ErrorMessage = string.Empty };
         }
@@ -46,7 +46,7 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
         }
         else
         {
-            return new CreateUserResponse() { ErrorMessage = createResult.Error.Message };
+            return new CreateUserResponse() { ErrorMessage = createResult.Error!.Message };
         }
     }
 }

@@ -7,8 +7,6 @@ public class WorkoutBaseValidator<T> : AbstractValidator<T> where T : WorkoutBas
 {
     public WorkoutBaseValidator()
     {
-        RuleFor(x => x.UserId)
-            .NotEmpty().WithMessage("UserId is required");
         RuleFor(x => x.StartTime)
             .NotEmpty().WithMessage("StartTime is required");
         RuleFor(x => x.EndTime)

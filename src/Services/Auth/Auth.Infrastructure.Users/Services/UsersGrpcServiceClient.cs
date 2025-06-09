@@ -20,7 +20,7 @@ namespace Auth.Infrastructure.Users.Services
 
         public async Task<UserCreateResult> CreateUser(UserDto user)
         {
-            UserMessage request = _mapper.Map<UserMessage>(user);
+            CreateUserRequest request = _mapper.Map<CreateUserRequest>(user);
             CreateUserResponse response = await _client.CreateUserAsync(request);
 
             if (response.Success == false)

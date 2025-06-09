@@ -27,21 +27,25 @@ namespace Auth.Infrastructure.Users {
             "ChJQcm90b3MvdXNlcnMucHJvdG8SBXVzZXJzIh8KDkdldFVzZXJSZXF1ZXN0",
             "Eg0KBWVtYWlsGAEgASgJImoKD0dldFVzZXJSZXNwb25zZRIPCgdzdWNjZXNz",
             "GAEgASgIEg0KBWZvdW5kGAIgASgIEiAKBHVzZXIYAyABKAsyEi51c2Vycy5V",
-            "c2VyTWVzc2FnZRIVCg1lcnJvcl9tZXNzYWdlGAQgASgJIlMKC1VzZXJNZXNz",
-            "YWdlEgwKBG5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkSFAoMcGFzc3dvcmRI",
-            "YXNoGAQgASgJEhEKCXRlbGVwaG9uZRgFIAEoCSI8ChJDcmVhdGVVc2VyUmVz",
-            "cG9uc2USDwoHc3VjY2VzcxgBIAEoCBIVCg1lcnJvcl9tZXNzYWdlGAIgASgJ",
-            "MokBCglVc2Vyc0dycGMSPwoOR2V0VXNlckJ5RW1haWwSFS51c2Vycy5HZXRV",
-            "c2VyUmVxdWVzdBoWLnVzZXJzLkdldFVzZXJSZXNwb25zZRI7CgpDcmVhdGVV",
-            "c2VyEhIudXNlcnMuVXNlck1lc3NhZ2UaGS51c2Vycy5DcmVhdGVVc2VyUmVz",
-            "cG9uc2VCHKoCGUF1dGguSW5mcmFzdHJ1Y3R1cmUuVXNlcnNiBnByb3RvMw=="));
+            "c2VyTWVzc2FnZRIVCg1lcnJvcl9tZXNzYWdlGAQgASgJIl8KC1VzZXJNZXNz",
+            "YWdlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkS",
+            "FAoMcGFzc3dvcmRIYXNoGAQgASgJEhEKCXRlbGVwaG9uZRgFIAEoCSJZChFD",
+            "cmVhdGVVc2VyUmVxdWVzdBIMCgRuYW1lGAEgASgJEg0KBWVtYWlsGAIgASgJ",
+            "EhQKDHBhc3N3b3JkSGFzaBgDIAEoCRIRCgl0ZWxlcGhvbmUYBCABKAkiSAoS",
+            "Q3JlYXRlVXNlclJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSCgoCaWQYAiAB",
+            "KAkSFQoNZXJyb3JfbWVzc2FnZRgDIAEoCTKPAQoJVXNlcnNHcnBjEj8KDkdl",
+            "dFVzZXJCeUVtYWlsEhUudXNlcnMuR2V0VXNlclJlcXVlc3QaFi51c2Vycy5H",
+            "ZXRVc2VyUmVzcG9uc2USQQoKQ3JlYXRlVXNlchIYLnVzZXJzLkNyZWF0ZVVz",
+            "ZXJSZXF1ZXN0GhkudXNlcnMuQ3JlYXRlVXNlclJlc3BvbnNlQhyqAhlBdXRo",
+            "LkluZnJhc3RydWN0dXJlLlVzZXJzYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.GetUserRequest), global::Auth.Infrastructure.Users.GetUserRequest.Parser, new[]{ "Email" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.GetUserResponse), global::Auth.Infrastructure.Users.GetUserResponse.Parser, new[]{ "Success", "Found", "User", "ErrorMessage" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.UserMessage), global::Auth.Infrastructure.Users.UserMessage.Parser, new[]{ "Name", "Email", "PasswordHash", "Telephone" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.CreateUserResponse), global::Auth.Infrastructure.Users.CreateUserResponse.Parser, new[]{ "Success", "ErrorMessage" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.UserMessage), global::Auth.Infrastructure.Users.UserMessage.Parser, new[]{ "Id", "Name", "Email", "PasswordHash", "Telephone" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.CreateUserRequest), global::Auth.Infrastructure.Users.CreateUserRequest.Parser, new[]{ "Name", "Email", "PasswordHash", "Telephone" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Auth.Infrastructure.Users.CreateUserResponse), global::Auth.Infrastructure.Users.CreateUserResponse.Parser, new[]{ "Success", "Id", "ErrorMessage" }, null, null, null, null)
           }));
     }
     #endregion
@@ -599,6 +603,7 @@ namespace Auth.Infrastructure.Users {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public UserMessage(UserMessage other) : this() {
+      id_ = other.id_;
       name_ = other.name_;
       email_ = other.email_;
       passwordHash_ = other.passwordHash_;
@@ -610,6 +615,18 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public UserMessage Clone() {
       return new UserMessage(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     /// <summary>Field number for the "name" field.</summary>
@@ -675,6 +692,339 @@ namespace Auth.Infrastructure.Users {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
+      if (Name != other.Name) return false;
+      if (Email != other.Email) return false;
+      if (PasswordHash != other.PasswordHash) return false;
+      if (Telephone != other.Telephone) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Email.Length != 0) hash ^= Email.GetHashCode();
+      if (PasswordHash.Length != 0) hash ^= PasswordHash.GetHashCode();
+      if (Telephone.Length != 0) hash ^= Telephone.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Email.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Email);
+      }
+      if (PasswordHash.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(PasswordHash);
+      }
+      if (Telephone.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Telephone);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Email.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Email);
+      }
+      if (PasswordHash.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(PasswordHash);
+      }
+      if (Telephone.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Telephone);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Email.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
+      }
+      if (PasswordHash.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PasswordHash);
+      }
+      if (Telephone.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Telephone);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(UserMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Email.Length != 0) {
+        Email = other.Email;
+      }
+      if (other.PasswordHash.Length != 0) {
+        PasswordHash = other.PasswordHash;
+      }
+      if (other.Telephone.Length != 0) {
+        Telephone = other.Telephone;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Email = input.ReadString();
+            break;
+          }
+          case 34: {
+            PasswordHash = input.ReadString();
+            break;
+          }
+          case 42: {
+            Telephone = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Email = input.ReadString();
+            break;
+          }
+          case 34: {
+            PasswordHash = input.ReadString();
+            break;
+          }
+          case 42: {
+            Telephone = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class CreateUserRequest : pb::IMessage<CreateUserRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<CreateUserRequest> _parser = new pb::MessageParser<CreateUserRequest>(() => new CreateUserRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<CreateUserRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Auth.Infrastructure.Users.UsersReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CreateUserRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CreateUserRequest(CreateUserRequest other) : this() {
+      name_ = other.name_;
+      email_ = other.email_;
+      passwordHash_ = other.passwordHash_;
+      telephone_ = other.telephone_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public CreateUserRequest Clone() {
+      return new CreateUserRequest(this);
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 1;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "email" field.</summary>
+    public const int EmailFieldNumber = 2;
+    private string email_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Email {
+      get { return email_; }
+      set {
+        email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "passwordHash" field.</summary>
+    public const int PasswordHashFieldNumber = 3;
+    private string passwordHash_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PasswordHash {
+      get { return passwordHash_; }
+      set {
+        passwordHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "telephone" field.</summary>
+    public const int TelephoneFieldNumber = 4;
+    private string telephone_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Telephone {
+      get { return telephone_; }
+      set {
+        telephone_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as CreateUserRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(CreateUserRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
       if (Name != other.Name) return false;
       if (Email != other.Email) return false;
       if (PasswordHash != other.PasswordHash) return false;
@@ -709,19 +1059,19 @@ namespace Auth.Infrastructure.Users {
       output.WriteRawMessage(this);
     #else
       if (Name.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteString(Name);
       }
       if (Email.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(18);
         output.WriteString(Email);
       }
       if (PasswordHash.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(26);
         output.WriteString(PasswordHash);
       }
       if (Telephone.Length != 0) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(34);
         output.WriteString(Telephone);
       }
       if (_unknownFields != null) {
@@ -735,19 +1085,19 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (Name.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteString(Name);
       }
       if (Email.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(18);
         output.WriteString(Email);
       }
       if (PasswordHash.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(26);
         output.WriteString(PasswordHash);
       }
       if (Telephone.Length != 0) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(34);
         output.WriteString(Telephone);
       }
       if (_unknownFields != null) {
@@ -780,7 +1130,7 @@ namespace Auth.Infrastructure.Users {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(UserMessage other) {
+    public void MergeFrom(CreateUserRequest other) {
       if (other == null) {
         return;
       }
@@ -815,19 +1165,19 @@ namespace Auth.Infrastructure.Users {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 18: {
+          case 10: {
             Name = input.ReadString();
             break;
           }
-          case 26: {
+          case 18: {
             Email = input.ReadString();
             break;
           }
-          case 34: {
+          case 26: {
             PasswordHash = input.ReadString();
             break;
           }
-          case 42: {
+          case 34: {
             Telephone = input.ReadString();
             break;
           }
@@ -850,19 +1200,19 @@ namespace Auth.Infrastructure.Users {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 18: {
+          case 10: {
             Name = input.ReadString();
             break;
           }
-          case 26: {
+          case 18: {
             Email = input.ReadString();
             break;
           }
-          case 34: {
+          case 26: {
             PasswordHash = input.ReadString();
             break;
           }
-          case 42: {
+          case 34: {
             Telephone = input.ReadString();
             break;
           }
@@ -888,7 +1238,7 @@ namespace Auth.Infrastructure.Users {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Auth.Infrastructure.Users.UsersReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Auth.Infrastructure.Users.UsersReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -909,6 +1259,7 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CreateUserResponse(CreateUserResponse other) : this() {
       success_ = other.success_;
+      id_ = other.id_;
       errorMessage_ = other.errorMessage_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -931,8 +1282,20 @@ namespace Auth.Infrastructure.Users {
       }
     }
 
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 2;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "error_message" field.</summary>
-    public const int ErrorMessageFieldNumber = 2;
+    public const int ErrorMessageFieldNumber = 3;
     private string errorMessage_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -959,6 +1322,7 @@ namespace Auth.Infrastructure.Users {
         return true;
       }
       if (Success != other.Success) return false;
+      if (Id != other.Id) return false;
       if (ErrorMessage != other.ErrorMessage) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -968,6 +1332,7 @@ namespace Auth.Infrastructure.Users {
     public override int GetHashCode() {
       int hash = 1;
       if (Success != false) hash ^= Success.GetHashCode();
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (ErrorMessage.Length != 0) hash ^= ErrorMessage.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -991,8 +1356,12 @@ namespace Auth.Infrastructure.Users {
         output.WriteRawTag(8);
         output.WriteBool(Success);
       }
-      if (ErrorMessage.Length != 0) {
+      if (Id.Length != 0) {
         output.WriteRawTag(18);
+        output.WriteString(Id);
+      }
+      if (ErrorMessage.Length != 0) {
+        output.WriteRawTag(26);
         output.WriteString(ErrorMessage);
       }
       if (_unknownFields != null) {
@@ -1009,8 +1378,12 @@ namespace Auth.Infrastructure.Users {
         output.WriteRawTag(8);
         output.WriteBool(Success);
       }
-      if (ErrorMessage.Length != 0) {
+      if (Id.Length != 0) {
         output.WriteRawTag(18);
+        output.WriteString(Id);
+      }
+      if (ErrorMessage.Length != 0) {
+        output.WriteRawTag(26);
         output.WriteString(ErrorMessage);
       }
       if (_unknownFields != null) {
@@ -1025,6 +1398,9 @@ namespace Auth.Infrastructure.Users {
       int size = 0;
       if (Success != false) {
         size += 1 + 1;
+      }
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
       if (ErrorMessage.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ErrorMessage);
@@ -1043,6 +1419,9 @@ namespace Auth.Infrastructure.Users {
       }
       if (other.Success != false) {
         Success = other.Success;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
       }
       if (other.ErrorMessage.Length != 0) {
         ErrorMessage = other.ErrorMessage;
@@ -1071,6 +1450,10 @@ namespace Auth.Infrastructure.Users {
             break;
           }
           case 18: {
+            Id = input.ReadString();
+            break;
+          }
+          case 26: {
             ErrorMessage = input.ReadString();
             break;
           }
@@ -1098,6 +1481,10 @@ namespace Auth.Infrastructure.Users {
             break;
           }
           case 18: {
+            Id = input.ReadString();
+            break;
+          }
+          case 26: {
             ErrorMessage = input.ReadString();
             break;
           }
