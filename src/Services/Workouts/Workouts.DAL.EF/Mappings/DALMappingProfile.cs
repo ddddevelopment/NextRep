@@ -9,10 +9,10 @@ namespace Workouts.DAL.EF.Mappings {
             CreateMap<Workout, WorkoutEntity>()
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.user_id, opt => opt.MapFrom(src => src.UserId))
-                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
-                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
-                .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes))
-                .ForMember(dest => dest.Exercises, opt => opt.MapFrom(src => src.Exercises))
+                .ForMember(dest => dest.start_time, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.end_time, opt => opt.MapFrom(src => src.EndTime))
+                .ForMember(dest => dest.notes, opt => opt.MapFrom(src => src.Notes))
+                .ForMember(dest => dest.exercises, opt => opt.MapFrom(src => src.Exercises))
                 .ReverseMap();
 
             CreateMap<Set, SetEntity>()

@@ -10,14 +10,14 @@ namespace Workouts.DAL.EF.Entities {
         public Guid user_id { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
+        public DateTime start_time { get; set; }
 
         [Required]
-        public DateTime EndTime { get; set; }
+        public DateTime end_time { get; set; }
 
-        public string? Notes { get; set; } = null;
+        public string? notes { get; set; } = null;
         
         [Required]
-        public virtual ICollection<ExerciseEntity> Exercises { get; set; } = new List<ExerciseEntity>();
+        public virtual ICollection<ExerciseEntity> exercises { get; set; } = new List<ExerciseEntity>();
     }
 }
