@@ -8,7 +8,7 @@ namespace Workouts.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ExerciseInfosController : ControllerBase
+public class ExerciseInfosController : AuthorizedControllerBase
 {
     private readonly IExerciseInfosService _service;
     private readonly IMapper _mapper;

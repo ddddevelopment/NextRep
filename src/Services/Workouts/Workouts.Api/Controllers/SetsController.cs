@@ -8,7 +8,7 @@ namespace Workouts.Api.Controllers;
 
 [ApiController]
 [Route("api/workouts/{workoutId:guid}/exercises/{exerciseId:guid}/sets")]
-public class SetsController : ControllerBase
+public class SetsController : AuthorizedControllerBase
 {
     private readonly ISetsService _setsService;
     private readonly IMapper _mapper;
