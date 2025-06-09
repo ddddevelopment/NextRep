@@ -6,7 +6,7 @@ namespace Auth.Infrastructure.Users.Mappings {
         public GrpcMappingProfile()
         {
             CreateMap<UserMessage, UserDto>().ReverseMap();
-            CreateMap<UserDto, CreateUserRequest>();
+            CreateMap<UserCreateDto, CreateUserRequest>();
         }
     }
 }

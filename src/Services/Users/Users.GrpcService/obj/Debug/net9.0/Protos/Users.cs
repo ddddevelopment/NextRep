@@ -33,11 +33,11 @@ namespace Users.GrpcService {
             "cmVhdGVVc2VyUmVxdWVzdBIMCgRuYW1lGAEgASgJEg0KBWVtYWlsGAIgASgJ",
             "EhQKDHBhc3N3b3JkSGFzaBgDIAEoCRIRCgl0ZWxlcGhvbmUYBCABKAkiSAoS",
             "Q3JlYXRlVXNlclJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSCgoCaWQYAiAB",
-            "KAkSFQoNZXJyb3JfbWVzc2FnZRgDIAEoCTKJAQoJVXNlcnNHcnBjEj8KDkdl",
+            "KAkSFQoNZXJyb3JfbWVzc2FnZRgDIAEoCTKPAQoJVXNlcnNHcnBjEj8KDkdl",
             "dFVzZXJCeUVtYWlsEhUudXNlcnMuR2V0VXNlclJlcXVlc3QaFi51c2Vycy5H",
-            "ZXRVc2VyUmVzcG9uc2USOwoKQ3JlYXRlVXNlchISLnVzZXJzLlVzZXJNZXNz",
-            "YWdlGhkudXNlcnMuQ3JlYXRlVXNlclJlc3BvbnNlQhSqAhFVc2Vycy5HcnBj",
-            "U2VydmljZWIGcHJvdG8z"));
+            "ZXRVc2VyUmVzcG9uc2USQQoKQ3JlYXRlVXNlchIYLnVzZXJzLkNyZWF0ZVVz",
+            "ZXJSZXF1ZXN0GhkudXNlcnMuQ3JlYXRlVXNlclJlc3BvbnNlQhSqAhFVc2Vy",
+            "cy5HcnBjU2VydmljZWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

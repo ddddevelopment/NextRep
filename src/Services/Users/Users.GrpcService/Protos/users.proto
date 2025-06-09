@@ -6,7 +6,7 @@ package users;
 
 service UsersGrpc {
     rpc GetUserByEmail (GetUserRequest) returns (GetUserResponse);
-    rpc CreateUser (UserMessage) returns (CreateUserResponse);
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
 }
 
 message GetUserRequest {

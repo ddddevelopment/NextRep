@@ -50,7 +50,7 @@ namespace Users.GrpcService {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Users.GrpcService.GetUserResponse> __Marshaller_users_GetUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.GetUserResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Users.GrpcService.UserMessage> __Marshaller_users_UserMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.UserMessage.Parser));
+    static readonly grpc::Marshaller<global::Users.GrpcService.CreateUserRequest> __Marshaller_users_CreateUserRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.CreateUserRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Users.GrpcService.CreateUserResponse> __Marshaller_users_CreateUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Users.GrpcService.CreateUserResponse.Parser));
 
@@ -63,11 +63,11 @@ namespace Users.GrpcService {
         __Marshaller_users_GetUserResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse> __Method_CreateUser = new grpc::Method<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse>(
+    static readonly grpc::Method<global::Users.GrpcService.CreateUserRequest, global::Users.GrpcService.CreateUserResponse> __Method_CreateUser = new grpc::Method<global::Users.GrpcService.CreateUserRequest, global::Users.GrpcService.CreateUserResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "CreateUser",
-        __Marshaller_users_UserMessage,
+        __Marshaller_users_CreateUserRequest,
         __Marshaller_users_CreateUserResponse);
 
     /// <summary>Service descriptor</summary>
@@ -87,7 +87,7 @@ namespace Users.GrpcService {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Users.GrpcService.CreateUserResponse> CreateUser(global::Users.GrpcService.UserMessage request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Users.GrpcService.CreateUserResponse> CreateUser(global::Users.GrpcService.CreateUserRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -112,7 +112,7 @@ namespace Users.GrpcService {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, UsersGrpcBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_GetUserByEmail, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.GetUserRequest, global::Users.GrpcService.GetUserResponse>(serviceImpl.GetUserByEmail));
-      serviceBinder.AddMethod(__Method_CreateUser, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.UserMessage, global::Users.GrpcService.CreateUserResponse>(serviceImpl.CreateUser));
+      serviceBinder.AddMethod(__Method_CreateUser, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Users.GrpcService.CreateUserRequest, global::Users.GrpcService.CreateUserResponse>(serviceImpl.CreateUser));
     }
 
   }

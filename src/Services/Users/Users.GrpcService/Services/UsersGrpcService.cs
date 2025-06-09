@@ -35,14 +35,14 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
         return new GetUserResponse() { Success = false, Found = false, User = new UserMessage(), ErrorMessage = getUserResult.Error.Message };
     }
 
-    public override async Task<CreateUserResponse> CreateUser(UserMessage request, ServerCallContext context)
+    public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         User user = _mapper.Map<User>(request);
         Result createResult = await _usersService.Create(user);
 
         if (createResult.IsSuccess)
         {
-            return new CreateUserResponse() { Success = true };
+            return new CreateUserResponse() { Success = true, Id = user.Id.ToString() };
         }
         else
         {
