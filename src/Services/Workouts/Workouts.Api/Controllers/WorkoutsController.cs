@@ -78,7 +78,11 @@ public class WorkoutsController : AuthorizedControllerBase
         _logger?.LogInformation("Received request to update workout: {@WorkoutUpdateRequest}", request);
         Workout workout = _mapper.Map<Workout>(request, opt =>
         {
-            opt.AfterMap((src, dest) => dest.Id = id);
+            opt.AfterMap((src, dest) =>
+            {
+                dest.Id = id;
+                dest.UserId = CurrentUserId;
+            });
         });
         Result<Workout> result = await _service.Update(workout);
 
