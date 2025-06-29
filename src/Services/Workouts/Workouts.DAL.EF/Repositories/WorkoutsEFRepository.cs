@@ -41,12 +41,15 @@ namespace Workouts.DAL.EF.Repositories
         public async Task<Result<Workout>> GetById(Guid id)
         {
             _logger?.LogDebug("Fetching from database workout with ID: {WorkoutId}", id);
-            WorkoutEntity? found = await _context.Workouts.FindAsync(id);
+            
+            WorkoutEntity? found = await _context.Workouts.Include(w => w.exercises).ThenInclude(e => e.sets)
+                .FirstOrDefaultAsync(w => w.id == id);
             if (found == null)
             {
                 _logger?.LogWarning("Workout with ID: {WorkoutId} not found in database", id);
                 return Result<Workout>.NotFound($"Workout with ID: {id} not found");
             }
+
             _logger?.LogDebug("Successfully fetched workout from database: {@Workout}", found);
             return Result<Workout>.Success(_mapper.Map<Workout>(found));
         }
@@ -55,8 +58,9 @@ namespace Workouts.DAL.EF.Repositories
         {
             _logger?.LogDebug("Fetching all workouts from database");
 
-            IEnumerable<WorkoutEntity> found = await _context.Workouts.ToListAsync();
-            
+            IEnumerable<WorkoutEntity> found = await _context.Workouts.Include(w => w.exercises).ThenInclude(e => e.sets)
+                .ToListAsync();
+
             IEnumerable<Workout> workouts = _mapper.Map<IEnumerable<Workout>>(found);
             _logger?.LogDebug("Successfully fetched all workouts from database");
             return Result<IEnumerable<Workout>>.Success(workouts);

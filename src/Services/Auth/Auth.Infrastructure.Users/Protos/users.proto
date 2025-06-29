@@ -6,7 +6,7 @@ package users;
 
 service UsersGrpc {
     rpc GetUserByEmail (GetUserRequest) returns (GetUserResponse);
-    rpc CreateUser (UserMessage) returns (CreateUserResponse);
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
 }
 
 message GetUserRequest {
@@ -21,13 +21,22 @@ message GetUserResponse {
 }
 
 message UserMessage {
+    string id = 1;
     string name = 2;
     string email = 3;
     string passwordHash = 4;
     string telephone = 5;
 }
 
+message CreateUserRequest {
+    string name = 1;
+    string email = 2;
+    string passwordHash = 3;
+    string telephone = 4;
+}   
+
 message CreateUserResponse { 
     bool success = 1;
-    string error_message = 2;
+    string id = 2;
+    string error_message = 3;
 }

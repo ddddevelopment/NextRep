@@ -18,9 +18,9 @@ namespace Auth.Infrastructure.Users.Services
             _mapper = mapper;
         }
 
-        public async Task<UserCreateResult> CreateUser(UserDto user)
+        public async Task<UserCreateResult> CreateUser(UserCreateDto user)
         {
-            UserMessage request = _mapper.Map<UserMessage>(user);
+            CreateUserRequest request = _mapper.Map<CreateUserRequest>(user);
             CreateUserResponse response = await _client.CreateUserAsync(request);
 
             if (response.Success == false)
@@ -28,7 +28,7 @@ namespace Auth.Infrastructure.Users.Services
                 return UserCreateResult.Failure(response.ErrorMessage);
             }
 
-            return UserCreateResult.Success();
+            return UserCreateResult.Success(Guid.Parse(response.Id));
         }
 
         public async Task<UserGetResult> GetUserByEmail(string email)

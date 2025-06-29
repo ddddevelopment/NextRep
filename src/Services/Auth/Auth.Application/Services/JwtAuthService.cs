@@ -36,7 +36,7 @@ public class JwtAuthService : IAuthService
             return AuthResult.Failure($"User with email: {login.Email} not found");
         }
 
-        UserDto user = userGetResult.User;
+        UserDto user = userGetResult.User!;
         bool isAuthenticated = Authenticate(user, login.Password);
         if (isAuthenticated == false)
         {
@@ -65,16 +65,18 @@ public class JwtAuthService : IAuthService
 
         string passwordHash = _passwordHasher.HashPassword(register.Password);
 
-        UserDto user = _mapper.Map<UserDto>(register, opt => opt.AfterMap((src, dest) => dest.PasswordHash = passwordHash));
+        UserCreateDto userCreate = _mapper.Map<UserCreateDto>(register, opt => opt.AfterMap((src, dest) => dest.PasswordHash = passwordHash));
 
-        UserCreateResult userCreateResult = await _usersServiceClient.CreateUser(user);
+        UserCreateResult userCreateResult = await _usersServiceClient.CreateUser(userCreate);
 
         if (userCreateResult.IsSuccess == false)
         {
             return AuthResult.Failure($"Error occured while creating user: {userCreateResult.ErrorMessage}");
         }
 
-        string accessToken = GenerateAccessToken(user);
+        UserDto userDto = _mapper.Map<UserDto>(userCreate, opt => opt.AfterMap((src, dest) => dest.Id = userCreateResult.Id!.Value));
+
+        string accessToken = GenerateAccessToken(userDto);
         return AuthResult.Success(accessToken, null, _settings.AccessTokenExpirationMinutes * 60);
     }
 

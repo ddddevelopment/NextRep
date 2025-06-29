@@ -6,6 +6,7 @@ namespace Auth.Application.Mappings;
 public class ApplicationMappingProfile : Profile {
     public ApplicationMappingProfile()
     {
-        CreateMap<UserRegister, UserDto>();
+        CreateMap<UserRegister, UserCreateDto>();
+        CreateMap<UserCreateDto, UserDto>();
     }
 }

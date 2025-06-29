@@ -61,7 +61,6 @@ try
     Log.Information("Starting Users.Api application");
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         Log.Information("Application is running in Development environment");

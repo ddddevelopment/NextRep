@@ -27,7 +27,7 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
             UserMessage userMessage = _mapper.Map<UserMessage>(getUserResult.Value);
             return new GetUserResponse() { Success = true, Found = true, User = userMessage, ErrorMessage = string.Empty };
         }
-        else if (getUserResult.Error.Type == ErrorType.NotFound)
+        else if (getUserResult.Error!.Type == ErrorType.NotFound)
         {
             return new GetUserResponse() { Success = true, Found = false, User = new UserMessage(), ErrorMessage = string.Empty };
         }
@@ -35,18 +35,18 @@ public class UsersGrpcService : UsersGrpc.UsersGrpcBase
         return new GetUserResponse() { Success = false, Found = false, User = new UserMessage(), ErrorMessage = getUserResult.Error.Message };
     }
 
-    public override async Task<CreateUserResponse> CreateUser(UserMessage request, ServerCallContext context)
+    public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         User user = _mapper.Map<User>(request);
         Result createResult = await _usersService.Create(user);
 
         if (createResult.IsSuccess)
         {
-            return new CreateUserResponse() { Success = true };
+            return new CreateUserResponse() { Success = true, Id = user.Id.ToString() };
         }
         else
         {
-            return new CreateUserResponse() { ErrorMessage = createResult.Error.Message };
+            return new CreateUserResponse() { ErrorMessage = createResult.Error!.Message };
         }
     }
 }

@@ -30,12 +30,13 @@ public class SetsServiceUpdateUnitTests
     {
         // Arrange
         var set = _fixture.Create<Set>();
+        var workoutId = Guid.NewGuid();
         var updatedSet = new Set() { Id = set.Id, ExerciseId = set.ExerciseId, Notes = set.Notes, Reps = set.Reps, Weight = set.Weight };
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, set.ExerciseId).Create()));
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, set.ExerciseId).Create()));
         _repositoryMock.Setup(x => x.Update(set)).ReturnsAsync(Result<Set>.Success(updatedSet));
 
         // Act
-        var result = await _service.Update(set);
+        var result = await _service.Update(workoutId, set);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -47,7 +48,8 @@ public class SetsServiceUpdateUnitTests
     public async Task Update_NullSet_ReturnsInvalid()
     {
         // Act
-        var result = await _service.Update(null!);
+        var workoutId = Guid.NewGuid();
+        var result = await _service.Update(workoutId, null!);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -60,10 +62,11 @@ public class SetsServiceUpdateUnitTests
     {
         // Arrange
         var set = _fixture.Create<Set>();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
+        var workoutId = Guid.NewGuid();
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.NotFound("not found"));
 
         // Act
-        var result = await _service.Update(set);
+        var result = await _service.Update(workoutId, set);
 
         // Assert
         Assert.False(result.IsSuccess);
@@ -76,12 +79,13 @@ public class SetsServiceUpdateUnitTests
     {
         // Arrange
         var set = _fixture.Create<Set>();
-        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(set.ExerciseId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, set.ExerciseId).Create()));
+        var workoutId = Guid.NewGuid();
+        _exercisesServiceMock.Setup(x => x.GetByIdInWorkout(workoutId, set.ExerciseId)).ReturnsAsync(Result<Exercise>.Success(_fixture.Build<Exercise>().With(e => e.Id, set.ExerciseId).Create()));
         var error = Result<Set>.Failure("Some error");
         _repositoryMock.Setup(x => x.Update(set)).ReturnsAsync(error);
 
         // Act
-        var result = await _service.Update(set);
+        var result = await _service.Update(workoutId, set);
 
         // Assert
         Assert.False(result.IsSuccess);

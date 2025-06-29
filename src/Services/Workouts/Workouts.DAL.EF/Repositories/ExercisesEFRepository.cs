@@ -41,7 +41,7 @@ namespace Workouts.DAL.EF.Repositories
         public async Task<Result<Exercise>> GetByIdInWorkout(Guid workoutId, Guid id)
         {
             _logger?.LogDebug("Fetching from database exercise with ID: {ExerciseId}", id);
-            ExerciseEntity? found = await _context.Exercises.FirstOrDefaultAsync(e => e.id == id && e.workout_id == workoutId);
+            ExerciseEntity? found = await _context.Exercises.Include(e => e.sets).FirstOrDefaultAsync(e => e.id == id && e.workout_id == workoutId);
             if (found == null)
             {
                 _logger?.LogWarning("Exercise with ID: {ExerciseId} in workout with ID: {WorkoutId} not found in database", id, workoutId);
@@ -56,7 +56,7 @@ namespace Workouts.DAL.EF.Repositories
             _logger?.LogDebug("Fetching exercises for workout ID: {WorkoutId} from database", workoutId);
             try
             {
-                IEnumerable<ExerciseEntity> found = await _context.Exercises
+                IEnumerable<ExerciseEntity> found = await _context.Exercises.Include(e => e.sets)
                                                               .Where(e => e.workout_id == workoutId)
                                                               .ToListAsync();
 
@@ -117,19 +117,6 @@ namespace Workouts.DAL.EF.Repositories
                 _logger?.LogError(exception, "Database error occurred while removing exercise with ID: {ExerciseId}", id);
                 return Result.Failure($"Failed to remove exercise: {exception.Message}");
             }
-        }
-
-        public async Task<Result<Exercise>> GetById(Guid id)
-        {
-            _logger?.LogDebug("Fetching from database exercise with ID: {ExerciseId}", id);
-            ExerciseEntity? found = await _context.Exercises.FindAsync(id);
-            if (found == null)
-            {
-                _logger?.LogWarning("Exercise with ID: {ExerciseId} not found in database", id);
-                return Result<Exercise>.NotFound($"Exercise with ID: {id} not found");
-            }
-            _logger?.LogDebug("Successfully fetched exercise from database: {@Exercise}", found);
-            return Result<Exercise>.Success(_mapper.Map<Exercise>(found));
         }
     }
 }

@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Workouts.Api.Models;
 using Workouts.Domain.Models;
@@ -8,7 +10,7 @@ namespace Workouts.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class WorkoutsController : ControllerBase
+public class WorkoutsController : AuthorizedControllerBase
 {
     private readonly IWorkoutsService _service;
     private readonly IMapper _mapper;
@@ -24,9 +26,9 @@ public class WorkoutsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Create(WorkoutCreateRequest request)
     {
-        _logger?.LogInformation("Received request to create a new workout: {@WorkoutDto}", request);
+        _logger?.LogInformation("Received request to create a new workout: {@WorkoutCreateRequest}", request);
 
-        Workout workout = _mapper.Map<Workout>(request);
+        Workout workout = _mapper.Map<Workout>(request, opt => opt.AfterMap((src, dest) => dest.UserId = CurrentUserId));
         Result createResult = await _service.Create(workout);
 
         if (createResult.IsSuccess)
@@ -34,7 +36,7 @@ public class WorkoutsController : ControllerBase
             _logger?.LogInformation("Workout created successfully: {@Workout}", request);
             return Created();
         }
-        
+
         return HandleWorkoutErrorResult(createResult.Error, request);
     }
 
@@ -50,7 +52,7 @@ public class WorkoutsController : ControllerBase
             _logger?.LogInformation("Workout retrieved successfully: {@Workout}", response);
             return Ok(response);
         }
-        
+
         return HandleWorkoutErrorResult(getResult.Error, id_param: id);
     }
 
@@ -66,24 +68,31 @@ public class WorkoutsController : ControllerBase
             _logger?.LogInformation("Successfully retrieved all workouts");
             return Ok(response);
         }
-        
+
         return HandleWorkoutErrorResult(getAllResult.Error);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Update(WorkoutDto workoutDto)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Update(Guid id, WorkoutUpdateRequest request)
     {
-        _logger?.LogInformation("Received request to update workout: {@WorkoutDto}", workoutDto);
-        Workout workout = _mapper.Map<Workout>(workoutDto);
+        _logger?.LogInformation("Received request to update workout: {@WorkoutUpdateRequest}", request);
+        Workout workout = _mapper.Map<Workout>(request, opt =>
+        {
+            opt.AfterMap((src, dest) =>
+            {
+                dest.Id = id;
+                dest.UserId = CurrentUserId;
+            });
+        });
         Result<Workout> result = await _service.Update(workout);
 
         if (result.IsSuccess)
         {
-            _logger?.LogInformation("Workout updated successfully: {@Workout}", workoutDto);
+            _logger?.LogInformation("Workout updated successfully: {@Workout}", request);
             return Ok();
         }
-        
-        return HandleWorkoutErrorResult(result.Error, workoutDto);
+
+        return HandleWorkoutErrorResult(result.Error, request);
     }
 
     [HttpDelete("{id:guid}")]
@@ -97,14 +106,14 @@ public class WorkoutsController : ControllerBase
             _logger?.LogInformation("Workout deleted successfully with ID: {WorkoutId}", id);
             return NoContent();
         }
-        
+
         return HandleWorkoutErrorResult(result.Error, id_param: id);
     }
 
     private ActionResult HandleWorkoutErrorResult(Error? error, object? requestPayload = null, object? id_param = null)
     {
         string logMessage = $"Workout Operation Error - Type: {error?.Type}, Message: {error?.Message}";
-        if (id_param != null) 
+        if (id_param != null)
         {
             logMessage += $", ID: {id_param}";
         }
@@ -123,7 +132,7 @@ public class WorkoutsController : ControllerBase
             case ErrorType.Unknown:
             default:
                 _logger?.LogError(logMessage, "An unknown error occurred during workout operation: {@RequestPayload}", requestPayload);
-                return BadRequest(error?.Message); 
+                return BadRequest(error?.Message);
         }
     }
 }

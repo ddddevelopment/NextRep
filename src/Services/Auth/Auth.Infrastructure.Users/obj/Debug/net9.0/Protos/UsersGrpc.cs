@@ -50,7 +50,7 @@ namespace Auth.Infrastructure.Users {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Auth.Infrastructure.Users.GetUserResponse> __Marshaller_users_GetUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Auth.Infrastructure.Users.GetUserResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Auth.Infrastructure.Users.UserMessage> __Marshaller_users_UserMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Auth.Infrastructure.Users.UserMessage.Parser));
+    static readonly grpc::Marshaller<global::Auth.Infrastructure.Users.CreateUserRequest> __Marshaller_users_CreateUserRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Auth.Infrastructure.Users.CreateUserRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Auth.Infrastructure.Users.CreateUserResponse> __Marshaller_users_CreateUserResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Auth.Infrastructure.Users.CreateUserResponse.Parser));
 
@@ -63,11 +63,11 @@ namespace Auth.Infrastructure.Users {
         __Marshaller_users_GetUserResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Auth.Infrastructure.Users.UserMessage, global::Auth.Infrastructure.Users.CreateUserResponse> __Method_CreateUser = new grpc::Method<global::Auth.Infrastructure.Users.UserMessage, global::Auth.Infrastructure.Users.CreateUserResponse>(
+    static readonly grpc::Method<global::Auth.Infrastructure.Users.CreateUserRequest, global::Auth.Infrastructure.Users.CreateUserResponse> __Method_CreateUser = new grpc::Method<global::Auth.Infrastructure.Users.CreateUserRequest, global::Auth.Infrastructure.Users.CreateUserResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "CreateUser",
-        __Marshaller_users_UserMessage,
+        __Marshaller_users_CreateUserRequest,
         __Marshaller_users_CreateUserResponse);
 
     /// <summary>Service descriptor</summary>
@@ -124,22 +124,22 @@ namespace Auth.Infrastructure.Users {
         return CallInvoker.AsyncUnaryCall(__Method_GetUserByEmail, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Auth.Infrastructure.Users.CreateUserResponse CreateUser(global::Auth.Infrastructure.Users.UserMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Auth.Infrastructure.Users.CreateUserResponse CreateUser(global::Auth.Infrastructure.Users.CreateUserRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return CreateUser(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Auth.Infrastructure.Users.CreateUserResponse CreateUser(global::Auth.Infrastructure.Users.UserMessage request, grpc::CallOptions options)
+      public virtual global::Auth.Infrastructure.Users.CreateUserResponse CreateUser(global::Auth.Infrastructure.Users.CreateUserRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_CreateUser, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Auth.Infrastructure.Users.CreateUserResponse> CreateUserAsync(global::Auth.Infrastructure.Users.UserMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Auth.Infrastructure.Users.CreateUserResponse> CreateUserAsync(global::Auth.Infrastructure.Users.CreateUserRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return CreateUserAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Auth.Infrastructure.Users.CreateUserResponse> CreateUserAsync(global::Auth.Infrastructure.Users.UserMessage request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Auth.Infrastructure.Users.CreateUserResponse> CreateUserAsync(global::Auth.Infrastructure.Users.CreateUserRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_CreateUser, null, options, request);
       }

@@ -3,8 +3,10 @@ using AutoMapper;
 
 namespace Auth.Infrastructure.Users.Mappings {
     public class GrpcMappingProfile : Profile {
-        public GrpcMappingProfile() {
+        public GrpcMappingProfile()
+        {
             CreateMap<UserMessage, UserDto>().ReverseMap();
+            CreateMap<UserCreateDto, CreateUserRequest>();
         }
     }
 }

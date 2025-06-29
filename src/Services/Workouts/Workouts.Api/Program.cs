@@ -9,6 +9,9 @@ using Workouts.DAL.EF.Mappings;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Workouts.Api.Validators;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +37,21 @@ builder.Services.AddAutoMapper(
 
 builder.Services.AddValidatorsFromAssemblyContaining<WorkoutCreateRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 var app = builder.Build();
 

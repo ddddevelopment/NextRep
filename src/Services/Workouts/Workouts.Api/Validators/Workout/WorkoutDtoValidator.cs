@@ -8,5 +8,7 @@ public class WorkoutDtoValidator : WorkoutBaseValidator<WorkoutDto> {
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage("Id is required");
+        RuleForEach(x => x.Exercises)
+            .SetValidator(new ExerciseDtoValidator());
     }
 }

@@ -22,7 +22,7 @@ namespace Users.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(UserCreateRequest userDto)
+        public async Task<ActionResult<Guid>> Create(UserCreateRequest userDto)
         {
             _logger?.LogInformation("Received request to create a new user: {@UserDto}", userDto);
             User user = _mapper.Map<User>(userDto);
@@ -32,7 +32,7 @@ namespace Users.Api.Controllers
             if (createResult.IsSuccess)
             {
                 _logger?.LogInformation("User created successfully: {@User}", user);
-                return Created();
+                return CreatedAtAction(nameof(Create), new { id = user.Id }, user.Id);
             }
             else
             {

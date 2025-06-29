@@ -149,16 +149,5 @@ namespace Workouts.Application.Services
 
             return result;
         }
-
-        public async Task<Result<Exercise>> GetById(Guid id)
-        {
-            _logger?.LogDebug("Fetching exercise with ID: {ExerciseId}", id);
-            var result = await _repository.GetById(id);
-            if (result.IsSuccess)
-            {
-                _logger?.LogInformation("Exercise retrieved successfully: {@Exercise}", result.Value);
-            }
-            return result;
-        }
     }
 }
