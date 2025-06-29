@@ -1,0 +1,8 @@
+using MediatR;
+using TelegramBot.Domain.Models;
+using TelegramBot.Application.Commands.Base;
+
+namespace TelegramBot.Application.Commands.Help;
+
+public class HelpCommand : BaseTelegramCommand {
+} 

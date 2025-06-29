@@ -33,12 +33,6 @@ D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\scop
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets.build.json
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets.development.json
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets\msbuild.Auth.Api.Microsoft.AspNetCore.StaticWebAssets.props
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets\msbuild.Auth.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets\msbuild.build.Auth.Api.props
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.Auth.Api.props
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.Auth.Api.props
-D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets.pack.json
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\Auth.Api.csproj.Up2Date
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\Auth.Api.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\refint\Auth.Api.dll
@@ -58,3 +52,8 @@ D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Grpc
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Grpc.Net.Common.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Infrastructure.Users.dll
 D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\bin\Debug\net9.0\Auth.Infrastructure.Users.pdb
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\Programming\Projects\NextRep\src\Services\Auth\Auth.Api\obj\Debug\net9.0\staticwebassets.build.json.cache

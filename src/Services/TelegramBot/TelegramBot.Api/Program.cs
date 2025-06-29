@@ -1,68 +1,96 @@
-using TelegramBot.Application.Extensions;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
-using System.Reflection;
-using TelegramBot.Infrastructure.Extensions;
+using Telegram.Bot;
+using TelegramBot.Application.Commands.ProcessUpdate;
+using TelegramBot.Application.Services;
+using TelegramBot.Domain.Services;
+using TelegramBot.Infrastructure.Mappings;
+using TelegramBot.Infrastructure.Services;
+using TelegramBot.Infrastructure.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Serilog
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-builder.Host.UseSerilog();
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
-// Controllers & JSON
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
-    });
-
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new() { Title = "GymTracker TelegramBot API", Version = "v1" });
-});
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(TelegramMappingProfile));
 
 // MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    Assembly.GetExecutingAssembly(),
-    Assembly.GetAssembly(typeof(TelegramBot.Application.Commands.ProcessTelegramUpdateCommand))!));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProcessUpdateCommand).Assembly));
 
 // Application Services
-builder.Services.AddApplication();
+builder.Services.AddScoped<ICommandRouter, CommandRouter>();
 
-// Infrastructure
-builder.Services.AddInfrastructure(builder.Configuration);
-
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+// Telegram Bot
+builder.Services.Configure<TelegramBotSettings>(builder.Configuration.GetSection(TelegramBotSettings.SectionName));
+builder.Services.AddSingleton<ITelegramBotClient>(provider => {
+    var settings = builder.Configuration.GetSection(TelegramBotSettings.SectionName).Get<TelegramBotSettings>();
+    return new TelegramBotClient(settings?.Token ?? throw new InvalidOperationException("TelegramBot:Token not configured"));
 });
+builder.Services.AddScoped<ITelegramBotService, TelegramBotService>();
 
-// Health Checks
-builder.Services.AddHealthChecks();
+// FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<ProcessUpdateCommand>();
+builder.Services.AddFluentValidationAutoValidation();
 
-var app = builder.Build();
+// Serilog
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Services.AddSerilog(Log.Logger);
 
-// Middleware pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+// OpenTelemetry
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName: "telegrambotapi"))
+    .WithMetrics(metrics => {
+        metrics.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+    })
+    .WithTracing(tracing => {
+        tracing.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+    });
+
+try {
+    Log.Information("Starting TelegramBot.Api application");
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment()) {
+        Log.Information("Application is running in Development environment");
+        app.MapOpenApi();
+        app.UseSwagger();
+        app.UseSwaggerUI(options => {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
+        });
+    }
+
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+    app.MapControllers();
+
+    // Настройка webhook при запуске (опционально)
+    if (!app.Environment.IsDevelopment()) {
+        using var scope = app.Services.CreateScope();
+        var botService = scope.ServiceProvider.GetRequiredService<ITelegramBotService>();
+        var settings = scope.ServiceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<TelegramBotSettings>>().Value;
+        
+        if (!string.IsNullOrEmpty(settings.WebhookUrl)) {
+            await botService.SetWebhookAsync($"{settings.WebhookUrl}/api/webhook");
+            Log.Information("Webhook set to {WebhookUrl}/api/webhook", settings.WebhookUrl);
+        }
+    }
+
+    app.Run();
 }
-
-app.UseCors("AllowAll");
-app.UseHttpsRedirection();
-app.MapControllers();
-app.MapHealthChecks("/health");
-
-app.Run();
+catch (Exception exception) {
+    Log.Fatal(exception, "Application terminated unexpectedly");
+}
+finally {
+    Log.CloseAndFlush();
+}
