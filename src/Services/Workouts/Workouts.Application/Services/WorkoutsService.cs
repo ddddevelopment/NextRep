@@ -51,14 +51,14 @@ namespace Workouts.Application.Services
             return result;
         }
 
-        public async Task<Result<IEnumerable<Workout>>> GetAll()
+        public async Task<Result<IEnumerable<Workout>>> GetAllByUserId(Guid userId)
         {
-            _logger?.LogDebug("Fetching all workouts");
+            _logger?.LogDebug("Fetching all workouts for user {UserId}", userId);
 
-            Result<IEnumerable<Workout>> result = await _repository.GetAll();
+            Result<IEnumerable<Workout>> result = await _repository.GetAllByUserId(userId);
 
             if (result.IsSuccess) {
-                _logger?.LogInformation("Successfully retrieved all workouts");
+                _logger?.LogInformation("Successfully retrieved all workouts for user {UserId}", userId);
             }
             
             return result;

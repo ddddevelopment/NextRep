@@ -54,15 +54,17 @@ namespace Workouts.DAL.EF.Repositories
             return Result<Workout>.Success(_mapper.Map<Workout>(found));
         }
 
-        public async Task<Result<IEnumerable<Workout>>> GetAll()
+        public async Task<Result<IEnumerable<Workout>>> GetAllByUserId(Guid userId)
         {
-            _logger?.LogDebug("Fetching all workouts from database");
+            _logger?.LogDebug("Fetching all workouts from database for user {UserId}", userId);
 
-            IEnumerable<WorkoutEntity> found = await _context.Workouts.Include(w => w.exercises).ThenInclude(e => e.sets)
+            IEnumerable<WorkoutEntity> found = await _context.Workouts
+                .Where(w => w.user_id == userId)
+                .Include(w => w.exercises).ThenInclude(e => e.sets)
                 .ToListAsync();
 
             IEnumerable<Workout> workouts = _mapper.Map<IEnumerable<Workout>>(found);
-            _logger?.LogDebug("Successfully fetched all workouts from database");
+            _logger?.LogDebug("Successfully fetched all workouts from database for user {UserId}", userId);
             return Result<IEnumerable<Workout>>.Success(workouts);
         }
 

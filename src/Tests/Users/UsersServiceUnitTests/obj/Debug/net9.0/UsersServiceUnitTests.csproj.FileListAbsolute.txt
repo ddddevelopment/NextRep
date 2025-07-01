@@ -1,13 +1,7 @@
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\.msCoverageSourceRootsMapping_UsersServiceUnitTests
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\CoverletSourceRootsMapping_UsersServiceUnitTests
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.csproj.AssemblyReference.cache
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.GeneratedMSBuildEditorConfig.editorconfig
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.AssemblyInfoInputs.cache
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.AssemblyInfo.cs
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.csproj.CoreCompileInputs.cache
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.sourcelink.json
-D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\testhost.exe
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\testhost.dll
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\testhost.exe
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\xunit.runner.visualstudio.testadapter.dll
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\xunit.runner.reporters.netcoreapp10.dll
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\xunit.runner.utility.netcoreapp10.dll
@@ -106,6 +100,12 @@ D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\Users.Domain.dll
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\Users.Application.pdb
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\bin\Debug\net9.0\Users.Domain.pdb
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.csproj.AssemblyReference.cache
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.AssemblyInfoInputs.cache
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.AssemblyInfo.cs
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.csproj.CoreCompileInputs.cache
+D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.sourcelink.json
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersSer.3999F29A.Up2Date
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\UsersServiceUnitTests.dll
 D:\Programming\Projects\NextRep\src\Tests\Users\UsersServiceUnitTests\obj\Debug\net9.0\refint\UsersServiceUnitTests.dll

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
 using TelegramBot.Infrastructure.Settings;
@@ -17,14 +18,15 @@ public class TelegramBotService : ITelegramBotService {
         _logger = logger;
     }
 
-    public async Task<Result> SendMessageAsync(long chatId, string text, CancellationToken cancellationToken = default) {
+    public async Task<Result> SendMessageAsync(long chatId, string text, object? replyMarkup = null, CancellationToken cancellationToken = default) {
         try {
             _logger?.LogInformation("Sending message to chat {ChatId}", chatId);
             
             await _botClient.SendMessage(
-                chatId, 
-                text, 
+                chatId,
+                text,
                 parseMode: ParseMode.Markdown,
+                replyMarkup: replyMarkup as Telegram.Bot.Types.ReplyMarkups.ReplyMarkup,
                 cancellationToken: cancellationToken);
             
             _logger?.LogInformation("Message sent successfully to chat {ChatId}", chatId);

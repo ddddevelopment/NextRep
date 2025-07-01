@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "wGBIbAVAjjoEMb0GFl405tIOtt+u4YB07Lx54Te4Qyk=",
-  "Source": "Users.GrpcService",
-  "BasePath": "_content/Users.GrpcService",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"wGBIbAVAjjoEMb0GFl405tIOtt+u4YB07Lx54Te4Qyk=","Source":"Users.GrpcService","BasePath":"_content/Users.GrpcService","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

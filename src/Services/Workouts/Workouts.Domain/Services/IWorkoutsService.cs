@@ -8,5 +8,5 @@ public interface IWorkoutsService
     Task<Result<Workout>> GetById(Guid id);
     Task<Result<Workout>> Update(Workout workout);
     Task<Result> Delete(Guid id);
-    Task<Result<IEnumerable<Workout>>> GetAll();
+    Task<Result<IEnumerable<Workout>>> GetAllByUserId(Guid userId);
 }

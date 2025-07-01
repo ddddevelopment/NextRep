@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using TelegramBot.Application.Commands.Base;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Application.Commands.Menu;
 
@@ -11,22 +12,27 @@ public class MenuCommandHandler : BaseTelegramCommandHandler<MenuCommand> {
     }
 
     protected override async Task<Result> ExecuteAsync(MenuCommand request, CancellationToken cancellationToken) {
-        var menuMessage = "📋 *Главное меню NextRep*\n\n" +
-                         "Выберите действие:\n\n" +
-                         "🏋️‍♂️ Тренировки:\n" +
-                         "• /workouts - Мои тренировки\n" +
-                         "• Создать новую тренировку\n" +
-                         "• Продолжить последнюю\n\n" +
-                         "📊 Анализ:\n" +
-                         "• /stats - Статистика прогресса\n" +
-                         "• История тренировок\n" +
-                         "• Достижения\n\n" +
-                         "⚙️ Настройки:\n" +
-                         "• /profile - Мой профиль\n" +
-                         "• Уведомления\n" +
-                         "• Цели\n\n" +
-                         "❓ /help - Помощь";
+        var menuMessage = "📋 *Главное меню NextRep*\n\nВыберите действие нажатием кнопки:";
 
-        return await BotService.SendMessageAsync(request.Message.ChatId, menuMessage, cancellationToken);
+        var keyboard = new InlineKeyboardMarkup(new[]
+        {
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData("💪 Тренировки", "/workouts"),
+                InlineKeyboardButton.WithCallbackData("📊 Статистика", "/stats")
+            },
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData("👤 Профиль", "/profile"),
+                InlineKeyboardButton.WithCallbackData("❓ Помощь", "/help")
+            },
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData("🔐 Войти", "/login"),
+                InlineKeyboardButton.WithCallbackData("�� Выйти", "/logout")
+            }
+        });
+
+        return await BotService.SendMessageAsync(request.Message.ChatId, menuMessage, keyboard, cancellationToken);
     }
 } 

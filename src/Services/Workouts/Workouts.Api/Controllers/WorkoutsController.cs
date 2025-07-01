@@ -59,13 +59,13 @@ public class WorkoutsController : AuthorizedControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<WorkoutDto>>> GetAll()
     {
-        _logger?.LogInformation("Received request to get all workouts");
-        Result<IEnumerable<Workout>> getAllResult = await _service.GetAll();
+        _logger?.LogInformation("Received request to get all workouts for user {UserId}", CurrentUserId);
+        Result<IEnumerable<Workout>> getAllResult = await _service.GetAllByUserId(CurrentUserId);
 
         if (getAllResult.IsSuccess)
         {
             IEnumerable<WorkoutDto> response = _mapper.Map<IEnumerable<WorkoutDto>>(getAllResult.Value);
-            _logger?.LogInformation("Successfully retrieved all workouts");
+            _logger?.LogInformation("Successfully retrieved all workouts for user {UserId}", CurrentUserId);
             return Ok(response);
         }
 
