@@ -79,9 +79,7 @@ public class WorkoutsCommandHandler : BaseTelegramCommandHandler<WorkoutsCommand
                     ? (w.EndTime - w.StartTime).TotalMinutes 
                     : w.Duration?.TotalMinutes ?? 0;
                 
-                var name = !string.IsNullOrEmpty(w.Name) ? w.Name : w.Notes ?? "Тренировка";
-                
-                return $"• *{name}* - {workoutDate:dd.MM.yyyy}" +
+                return $"• *{w.Name}* - {workoutDate:dd.MM.yyyy}" +
                        (duration > 0 ? $" ({duration:0} мин)" : "") +
                        $" (ID: `{w.Id}`)";
             }));

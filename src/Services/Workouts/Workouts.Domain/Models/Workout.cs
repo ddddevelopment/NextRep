@@ -3,6 +3,7 @@ namespace Workouts.Domain.Models {
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid UserId { get; set; }
+        public required string Name { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string? Notes { get; set; }

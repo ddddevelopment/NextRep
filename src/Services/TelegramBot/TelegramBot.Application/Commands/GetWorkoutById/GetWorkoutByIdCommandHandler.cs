@@ -44,6 +44,7 @@ public class GetWorkoutByIdCommandHandler : BaseTelegramCommandHandler<GetWorkou
             var workout = result.Value;
             var sb = new StringBuilder();
             sb.AppendLine($"*Workout Details (ID: `{workout.Id}`)*");
+            sb.AppendLine($"*Name:* {workout.Name}");
             sb.AppendLine($"*Start:* {workout.StartTime:yyyy-MM-dd HH:mm:ss}");
             sb.AppendLine($"*End:* {workout.EndTime:yyyy-MM-dd HH:mm:ss}");
             if (!string.IsNullOrEmpty(workout.Notes))

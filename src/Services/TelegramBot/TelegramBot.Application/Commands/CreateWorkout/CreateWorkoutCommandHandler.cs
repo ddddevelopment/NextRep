@@ -38,6 +38,7 @@ public class CreateWorkoutCommandHandler : BaseTelegramCommandHandler<CreateWork
         
         var createDto = new WorkoutCreateDto
         {
+            Name = request.Name,
             StartTime = request.StartTime,
             EndTime = request.EndTime,
             Notes = request.Notes

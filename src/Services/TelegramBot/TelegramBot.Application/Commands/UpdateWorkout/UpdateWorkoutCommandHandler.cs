@@ -49,6 +49,7 @@ public class UpdateWorkoutCommandHandler : BaseTelegramCommandHandler<UpdateWork
         // 2. Создаем DTO для обновления
         var updateDto = new WorkoutUpdateDto
         {
+            Name = request.Name,
             StartTime = existingWorkout.StartTime,
             EndTime = existingWorkout.EndTime,
             Notes = request.Notes
@@ -59,7 +60,7 @@ public class UpdateWorkoutCommandHandler : BaseTelegramCommandHandler<UpdateWork
 
         if (updateResult.IsSuccess)
         {
-            await BotService.SendMessageAsync(chatId, "✅ Заметки к тренировке успешно обновлены.", cancellationToken: cancellationToken);
+            await BotService.SendMessageAsync(chatId, "✅ Тренировка успешно обновлена.", cancellationToken: cancellationToken);
         }
         else
         {

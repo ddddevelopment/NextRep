@@ -304,11 +304,11 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         {
             SetAuthorizationHeader(token);
             _logger?.LogInformation("Creating exercise '{ExerciseName}' for workout {WorkoutId}", exercise.Name, workoutId);
-
+            
             var response = await _httpClient.PostAsJsonAsync($"api/workouts/{workoutId}/exercises", exercise, _jsonOptions, cancellationToken);
             
             if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
-            
+
             response.EnsureSuccessStatusCode();
             return Result.Success();
         }
@@ -480,9 +480,9 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         {
             SetAuthorizationHeader(token);
             _logger?.LogInformation("Creating set for exercise {ExerciseId}", exerciseId);
-
+            
             var response = await _httpClient.PostAsJsonAsync($"api/workouts/{workoutId}/exercises/{exerciseId}/sets", set, _jsonOptions, cancellationToken);
-
+            
             if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
 
             response.EnsureSuccessStatusCode();
@@ -656,9 +656,9 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         {
             SetAuthorizationHeader(token);
             _logger?.LogInformation("Creating exercise info '{ExerciseInfoName}'", exerciseInfo.Name);
-
+            
             var response = await _httpClient.PostAsJsonAsync("api/exercise-infos", exerciseInfo, _jsonOptions, cancellationToken);
-
+            
             if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
             if (response.StatusCode == HttpStatusCode.Conflict) return Result.Conflict("Упражнение с таким названием уже существует");
 

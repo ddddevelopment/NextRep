@@ -66,7 +66,7 @@ public class WorkoutDto
 
 public class WorkoutCreateDto
 {
-    // Поля соответствуют WorkoutCreateRequest в Workouts.Api
+    public required string Name { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string? Notes { get; set; }
@@ -74,7 +74,7 @@ public class WorkoutCreateDto
 
 public class WorkoutUpdateDto
 {
-    // Поля соответствуют WorkoutUpdateRequest в Workouts.Api
+    public required string Name { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string? Notes { get; set; }

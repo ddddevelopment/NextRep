@@ -263,14 +263,31 @@ public class CommandRouter : ICommandRouter {
 
     private async Task<Result> HandleCreateWorkoutCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
     {
-        var notes = parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : null;
+        var args = Regex.Matches(message.Text ?? "", @"[\""].+?[\""]|[^ ]+")
+            .Cast<Match>()
+            .Select(m => m.Value.Trim('\"'))
+            .ToList();
+
+        if (args.Count < 2)
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/create_workout \"Имя тренировки\" \"Заметки (опционально)\"`\n\n" +
+                              "*Пример:*\n" +
+                              "`/create_workout \"Утренняя зарядка\"`";
+
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
 
         var command = new CreateWorkoutCommand
         {
             Message = message,
+            Name = args[1],
             StartTime = DateTime.UtcNow,
             EndTime = DateTime.UtcNow.AddHours(1),
-            Notes = notes
+            Notes = args.Count > 2 ? args[2] : null
         };
 
         return await _mediator.Send(command, cancellationToken);
@@ -296,11 +313,17 @@ public class CommandRouter : ICommandRouter {
 
     private async Task<Result> HandleUpdateWorkoutCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
     {
-        if (parts.Length < 2 || !Guid.TryParse(parts[1], out var workoutId))
+        var args = Regex.Matches(message.Text ?? "", @"[\""].+?[\""]|[^ ]+")
+            .Cast<Match>()
+            .Select(m => m.Value.Trim('\"'))
+            .ToList();
+
+        if (args.Count < 3 || !Guid.TryParse(args[1], out var workoutId))
         {
             var helpMessage = "❌ *Неверный формат команды*\n\n" +
-                              "Используйте: `/update_workout <ID тренировки> [новые заметки]`\n\n" +
-                              "Вы можете получить ID, вызвав команду /workouts.";
+                              "Используйте: `/update_workout <ID> \"Новое имя\" \"Новые заметки (опционально)\"`\n\n" +
+                              "*Пример:*\n" +
+                              "`/update_workout 1234-abcd \"Вечерняя пробежка\" \"Было легко\"`";
             
             var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
             
@@ -308,13 +331,12 @@ public class CommandRouter : ICommandRouter {
             return Result.Success();
         }
 
-        var notes = parts.Length > 2 ? string.Join(" ", parts.Skip(2)) : null;
-
         var command = new UpdateWorkoutCommand
         {
             Message = message,
             WorkoutId = workoutId,
-            Notes = notes
+            Name = args[2],
+            Notes = args.Count > 3 ? args[3] : null
         };
         
         return await _mediator.Send(command, cancellationToken);

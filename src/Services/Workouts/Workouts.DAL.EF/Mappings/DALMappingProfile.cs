@@ -13,6 +13,7 @@ namespace Workouts.DAL.EF.Mappings {
                 .ForMember(dest => dest.end_time, opt => opt.MapFrom(src => src.EndTime))
                 .ForMember(dest => dest.notes, opt => opt.MapFrom(src => src.Notes))
                 .ForMember(dest => dest.exercises, opt => opt.MapFrom(src => src.Exercises))
+                .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
 
             CreateMap<Set, SetEntity>()

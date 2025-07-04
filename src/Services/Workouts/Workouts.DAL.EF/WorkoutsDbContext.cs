@@ -7,7 +7,7 @@ namespace Workouts.DAL
     {
         public WorkoutsDbContext(DbContextOptions<WorkoutsDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.EnsureCreated(); 
         }
 
         public DbSet<WorkoutEntity> Workouts { get; set; }
