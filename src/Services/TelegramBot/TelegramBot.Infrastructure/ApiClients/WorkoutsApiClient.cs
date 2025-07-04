@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
+using System.Net.Http.Json;
 
 namespace TelegramBot.Infrastructure.ApiClients;
 
@@ -660,30 +661,22 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         try
         {
             SetAuthorizationHeader(token);
-            _logger?.LogInformation("Creating exercise info: {ExerciseInfoName}", exerciseInfo.Name);
-            
-            var json = JsonSerializer.Serialize(exerciseInfo, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            
-            var response = await _httpClient.PostAsync("api/exerciseinfos", content, cancellationToken);
-            
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            var response = await _httpClient.PostAsJsonAsync("api/exerciseinfos", exerciseInfo, cancellationToken);
+
+            if (response.IsSuccessStatusCode)
             {
-                return Result<Guid>.Failure("Требуется авторизация");
+                // Предполагаем, что API возвращает ID в теле или заголовках,
+                // но для простоты вернем успешный результат без ID.
+                // В реальном приложении здесь нужно будет парсить ответ.
+                return Result<Guid>.Success(Guid.NewGuid()); // Заглушка
             }
 
-            response.EnsureSuccessStatusCode();
-            return Result<Guid>.Success(Guid.NewGuid());
-        }
-        catch (HttpRequestException ex)
-        {
-            _logger?.LogError(ex, "HTTP error while creating exercise info: {ExerciseInfoName}", exerciseInfo.Name);
-            return Result<Guid>.Failure("Ошибка сети при создании информации об упражнении");
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            return Result<Guid>.Failure(errorContent);
         }
         catch (Exception ex)
         {
-            _logger?.LogError(ex, "Unexpected error while creating exercise info: {ExerciseInfoName}", exerciseInfo.Name);
-            return Result<Guid>.Failure("Неожиданная ошибка при создании информации об упражнении");
+            return Result<Guid>.Failure(ex.Message);
         }
     }
 
