@@ -1,7 +1,7 @@
+using Microsoft.Extensions.Logging;
 using TelegramBot.Application.Commands.Base;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
-using Microsoft.Extensions.Logging;
 
 namespace TelegramBot.Application.Commands.CreateExerciseInfo;
 

@@ -121,10 +121,7 @@ public class ExerciseInfoDto
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string Category { get; set; } = string.Empty;
-    public string? Instructions { get; set; }
-    public string? MuscleGroups { get; set; }
-    public string? Equipment { get; set; }
+    public string MuscleGroup { get; set; } = string.Empty;
 }
 
 public class ExerciseInfoCreateDto
@@ -138,10 +135,7 @@ public class ExerciseInfoUpdateDto
 {
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string Category { get; set; } = string.Empty;
-    public string? Instructions { get; set; }
-    public string? MuscleGroups { get; set; }
-    public string? Equipment { get; set; }
+    public string MuscleGroup { get; set; } = string.Empty;
 }
 
 public class SetDto
