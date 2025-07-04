@@ -33,14 +33,28 @@ public class UpdateExerciseInWorkoutCommandHandler : BaseTelegramCommandHandler<
                 return await BotService.SendMessageAsync(chatId, "Вы не авторизованы. Пожалуйста, войдите в систему с помощью /login.", cancellationToken);
             }
 
-            // TODO: ExerciseUpdateDto в Workouts.Api не содержит поля Notes.
-            // Это нужно исправить в API, чтобы можно было обновлять заметки.
-            // var updateDto = new ExerciseUpdateDto { Notes = request.Notes };
+            // Сначала получаем текущее упражнение, чтобы не потерять его данные
+            var exerciseResult = await _workoutsApiClient.GetExerciseByIdAsync(request.WorkoutId, request.ExerciseId, token, cancellationToken);
+            if (!exerciseResult.IsSuccess)
+            {
+                return await BotService.SendMessageAsync(chatId, $"❌ Не удалось найти упражнение для обновления. Ошибка: {exerciseResult.Error}", cancellationToken);
+            }
             
-            // Пока что мы не можем ничего обновить, поэтому просто вернем сообщение.
-            // В будущем здесь будет вызов _workoutsApiClient.UpdateExerciseAsync
+            var existingExercise = exerciseResult.Value!;
+            var updateDto = new ExerciseUpdateDto
+            {
+                ExerciseInfoId = existingExercise.ExerciseInfoId, // Сохраняем существующий ExerciseInfoId
+                Notes = request.Notes // Устанавливаем новые заметки
+            };
+
+            var result = await _workoutsApiClient.UpdateExerciseAsync(request.WorkoutId, request.ExerciseId, updateDto, token, cancellationToken);
+
+            if (result.IsSuccess)
+            {
+                return await BotService.SendMessageAsync(chatId, "✅ Заметки для упражнения успешно обновлены.", cancellationToken);
+            }
             
-            return await BotService.SendMessageAsync(chatId, "⚠️ Функция обновления заметок для упражнения временно недоступна.", cancellationToken);
+            return await BotService.SendMessageAsync(chatId, $"❌ Не удалось обновить упражнение. Ошибка: {result.Error}", cancellationToken);
         }
         catch (Exception ex)
         {
