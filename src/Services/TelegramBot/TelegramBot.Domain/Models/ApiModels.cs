@@ -93,9 +93,8 @@ public class ExerciseDto
 
 public class ExerciseCreateDto
 {
-    public string Name { get; set; } = string.Empty;
-    public int Order { get; set; }
     public Guid ExerciseInfoId { get; set; }
+    public string? Notes { get; set; }
 }
 
 public class ExerciseUpdateDto

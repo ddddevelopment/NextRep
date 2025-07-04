@@ -303,7 +303,7 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         try
         {
             SetAuthorizationHeader(token);
-            _logger?.LogInformation("Creating exercise '{ExerciseName}' for workout {WorkoutId}", exercise.Name, workoutId);
+            _logger?.LogInformation("Adding exercise with ExerciseInfoId '{ExerciseInfoId}' to workout {WorkoutId}", exercise.ExerciseInfoId, workoutId);
             
             var response = await _httpClient.PostAsJsonAsync($"api/workouts/{workoutId}/exercises", exercise, _jsonOptions, cancellationToken);
             
@@ -657,7 +657,7 @@ public class WorkoutsApiClient : IWorkoutsApiClient
             SetAuthorizationHeader(token);
             _logger?.LogInformation("Creating exercise info '{ExerciseInfoName}'", exerciseInfo.Name);
             
-            var response = await _httpClient.PostAsJsonAsync("api/exercise-infos", exerciseInfo, _jsonOptions, cancellationToken);
+            var response = await _httpClient.PostAsJsonAsync("api/exerciseinfos", exerciseInfo, _jsonOptions, cancellationToken);
             
             if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
             if (response.StatusCode == HttpStatusCode.Conflict) return Result.Conflict("Упражнение с таким названием уже существует");

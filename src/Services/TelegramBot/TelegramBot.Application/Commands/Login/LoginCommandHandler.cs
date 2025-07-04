@@ -49,25 +49,33 @@ public class LoginCommandHandler : BaseTelegramCommandHandler<LoginCommand>
 
             var authResponse = loginResult.Value!;
 
-            // Сохраняем токен авторизации
-            await _userSessionService.SetAuthTokenAsync(chatId, authResponse.AccessToken, cancellationToken);
-
-            // Получаем информацию о пользователе
-            var userResult = await _usersApiClient.GetByEmailAsync(request.Email, cancellationToken);
-            
-            if (userResult.IsSuccess && userResult.Value != null)
+            if (authResponse.AccessToken is not null)
             {
-                await _userSessionService.SetUserInfoAsync(chatId, userResult.Value, cancellationToken);
+                // Сохраняем токен авторизации
+                await _userSessionService.SetAuthTokenAsync(chatId, authResponse.AccessToken, cancellationToken);
+
+                // Получаем информацию о пользователе
+                var userResult = await _usersApiClient.GetByEmailAsync(request.Email, cancellationToken);
+                
+                if (userResult.IsSuccess && userResult.Value != null)
+                {
+                    await _userSessionService.SetUserInfoAsync(chatId, userResult.Value, cancellationToken);
+                }
+
+                var successMessage = "✅ *Успешная авторизация!*\n\n" +
+                                    $"Добро пожаловать, {userResult.Value?.Name ?? "пользователь"}!\n\n" +
+                                    "Теперь вы можете использовать все функции бота:\n" +
+                                    "• 💪 /workouts - Управление тренировками\n" +
+                                    "• 👤 /profile - Профиль пользователя\n" +
+                                    "• 📊 /stats - Статистика";
+
+                return await BotService.SendMessageAsync(chatId, successMessage, cancellationToken);
             }
-
-            var successMessage = "✅ *Успешная авторизация!*\n\n" +
-                                $"Добро пожаловать, {userResult.Value?.Name ?? "пользователь"}!\n\n" +
-                                "Теперь вы можете использовать все функции бота:\n" +
-                                "• 💪 /workouts - Управление тренировками\n" +
-                                "• 👤 /profile - Профиль пользователя\n" +
-                                "• 📊 /stats - Статистика";
-
-            return await BotService.SendMessageAsync(chatId, successMessage, cancellationToken);
+            else
+            {
+                await BotService.SendMessageAsync(chatId, "❌ Ошибка входа: не удалось получить токен доступа.", cancellationToken: cancellationToken);
+                return Result.Failure("Access token was null.");
+            }
         }
         catch (Exception ex)
         {

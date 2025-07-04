@@ -51,8 +51,15 @@ public class RegisterCommandHandler : BaseTelegramCommandHandler<RegisterCommand
 
             var authResponse = registerResult.Value!;
 
-            // Сохраняем токен авторизации
-            await _userSessionService.SetAuthTokenAsync(chatId, authResponse.AccessToken, cancellationToken);
+            if (authResponse.AccessToken is not null)
+            {
+                await _userSessionService.SetAuthTokenAsync(chatId, authResponse.AccessToken, cancellationToken);
+            }
+            else
+            {
+                await BotService.SendMessageAsync(chatId, "❌ Ошибка регистрации: не удалось получить токен доступа.", cancellationToken: cancellationToken);
+                return Result.Failure("Access token was null.");
+            }
 
             // Получаем информацию о созданном пользователе
             var userResult = await _usersApiClient.GetByEmailAsync(request.Email, cancellationToken);

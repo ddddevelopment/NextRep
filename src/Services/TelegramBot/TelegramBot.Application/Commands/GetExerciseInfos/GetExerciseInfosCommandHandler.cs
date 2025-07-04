@@ -39,26 +39,35 @@ public class GetExerciseInfosCommandHandler : BaseTelegramCommandHandler<GetExer
 
         var result = await _workoutsApiClient.GetExerciseInfosAsync(token, cancellationToken);
 
-        if (!result.IsSuccess || !result.Value.Any())
+        if (result.IsSuccess)
+        {
+            var exerciseInfos = result.Value;
+            if (exerciseInfos is null || !exerciseInfos.Any())
+            {
+                await BotService.SendMessageAsync(chatId, "Список упражнений пуст. Создайте первое с помощью /create_exercise_info", cancellationToken: cancellationToken);
+                return Result.Success();
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendLine("📋 *Список ваших упражнений:*\n");
+
+            foreach (var exerciseInfo in exerciseInfos)
+            {
+                sb.AppendLine($"🔹 *Название:* {exerciseInfo.Name}");
+                sb.AppendLine($"   *Группа мышц:* `{exerciseInfo.MuscleGroup}`");
+                sb.AppendLine($"   *ID:* `{exerciseInfo.Id}`\n");
+            }
+
+            sb.AppendLine("\nИспользуйте ID для команд /update_exercise_info и /delete_exercise_info.");
+
+            await BotService.SendMessageAsync(chatId, sb.ToString(), cancellationToken: cancellationToken);
+            return Result.Success();
+        }
+        else
         {
             var errorMessage = result.Error?.Message ?? "У вас пока нет созданных упражнений.";
             await BotService.SendMessageAsync(chatId, $"ℹ️ {errorMessage}", cancellationToken: cancellationToken);
             return Result.Success();
         }
-
-        var sb = new StringBuilder();
-        sb.AppendLine("📋 *Список ваших упражнений:*\n");
-
-        foreach (var exerciseInfo in result.Value)
-        {
-            sb.AppendLine($"🔹 *Название:* {exerciseInfo.Name}");
-            sb.AppendLine($"   *Группа мышц:* `{exerciseInfo.MuscleGroup}`");
-            sb.AppendLine($"   *ID:* `{exerciseInfo.Id}`\n");
-        }
-
-        sb.AppendLine("\nИспользуйте ID для команд /update_exercise_info и /delete_exercise_info.");
-
-        await BotService.SendMessageAsync(chatId, sb.ToString(), cancellationToken: cancellationToken);
-        return Result.Success();
     }
 } 
