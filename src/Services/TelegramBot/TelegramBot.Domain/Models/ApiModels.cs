@@ -66,12 +66,7 @@ public class WorkoutDto
 
 public class WorkoutCreateDto
 {
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
-    public DateTime Date { get; set; }
-    public TimeSpan? Duration { get; set; }
-    
-    // Реальные поля API
+    // Поля соответствуют WorkoutCreateRequest в Workouts.Api
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string? Notes { get; set; }
@@ -79,13 +74,7 @@ public class WorkoutCreateDto
 
 public class WorkoutUpdateDto
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
-    public DateTime Date { get; set; }
-    public TimeSpan? Duration { get; set; }
-    
-    // Реальные поля API
+    // Поля соответствуют WorkoutUpdateRequest в Workouts.Api
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string? Notes { get; set; }

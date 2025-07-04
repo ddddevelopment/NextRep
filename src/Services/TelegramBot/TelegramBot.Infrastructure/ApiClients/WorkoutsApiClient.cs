@@ -108,12 +108,12 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result<Guid>> CreateWorkoutAsync(WorkoutCreateDto workout, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> CreateWorkoutAsync(WorkoutCreateDto workout, string token, CancellationToken cancellationToken = default)
     {
         try
         {
             SetAuthorizationHeader(token);
-            _logger?.LogInformation("Creating workout: {WorkoutName}", workout.Name);
+            _logger?.LogInformation("Creating workout started at {StartTime}", workout.StartTime);
             
             var json = JsonSerializer.Serialize(workout, _jsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -122,23 +122,29 @@ public class WorkoutsApiClient : IWorkoutsApiClient
             
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return Result<Guid>.Failure("Требуется авторизация");
+                return Result.Failure("Требуется авторизация");
+            }
+            
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                _logger?.LogWarning("Bad request while creating workout. API returned: {ErrorContent}", errorContent);
+                return Result.Failure($"Ошибка валидации: {errorContent}");
             }
 
             response.EnsureSuccessStatusCode();
             
-            // API возвращает Created() без body, получаем ID из Location header или создаем новый
-            return Result<Guid>.Success(Guid.NewGuid());
+            return Result.Success();
         }
         catch (HttpRequestException ex)
         {
-            _logger?.LogError(ex, "HTTP error while creating workout: {WorkoutName}", workout.Name);
-            return Result<Guid>.Failure("Ошибка сети при создании тренировки");
+            _logger?.LogError(ex, "HTTP error while creating workout");
+            return Result.Failure("Ошибка сети при создании тренировки");
         }
         catch (Exception ex)
         {
-            _logger?.LogError(ex, "Unexpected error while creating workout: {WorkoutName}", workout.Name);
-            return Result<Guid>.Failure("Неожиданная ошибка при создании тренировки");
+            _logger?.LogError(ex, "Unexpected error while creating workout");
+            return Result.Failure("Неожиданная ошибка при создании тренировки");
         }
     }
 
@@ -292,35 +298,29 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result<Guid>> CreateExerciseAsync(Guid workoutId, ExerciseCreateDto exercise, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> CreateExerciseAsync(Guid workoutId, ExerciseCreateDto exercise, string token, CancellationToken cancellationToken = default)
     {
         try
         {
             SetAuthorizationHeader(token);
-            _logger?.LogInformation("Creating exercise for workout {WorkoutId}: {ExerciseName}", workoutId, exercise.Name);
-            
-            var json = JsonSerializer.Serialize(exercise, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            
-            var response = await _httpClient.PostAsync($"api/workouts/{workoutId}/exercises", content, cancellationToken);
-            
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return Result<Guid>.Failure("Требуется авторизация");
-            }
+            _logger?.LogInformation("Creating exercise '{ExerciseName}' for workout {WorkoutId}", exercise.Name, workoutId);
 
+            var response = await _httpClient.PostAsJsonAsync($"api/workouts/{workoutId}/exercises", exercise, _jsonOptions, cancellationToken);
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
+            
             response.EnsureSuccessStatusCode();
-            return Result<Guid>.Success(Guid.NewGuid());
+            return Result.Success();
         }
         catch (HttpRequestException ex)
         {
-            _logger?.LogError(ex, "HTTP error while creating exercise for workout {WorkoutId}: {ExerciseName}", workoutId, exercise.Name);
-            return Result<Guid>.Failure("Ошибка сети при создании упражнения");
+            _logger?.LogError(ex, "HTTP error while creating exercise for workout {WorkoutId}", workoutId);
+            return Result.Failure("Ошибка сети при создании упражнения");
         }
         catch (Exception ex)
         {
-            _logger?.LogError(ex, "Unexpected error while creating exercise for workout {WorkoutId}: {ExerciseName}", workoutId, exercise.Name);
-            return Result<Guid>.Failure("Неожиданная ошибка при создании упражнения");
+            _logger?.LogError(ex, "Unexpected error while creating exercise for workout {WorkoutId}", workoutId);
+            return Result.Failure("Неожиданная ошибка при создании упражнения");
         }
     }
 
@@ -474,35 +474,29 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result<Guid>> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default)
     {
         try
         {
             SetAuthorizationHeader(token);
-            _logger?.LogInformation("Creating set for exercise {ExerciseId} in workout {WorkoutId}", exerciseId, workoutId);
-            
-            var json = JsonSerializer.Serialize(set, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            
-            var response = await _httpClient.PostAsync($"api/workouts/{workoutId}/exercises/{exerciseId}/sets", content, cancellationToken);
-            
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return Result<Guid>.Failure("Требуется авторизация");
-            }
+            _logger?.LogInformation("Creating set for exercise {ExerciseId}", exerciseId);
+
+            var response = await _httpClient.PostAsJsonAsync($"api/workouts/{workoutId}/exercises/{exerciseId}/sets", set, _jsonOptions, cancellationToken);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
 
             response.EnsureSuccessStatusCode();
-            return Result<Guid>.Success(Guid.NewGuid());
+            return Result.Success();
         }
         catch (HttpRequestException ex)
         {
-            _logger?.LogError(ex, "HTTP error while creating set for exercise {ExerciseId} in workout {WorkoutId}", exerciseId, workoutId);
-            return Result<Guid>.Failure("Ошибка сети при создании подхода");
+            _logger?.LogError(ex, "HTTP error while creating set for exercise {ExerciseId}", exerciseId);
+            return Result.Failure("Ошибка сети при создании подхода");
         }
         catch (Exception ex)
         {
-            _logger?.LogError(ex, "Unexpected error while creating set for exercise {ExerciseId} in workout {WorkoutId}", exerciseId, workoutId);
-            return Result<Guid>.Failure("Неожиданная ошибка при создании подхода");
+            _logger?.LogError(ex, "Unexpected error while creating set for exercise {ExerciseId}", exerciseId);
+            return Result.Failure("Неожиданная ошибка при создании подхода");
         }
     }
 
@@ -656,27 +650,30 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result<Guid>> CreateExerciseInfoAsync(ExerciseInfoCreateDto exerciseInfo, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> CreateExerciseInfoAsync(ExerciseInfoCreateDto exerciseInfo, string token, CancellationToken cancellationToken = default)
     {
         try
         {
             SetAuthorizationHeader(token);
-            var response = await _httpClient.PostAsJsonAsync("api/exerciseinfos", exerciseInfo, cancellationToken);
+            _logger?.LogInformation("Creating exercise info '{ExerciseInfoName}'", exerciseInfo.Name);
 
-            if (response.IsSuccessStatusCode)
-            {
-                // Предполагаем, что API возвращает ID в теле или заголовках,
-                // но для простоты вернем успешный результат без ID.
-                // В реальном приложении здесь нужно будет парсить ответ.
-                return Result<Guid>.Success(Guid.NewGuid()); // Заглушка
-            }
+            var response = await _httpClient.PostAsJsonAsync("api/exercise-infos", exerciseInfo, _jsonOptions, cancellationToken);
 
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            return Result<Guid>.Failure(errorContent);
+            if (response.StatusCode == HttpStatusCode.Unauthorized) return Result.Failure("Требуется авторизация");
+            if (response.StatusCode == HttpStatusCode.Conflict) return Result.Conflict("Упражнение с таким названием уже существует");
+
+            response.EnsureSuccessStatusCode();
+            return Result.Success();
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger?.LogError(ex, "HTTP error while creating exercise info '{ExerciseInfoName}'", exerciseInfo.Name);
+            return Result.Failure("Ошибка сети при создании информации об упражнении");
         }
         catch (Exception ex)
         {
-            return Result<Guid>.Failure(ex.Message);
+            _logger?.LogError(ex, "Unexpected error while creating exercise info '{ExerciseInfoName}'", exerciseInfo.Name);
+            return Result.Failure("Неожиданная ошибка при создании информации об упражнении");
         }
     }
 

@@ -20,27 +20,31 @@ public interface IAuthApiClient
 
 public interface IWorkoutsApiClient
 {
+    // Workouts
     Task<Result<IEnumerable<WorkoutDto>>> GetAllWorkoutsAsync(string token, CancellationToken cancellationToken = default);
     Task<Result<WorkoutDto>> GetWorkoutByIdAsync(Guid id, string token, CancellationToken cancellationToken = default);
-    Task<Result<Guid>> CreateWorkoutAsync(WorkoutCreateDto workout, string token, CancellationToken cancellationToken = default);
+    Task<Result> CreateWorkoutAsync(WorkoutCreateDto workout, string token, CancellationToken cancellationToken = default);
     Task<Result> UpdateWorkoutAsync(Guid id, WorkoutUpdateDto workout, string token, CancellationToken cancellationToken = default);
     Task<Result> DeleteWorkoutAsync(Guid id, string token, CancellationToken cancellationToken = default);
     
+    // Exercises
     Task<Result<IEnumerable<ExerciseDto>>> GetExercisesByWorkoutIdAsync(Guid workoutId, string token, CancellationToken cancellationToken = default);
     Task<Result<ExerciseDto>> GetExerciseByIdAsync(Guid workoutId, Guid exerciseId, string token, CancellationToken cancellationToken = default);
-    Task<Result<Guid>> CreateExerciseAsync(Guid workoutId, ExerciseCreateDto exercise, string token, CancellationToken cancellationToken = default);
+    Task<Result> CreateExerciseAsync(Guid workoutId, ExerciseCreateDto exercise, string token, CancellationToken cancellationToken = default);
     Task<Result> UpdateExerciseAsync(Guid workoutId, Guid exerciseId, ExerciseUpdateDto exercise, string token, CancellationToken cancellationToken = default);
     Task<Result> DeleteExerciseAsync(Guid workoutId, Guid exerciseId, string token, CancellationToken cancellationToken = default);
     
+    // Sets
     Task<Result<IEnumerable<SetDto>>> GetSetsByExerciseIdAsync(Guid workoutId, Guid exerciseId, string token, CancellationToken cancellationToken = default);
     Task<Result<SetDto>> GetSetByIdAsync(Guid workoutId, Guid exerciseId, Guid setId, string token, CancellationToken cancellationToken = default);
-    Task<Result<Guid>> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default);
+    Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default);
     Task<Result> UpdateSetAsync(Guid workoutId, Guid exerciseId, Guid setId, SetUpdateDto set, string token, CancellationToken cancellationToken = default);
     Task<Result> DeleteSetAsync(Guid workoutId, Guid exerciseId, Guid setId, string token, CancellationToken cancellationToken = default);
     
+    // ExerciseInfo
     Task<Result<IEnumerable<ExerciseInfoDto>>> GetExerciseInfosAsync(string token, CancellationToken cancellationToken = default);
     Task<Result<ExerciseInfoDto>> GetExerciseInfoByIdAsync(Guid id, string token, CancellationToken cancellationToken = default);
-    Task<Result<Guid>> CreateExerciseInfoAsync(ExerciseInfoCreateDto exerciseInfo, string token, CancellationToken cancellationToken = default);
+    Task<Result> CreateExerciseInfoAsync(ExerciseInfoCreateDto exerciseInfo, string token, CancellationToken cancellationToken = default);
     Task<Result> UpdateExerciseInfoAsync(Guid id, ExerciseInfoUpdateDto exerciseInfo, string token, CancellationToken cancellationToken = default);
     Task<Result> DeleteExerciseInfoAsync(Guid id, string token, CancellationToken cancellationToken = default);
 }

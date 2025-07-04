@@ -82,7 +82,8 @@ public class WorkoutsCommandHandler : BaseTelegramCommandHandler<WorkoutsCommand
                 var name = !string.IsNullOrEmpty(w.Name) ? w.Name : w.Notes ?? "Тренировка";
                 
                 return $"• *{name}* - {workoutDate:dd.MM.yyyy}" +
-                       (duration > 0 ? $" ({duration:0} мин)" : "");
+                       (duration > 0 ? $" ({duration:0} мин)" : "") +
+                       $" (ID: `{w.Id}`)";
             }));
 
             var totalWorkouts = workouts.Count;
