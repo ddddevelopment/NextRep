@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 using TelegramBot.Application.Commands.Help;
 using TelegramBot.Application.Commands.Login;
 using TelegramBot.Application.Commands.Logout;
@@ -20,7 +21,9 @@ using TelegramBot.Application.Commands.GetWorkoutById;
 using TelegramBot.Application.Commands.UpdateWorkout;
 using TelegramBot.Application.Commands.DeleteWorkout;
 using TelegramBot.Application.Commands.AddExerciseToWorkout;
-using System.Text.RegularExpressions;
+using TelegramBot.Application.Commands.Workouts.GetExercisesByWorkout;
+using TelegramBot.Application.Commands.Workouts.UpdateExerciseInWorkout;
+using TelegramBot.Application.Commands.Workouts.DeleteExerciseFromWorkout;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
 
@@ -62,6 +65,9 @@ public class CommandRouter : ICommandRouter {
             "/update_workout" => await HandleUpdateWorkoutCommand(message, parts, cancellationToken),
             "/delete_workout" => await HandleDeleteWorkoutCommand(message, parts, cancellationToken),
             "/add_exercise_to_workout" => await HandleAddExerciseToWorkoutCommand(message, cancellationToken),
+            "/get_exercises" => await HandleGetExercisesCommand(message, parts, cancellationToken),
+            "/update_exercise" => await HandleUpdateExerciseCommand(message, cancellationToken),
+            "/delete_exercise" => await HandleDeleteExerciseCommand(message, parts, cancellationToken),
             _ => await _mediator.Send(new UnknownCommand { Message = message }, cancellationToken)
         };
     }
@@ -391,6 +397,67 @@ public class CommandRouter : ICommandRouter {
             Notes = args.Count > 3 ? args[3] : null
         };
         
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleGetExercisesCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 2 || !Guid.TryParse(parts[1], out var workoutId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/get_exercises <ID тренировки>`\n\n" +
+                              "Вы можете получить ID тренировки, вызвав команду /workouts.";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new GetExercisesByWorkoutCommand(message, workoutId);
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleUpdateExerciseCommand(TelegramMessage message, CancellationToken cancellationToken)
+    {
+        var args = Regex.Matches(message.Text ?? "", @"[\""].+?[\""]|[^ ]+")
+            .Cast<Match>()
+            .Select(m => m.Value.Trim('\"'))
+            .ToList();
+
+        if (args.Count < 3 || !Guid.TryParse(args[1], out var workoutId) || !Guid.TryParse(args[2], out var exerciseId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/update_exercise <ID тренировки> <ID упражнения> [\"новые заметки\"]`\n\n" +
+                              "Вы можете получить ID, вызвав команду /get_exercises.";
+
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+        
+        var notes = args.Count > 3 ? args[3] : null;
+
+        var command = new UpdateExerciseInWorkoutCommand(message, workoutId, exerciseId, notes);
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleDeleteExerciseCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 3 || !Guid.TryParse(parts[1], out var workoutId) || !Guid.TryParse(parts[2], out var exerciseId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/delete_exercise <ID тренировки> <ID упражнения>`\n\n" +
+                              "Вы можете получить ID, вызвав команду /get_exercises.";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new DeleteExerciseFromWorkoutCommand(message, workoutId, exerciseId);
         return await _mediator.Send(command, cancellationToken);
     }
 } 
