@@ -83,12 +83,10 @@ public class WorkoutUpdateDto
 public class ExerciseDto
 {
     public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public int Order { get; set; }
     public Guid WorkoutId { get; set; }
     public Guid ExerciseInfoId { get; set; }
-    public ExerciseInfoDto? ExerciseInfo { get; set; }
     public List<SetDto> Sets { get; set; } = new();
+    public string? Notes { get; set; } = string.Empty;
 }
 
 public class ExerciseCreateDto

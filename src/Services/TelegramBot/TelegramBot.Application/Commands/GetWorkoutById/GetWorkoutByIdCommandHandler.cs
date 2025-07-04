@@ -55,9 +55,11 @@ public class GetWorkoutByIdCommandHandler : BaseTelegramCommandHandler<GetWorkou
             if (workout.Exercises.Any())
             {
                 sb.AppendLine("\n*Exercises:*");
-                foreach (var exercise in workout.Exercises.OrderBy(e => e.Order))
+                foreach (var exercise in workout.Exercises)
                 {
-                    sb.AppendLine($"  - *{exercise.Name}* (ID: `{exercise.Id}`)");
+                    var exerciseInfoResult = await _workoutsApiClient.GetExerciseInfoByIdAsync(exercise.ExerciseInfoId, token, cancellationToken);
+                    var exerciseInfoName = exerciseInfoResult.IsSuccess ? exerciseInfoResult.Value!.Name : "Неизвестное упражнение";
+                    sb.AppendLine($"  - *{exerciseInfoName}* (ID: `{exercise.Id}`)");
                 }
             }
             else

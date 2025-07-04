@@ -54,6 +54,10 @@ public class GetExercisesByWorkoutCommandHandler : BaseTelegramCommandHandler<Ge
                         sb.AppendLine();
                         sb.AppendLine($"▶️ *{exerciseInfoName}*");
                         sb.AppendLine($"  ID: `{exercise.Id}`");
+                        if (!string.IsNullOrWhiteSpace(exercise.Notes))
+                        {
+                            sb.AppendLine($"  Заметки: _{exercise.Notes}_");
+                        }
                     }
                     return await BotService.SendMessageAsync(chatId, sb.ToString(), cancellationToken: cancellationToken);
                 }

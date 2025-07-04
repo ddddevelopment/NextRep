@@ -24,6 +24,7 @@ using TelegramBot.Application.Commands.AddExerciseToWorkout;
 using TelegramBot.Application.Commands.Workouts.GetExercisesByWorkout;
 using TelegramBot.Application.Commands.Workouts.UpdateExerciseInWorkout;
 using TelegramBot.Application.Commands.Workouts.DeleteExerciseFromWorkout;
+using TelegramBot.Application.Commands.Workouts.GetExerciseInWorkoutById;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
 
@@ -68,6 +69,7 @@ public class CommandRouter : ICommandRouter {
             "/get_exercises" => await HandleGetExercisesCommand(message, parts, cancellationToken),
             "/update_exercise" => await HandleUpdateExerciseCommand(message, cancellationToken),
             "/delete_exercise" => await HandleDeleteExerciseCommand(message, parts, cancellationToken),
+            "/get_exercise_by_id" => await HandleGetExerciseByIdCommand(message, parts, cancellationToken),
             _ => await _mediator.Send(new UnknownCommand { Message = message }, cancellationToken)
         };
     }
@@ -458,6 +460,24 @@ public class CommandRouter : ICommandRouter {
         }
 
         var command = new DeleteExerciseFromWorkoutCommand(message, workoutId, exerciseId);
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleGetExerciseByIdCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 3 || !Guid.TryParse(parts[1], out var workoutId) || !Guid.TryParse(parts[2], out var exerciseId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/get_exercise_by_id <ID тренировки> <ID упражнения>`\n\n" +
+                              "Вы можете получить ID, вызвав команду /get_exercises.";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new GetExerciseInWorkoutByIdCommand(message, workoutId, exerciseId);
         return await _mediator.Send(command, cancellationToken);
     }
 } 
