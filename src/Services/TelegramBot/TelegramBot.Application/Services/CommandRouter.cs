@@ -25,6 +25,10 @@ using TelegramBot.Application.Commands.Workouts.GetExercisesByWorkout;
 using TelegramBot.Application.Commands.Workouts.UpdateExerciseInWorkout;
 using TelegramBot.Application.Commands.Workouts.DeleteExerciseFromWorkout;
 using TelegramBot.Application.Commands.Workouts.GetExerciseInWorkoutById;
+using TelegramBot.Application.Commands.GetSetsInExercise;
+using TelegramBot.Application.Commands.AddSetToExercise;
+using TelegramBot.Application.Commands.UpdateSet;
+using TelegramBot.Application.Commands.DeleteSet;
 using TelegramBot.Domain.Models;
 using TelegramBot.Domain.Services;
 
@@ -70,6 +74,10 @@ public class CommandRouter : ICommandRouter {
             "/update_exercise" => await HandleUpdateExerciseCommand(message, cancellationToken),
             "/delete_exercise" => await HandleDeleteExerciseCommand(message, parts, cancellationToken),
             "/get_exercise_by_id" => await HandleGetExerciseByIdCommand(message, parts, cancellationToken),
+            "/get_sets" => await HandleGetSetsCommand(message, parts, cancellationToken),
+            "/add_set" => await HandleAddSetCommand(message, parts, cancellationToken),
+            "/update_set" => await HandleUpdateSetCommand(message, parts, cancellationToken),
+            "/delete_set" => await HandleDeleteSetCommand(message, parts, cancellationToken),
             _ => await _mediator.Send(new UnknownCommand { Message = message }, cancellationToken)
         };
     }
@@ -478,6 +486,144 @@ public class CommandRouter : ICommandRouter {
         }
 
         var command = new GetExerciseInWorkoutByIdCommand(message, workoutId, exerciseId);
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleGetSetsCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 3 || !Guid.TryParse(parts[1], out var workoutId) || !Guid.TryParse(parts[2], out var exerciseId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/get_sets <ID тренировки> <ID упражнения>`\n\n" +
+                              "Вы можете получить ID, вызвав команду /workouts, а затем /get_exercises <ID тренировки>.";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new GetSetsInExerciseCommand
+        {
+            Message = message,
+            WorkoutId = workoutId,
+            ExerciseId = exerciseId
+        };
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleAddSetCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 3 || !Guid.TryParse(parts[1], out var workoutId) || !Guid.TryParse(parts[2], out var exerciseId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/add_set <ID тренировки> <ID упражнения> [вес] [повторения]`\n\n" +
+                              "*Пример:*\n" +
+                              "`/add_set <uuid> <uuid> 80.5 12`";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        decimal? weight = null;
+        if (parts.Length > 3 && decimal.TryParse(parts[3], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var parsedWeight))
+        {
+            weight = parsedWeight;
+        }
+
+        int? reps = null;
+        if (parts.Length > 4 && int.TryParse(parts[4], out var parsedReps))
+        {
+            reps = parsedReps;
+        }
+
+        var command = new AddSetToExerciseCommand
+        {
+            Message = message,
+            WorkoutId = workoutId,
+            ExerciseId = exerciseId,
+            Weight = weight,
+            Reps = reps
+        };
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleUpdateSetCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 4 || 
+            !Guid.TryParse(parts[1], out var workoutId) || 
+            !Guid.TryParse(parts[2], out var exerciseId) ||
+            !Guid.TryParse(parts[3], out var setId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/update_set <ID тренировки> <ID упражнения> <ID подхода> [вес] [повторения]`\n\n" +
+                              "*Пример:*\n" +
+                              "`/update_set <uuid_w> <uuid_e> <uuid_s> 82.5 10`";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        decimal? weight = null;
+        if (parts.Length > 4 && decimal.TryParse(parts[4], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var parsedWeight))
+        {
+            weight = parsedWeight;
+        }
+
+        int? reps = null;
+        if (parts.Length > 5 && int.TryParse(parts[5], out var parsedReps))
+        {
+            reps = parsedReps;
+        }
+
+        if (weight is null && reps is null)
+        {
+            var helpMessage = "❌ *Нечего обновлять*\n\n" +
+                              "Укажите новое значение для веса и/или повторений.";
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new UpdateSetCommand
+        {
+            Message = message,
+            WorkoutId = workoutId,
+            ExerciseId = exerciseId,
+            SetId = setId,
+            NewWeight = weight,
+            NewReps = reps
+        };
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    private async Task<Result> HandleDeleteSetCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    {
+        if (parts.Length < 4 || 
+            !Guid.TryParse(parts[1], out var workoutId) || 
+            !Guid.TryParse(parts[2], out var exerciseId) ||
+            !Guid.TryParse(parts[3], out var setId))
+        {
+            var helpMessage = "❌ *Неверный формат команды*\n\n" +
+                              "Используйте: `/delete_set <ID тренировки> <ID упражнения> <ID подхода>`\n\n" +
+                              "*Пример:*\n" +
+                              "`/delete_set <uuid_w> <uuid_e> <uuid_s>`";
+            
+            var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
+            await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
+            return Result.Success();
+        }
+
+        var command = new DeleteSetCommand
+        {
+            Message = message,
+            WorkoutId = workoutId,
+            ExerciseId = exerciseId,
+            SetId = setId
+        };
         return await _mediator.Send(command, cancellationToken);
     }
 } 
