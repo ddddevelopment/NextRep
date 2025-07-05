@@ -8,5 +8,6 @@ public class AddSetToExerciseCommand : BaseTelegramCommand
     public Guid ExerciseId { get; init; }
     public decimal? Weight { get; init; }
     public int? Reps { get; init; }
+    public string? Notes { get; init; }
     // We can add other properties like Duration, Distance, Notes later
 } 

@@ -1,6 +1,6 @@
 namespace TelegramBot.Domain.Models;
 
-// Users API DTOs - исправлено в соответствии с реальным API
+// Users API DTOs
 public class UserDto
 {
     public Guid Id { get; set; }
@@ -25,7 +25,7 @@ public class UserUpdateDto
     public string Telephone { get; set; } = string.Empty;
 }
 
-// Auth API DTOs - исправлено в соответствии с реальным API
+// Auth API DTOs
 public class LoginDto
 {
     public string Email { get; set; } = string.Empty;
@@ -152,5 +152,19 @@ public class SetUpdateDto
     public decimal? Weight { get; set; }
     public TimeSpan? Duration { get; set; }
     public decimal? Distance { get; set; }
+    public string? Notes { get; set; }
+}
+
+public class SetCreateRequestDto
+{
+    public int Reps { get; set; }
+    public int Weight { get; set; }
+    public string? Notes { get; set; }
+}
+
+public class SetUpdateRequestDto
+{
+    public int Reps { get; set; }
+    public int Weight { get; set; }
     public string? Notes { get; set; }
 } 

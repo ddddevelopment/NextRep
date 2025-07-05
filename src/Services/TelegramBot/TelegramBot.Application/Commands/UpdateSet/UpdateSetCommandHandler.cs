@@ -47,14 +47,11 @@ public class UpdateSetCommandHandler : BaseTelegramCommandHandler<UpdateSetComma
 
         var setToUpdate = setResult.Value;
 
-        var updateDto = new SetUpdateDto
+        var updateDto = new SetUpdateRequestDto
         {
-            Order = setToUpdate.Order,
-            Weight = request.NewWeight ?? setToUpdate.Weight,
-            Reps = request.NewReps ?? setToUpdate.Reps,
-            Duration = setToUpdate.Duration,
-            Distance = setToUpdate.Distance,
-            Notes = setToUpdate.Notes
+            Weight = (int)(request.NewWeight ?? setToUpdate.Weight ?? 0),
+            Reps = request.NewReps ?? setToUpdate.Reps ?? 0,
+            Notes = request.Notes ?? setToUpdate.Notes
         };
         
         var updateResult = await _workoutsApiClient.UpdateSetAsync(request.WorkoutId, request.ExerciseId, request.SetId, updateDto, token, cancellationToken);

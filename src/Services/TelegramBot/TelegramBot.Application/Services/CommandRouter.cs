@@ -75,8 +75,8 @@ public class CommandRouter : ICommandRouter {
             "/delete_exercise" => await HandleDeleteExerciseCommand(message, parts, cancellationToken),
             "/get_exercise_by_id" => await HandleGetExerciseByIdCommand(message, parts, cancellationToken),
             "/get_sets" => await HandleGetSetsCommand(message, parts, cancellationToken),
-            "/add_set" => await HandleAddSetCommand(message, parts, cancellationToken),
-            "/update_set" => await HandleUpdateSetCommand(message, parts, cancellationToken),
+            "/add_set" => await HandleAddSetCommand(message, cancellationToken),
+            "/update_set" => await HandleUpdateSetCommand(message, cancellationToken),
             "/delete_set" => await HandleDeleteSetCommand(message, parts, cancellationToken),
             _ => await _mediator.Send(new UnknownCommand { Message = message }, cancellationToken)
         };
@@ -512,17 +512,35 @@ public class CommandRouter : ICommandRouter {
         return await _mediator.Send(command, cancellationToken);
     }
 
-    private async Task<Result> HandleAddSetCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    private async Task<Result> HandleAddSetCommand(TelegramMessage message, CancellationToken cancellationToken)
     {
+        var text = message.Text ?? "";
+        string? notes = null;
+        string commandPart;
+
+        var firstQuoteIndex = text.IndexOf('\"');
+        var lastQuoteIndex = text.LastIndexOf('\"');
+
+        if (firstQuoteIndex != -1 && lastQuoteIndex > firstQuoteIndex)
+        {
+            notes = text.Substring(firstQuoteIndex + 1, lastQuoteIndex - firstQuoteIndex - 1);
+            commandPart = text.Substring(0, firstQuoteIndex).Trim();
+        }
+        else
+        {
+            commandPart = text;
+        }
+
+        var parts = commandPart.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
         if (parts.Length < 3 || !Guid.TryParse(parts[1], out var workoutId) || !Guid.TryParse(parts[2], out var exerciseId))
         {
             var helpMessage = "❌ *Неверный формат команды*\n\n" +
-                              "Используйте: `/add_set <ID тренировки> <ID упражнения> [вес] [повторения]`\n\n" +
+                              "Используйте: `/add_set <ID тренировки> <ID упражнения> [вес] [повторения] [\"заметка\"]`\n\n" +
                               "*Пример:*\n" +
-                              "`/add_set <uuid> <uuid> 80.5 12`";
+                              "`/add_set <uuid_w> <uuid_e> 80.5 12 \"Хороший сет\"`";
             
             var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
-            
             await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
             return Result.Success();
         }
@@ -545,22 +563,42 @@ public class CommandRouter : ICommandRouter {
             WorkoutId = workoutId,
             ExerciseId = exerciseId,
             Weight = weight,
-            Reps = reps
+            Reps = reps,
+            Notes = notes
         };
         return await _mediator.Send(command, cancellationToken);
     }
 
-    private async Task<Result> HandleUpdateSetCommand(TelegramMessage message, string[] parts, CancellationToken cancellationToken)
+    private async Task<Result> HandleUpdateSetCommand(TelegramMessage message, CancellationToken cancellationToken)
     {
+        var text = message.Text ?? "";
+        string? notes = null;
+        string commandPart;
+
+        var firstQuoteIndex = text.IndexOf('\"');
+        var lastQuoteIndex = text.LastIndexOf('\"');
+
+        if (firstQuoteIndex != -1 && lastQuoteIndex > firstQuoteIndex)
+        {
+            notes = text.Substring(firstQuoteIndex + 1, lastQuoteIndex - firstQuoteIndex - 1);
+            commandPart = text.Substring(0, firstQuoteIndex).Trim();
+        }
+        else
+        {
+            commandPart = text;
+        }
+
+        var parts = commandPart.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
         if (parts.Length < 4 || 
             !Guid.TryParse(parts[1], out var workoutId) || 
             !Guid.TryParse(parts[2], out var exerciseId) ||
             !Guid.TryParse(parts[3], out var setId))
         {
             var helpMessage = "❌ *Неверный формат команды*\n\n" +
-                              "Используйте: `/update_set <ID тренировки> <ID упражнения> <ID подхода> [вес] [повторения]`\n\n" +
+                              "Используйте: `/update_set <ID тренировки> <ID упражнения> <ID подхода> [вес] [повторения] [\"заметка\"]`\n\n" +
                               "*Пример:*\n" +
-                              "`/update_set <uuid_w> <uuid_e> <uuid_s> 82.5 10`";
+                              "`/update_set <uuid_w> <uuid_e> <uuid_s> 82.5 10 \"Новая заметка\"`";
             
             var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
             await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
@@ -579,10 +617,10 @@ public class CommandRouter : ICommandRouter {
             reps = parsedReps;
         }
 
-        if (weight is null && reps is null)
+        if (weight is null && reps is null && notes is null)
         {
             var helpMessage = "❌ *Нечего обновлять*\n\n" +
-                              "Укажите новое значение для веса и/или повторений.";
+                              "Укажите новое значение для веса, повторений или новую заметку.";
             var helpMsg = new TelegramMessage { MessageId = message.MessageId, Text = helpMessage, From = message.From, ChatId = message.ChatId, Date = message.Date };
             await _mediator.Send(new UnknownCommand { Message = helpMsg }, cancellationToken);
             return Result.Success();
@@ -595,7 +633,8 @@ public class CommandRouter : ICommandRouter {
             ExerciseId = exerciseId,
             SetId = setId,
             NewWeight = weight,
-            NewReps = reps
+            NewReps = reps,
+            Notes = notes
         };
         return await _mediator.Send(command, cancellationToken);
     }

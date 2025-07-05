@@ -474,7 +474,7 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateRequestDto set, string token, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -500,7 +500,7 @@ public class WorkoutsApiClient : IWorkoutsApiClient
         }
     }
 
-    public async Task<Result> UpdateSetAsync(Guid workoutId, Guid exerciseId, Guid setId, SetUpdateDto set, string token, CancellationToken cancellationToken = default)
+    public async Task<Result> UpdateSetAsync(Guid workoutId, Guid exerciseId, Guid setId, SetUpdateRequestDto set, string token, CancellationToken cancellationToken = default)
     {
         try
         {

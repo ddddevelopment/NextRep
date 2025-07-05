@@ -47,11 +47,11 @@ public class AddSetToExerciseCommandHandler : BaseTelegramCommandHandler<AddSetT
 
         var newSetOrder = existingSetsResult.Value.Count() + 1;
 
-        var setToCreate = new SetCreateDto
+        var setToCreate = new SetCreateRequestDto
         {
-            Weight = request.Weight,
-            Reps = request.Reps,
-            Order = newSetOrder
+            Weight = (int)(request.Weight ?? 0),
+            Reps = request.Reps ?? 0,
+            Notes = request.Notes
         };
 
         var createResult = await _workoutsApiClient.CreateSetAsync(request.WorkoutId, request.ExerciseId, setToCreate, token, cancellationToken);

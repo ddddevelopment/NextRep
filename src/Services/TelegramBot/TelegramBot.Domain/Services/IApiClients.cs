@@ -37,8 +37,8 @@ public interface IWorkoutsApiClient
     // Sets
     Task<Result<IEnumerable<SetDto>>> GetSetsByExerciseIdAsync(Guid workoutId, Guid exerciseId, string token, CancellationToken cancellationToken = default);
     Task<Result<SetDto>> GetSetByIdAsync(Guid workoutId, Guid exerciseId, Guid setId, string token, CancellationToken cancellationToken = default);
-    Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateDto set, string token, CancellationToken cancellationToken = default);
-    Task<Result> UpdateSetAsync(Guid workoutId, Guid exerciseId, Guid setId, SetUpdateDto set, string token, CancellationToken cancellationToken = default);
+    Task<Result> CreateSetAsync(Guid workoutId, Guid exerciseId, SetCreateRequestDto set, string token, CancellationToken cancellationToken = default);
+    Task<Result> UpdateSetAsync(Guid workoutId, Guid exerciseId, Guid setId, SetUpdateRequestDto set, string token, CancellationToken cancellationToken = default);
     Task<Result> DeleteSetAsync(Guid workoutId, Guid exerciseId, Guid setId, string token, CancellationToken cancellationToken = default);
     
     // ExerciseInfo

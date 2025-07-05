@@ -50,7 +50,8 @@ public class GetSetsInExerciseCommandHandler : BaseTelegramCommandHandler<GetSet
                 int i = 1;
                 foreach (var set in sets)
                 {
-                    sb.AppendLine($"  `{i++}`. *Вес:* {set.Weight} кг, *Повторения:* {set.Reps} (ID: `{set.Id}`)");
+                    var note = string.IsNullOrEmpty(set.Notes) ? "" : $"\\n    *Заметка:* {set.Notes}";
+                    sb.AppendLine($"  `{i++}`. *Вес:* {set.Weight} кг, *Повторения:* {set.Reps} (ID: `{set.Id}`){note}");
                 }
             }
             else

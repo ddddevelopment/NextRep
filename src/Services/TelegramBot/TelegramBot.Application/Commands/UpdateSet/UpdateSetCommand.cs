@@ -10,4 +10,5 @@ public class UpdateSetCommand : BaseTelegramCommand
     public Guid SetId { get; init; }
     public decimal? NewWeight { get; init; }
     public int? NewReps { get; init; }
+    public string? Notes { get; init; }
 } 
